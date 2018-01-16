@@ -1,0 +1,166 @@
+
+  <view class="container">
+    <swiper style="width: {{screenWidth}}px; height: {{screenWidth}}px;" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
+      <block wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <swiper-item>
+          <image style="width: {{screenWidth}}px; height: {{screenWidth}}px;" src="{{item}}" class="slide-image"/>
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <view style="width: {{screenWidth}}px;">
+      <view style="padding: 20px;">
+        <view>王小猴</view>
+        <view style="display: flex;">
+          <view>
+            <image src="" style="width:30px; height:30px;"/>
+            <text>25</text>
+          </view>
+          <view>
+            <text>天蝎座</text>
+          </view>
+        </view>
+        <view>
+          2km, 1分钟前活跃
+        </view>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px; display: flex;">
+      <view>
+        <image src="../assets/img/album.png" style="width:50px; height:50px;"/>
+      </view>
+      <view>个人相册</view>
+      <view>
+        <block wx:for="{{imgUrls}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <image style="width: 50px; height: 50px;" src="{{item}}" class="slide-image"/>
+        </block>
+        <image src="" style="width:30px; height:30px;"/>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px;">
+      <view>我的信息</view>
+      <block wx:for="{{myInfo}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+       <view style="display: flex;">
+         <view>
+           <text>{{item.title}}</text>
+         </view>
+         <view>
+           <text>{{item.value}}</text>
+         </view>
+       </view>
+      </block>
+    </view>
+
+    <view style="width: {{screenWidth}}px;">
+      <view>我的标签</view>
+      <view style="display:flex;">
+        <view style="flex:1;">
+          <image src="../assets/img/hash.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myTags}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px;">
+      <view>我的兴趣</view>
+      <view style="display:flex;">
+        <view>
+          <image src="../assets/img/sports.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myInterest1}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+        </view>
+      </view>
+
+      <view style="display:flex;">
+        <view>
+          <image src="../assets/img/music.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myInterest2}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+        </view>
+      </view>
+
+      <view style="display:flex;">
+        <view>
+          <image src="../assets/img/food.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myInterest3}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+         </view>
+      </view>
+
+      <view style="display:flex;">
+        <view>
+          <image src="../assets/img/tv.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myInterest4}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+         </view>
+      </view>
+
+      <view style="display:flex;">
+        <view>
+          <image src="../assets/img/book.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myInterest5}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+         </view>
+      </view>
+
+      <view style="display:flex;">
+        <view>
+          <image src="../assets/img/flight.png" style="width:30px; height:30px;"/>
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;">
+          <block wx:for="{{myInterest6}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+           <view style="background-color: yellow; border-radius: 4px; margin: 0 3px; ">
+             <text>{{item}}</text>
+           </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px;">
+      <view>我的问答</view>
+      <block wx:for="{{myAns}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+       <view>
+         <view>
+           <text>{{item.title}}</text>
+         </view>
+         <view>
+           <text>{{item.value}}</text>
+         </view>
+       </view>
+      </block>
+    </view>
+  </view>
