@@ -1,4 +1,5 @@
 
   <view class="container">
-    Edit
+    <!-- TODO: current dev ID not supported -->
+    <web-view src="https://mp.weixin.qq.com/"/>
   </view>

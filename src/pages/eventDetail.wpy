@@ -14,7 +14,8 @@
       navigationBarTitleText: 'Edit'
     }
     data = {
-
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight
     }
 
     methods = {

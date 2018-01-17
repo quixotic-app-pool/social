@@ -2,7 +2,8 @@
 </style>
 <template>
   <view class="container">
-    Edit
+    <!-- TODO: current dev ID not supported -->
+    <web-view src="https://mp.weixin.qq.com/"></web-view>
   </view>
 </template>
 
@@ -14,7 +15,8 @@
       navigationBarTitleText: 'Edit'
     }
     data = {
-
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight
     }
 
     methods = {
