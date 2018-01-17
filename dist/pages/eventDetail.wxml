@@ -1,4 +1,5 @@
 
   <view class="container">
-    Edit
+    <!-- 可以同样结合公众号的界面，需要考虑报名端口的问题，具体开发过程中寻求方案 -->
+    <web-view src="https://mp.weixin.qq.com/"/>
   </view>
