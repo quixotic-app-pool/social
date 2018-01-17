@@ -1,0 +1,55 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    <view style="z-index:10;position: fixed; display:flex; justify-content:space-around; height: 50px; align-items:center; background-color:white;top: 0; width: {{screenWidth}}px;">
+      <text>进行当中</text>
+      <text>活动回顾</text>
+    </view>
+    <view style="width: {{screenWidth}}px; position:relative;top:50px; ">
+      <repeat
+       for="{{data1}}"
+       item= "item"
+       index= "index"
+       key= "index">
+       <view style="border-radius: 3px; margin:10px; box-shadow: 1px 1px 10px silver;">
+         <view style="height: 250px;">
+           <image style="width: {{screenWidth}}px; position:absolute;" src="{{item.imgUrl}}" />
+           <view style="top:136px;padding:20px;position: relative;display: flex; flex-direction:column;">
+             <text style="font-size:30px;font-weight:bold;">{{item.mainTitle}}</text>
+             <text style="font-size:15px;">{{item.subTitle}}</text>
+           </view>
+         </view>
+         <view style="padding:5px;">
+           <view style="display:flex; justify-content:flex-start; align-items:center;">
+             <image src="../assets/img/date.png" style="width:30px; height:30px;"/>
+             <text>{{item.eventTime}}</text>
+           </view>
+           <view style="display:flex; justify-content:flex-start; align-items:center;">
+             <image src="../assets/img/people.png" style="width:30px; height:30px;"/>
+             <text>{{item.num}}人报名</text>
+           </view>
+         </view>
+       </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'EventList'
+    }
+    data = {
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      data1: [{imgUrl: 'http://shopgostar.info/interpretation/activity/activity-02.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}, {imgUrl: 'http://shopgostar.info/interpretation/activity/activity-02.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}, {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}]
+    }
+
+    methods = {
+    }
+  }
+</script>

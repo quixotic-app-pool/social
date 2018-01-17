@@ -1,0 +1,23 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    Edit
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'Edit'
+    }
+    data = {
+
+    }
+
+    methods = {
+    }
+  }
+</script>
