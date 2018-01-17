@@ -1,0 +1,61 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    <view style="width: {{screenWidth}}px;">
+      <repeat
+       for="{{data1}}"
+       item= "item"
+       index= "index"
+       key= "index">
+       <view style="display:flex;">
+         <view style="flex:1">
+           <image wx:if="{{index == 0}}" src="../assets/img/1.png" style="width:20px; height:20px;" />
+           <image wx:if="{{index == 1}}" src="../assets/img/2.png" style="width:20px; height:20px;" />
+           <image wx:if="{{index == 2}}" src="../assets/img/3.png" style="width:20px; height:20px;" />
+           <view wx:if="{{index > 2}}">
+             <text>{{index + 1}}</text>
+           </view>
+         </view>
+         <view style="display: flex; flex:2">
+           <image src="{{item.imgUrl}}" style="border:3px solid pink;border-radius:100%; width:30px; height:30px;" />
+           <view style="left:-11px;position:relative;bottom:-38px;border-radius:100%;background-color:red;width:19px;height:19px;text-align:center;font-size:14px;color:white;">
+             <text>V</text>
+           </view>
+         </view>
+         <view style="flex:5; display: flex;flex-direction:column;">
+           <view>
+             <text>{{item.name}}</text>
+             <image src="{{item.gender == 'male' ? '../assets/img/male.png': '../assets/img/female.png'}}" style="width:20px; height:20px;"/>
+           </view>
+           <text>{{item.title}}</text>
+           <text>{{item.from}}</text>
+         </view>
+         <view style="flex:2; display: flex; flex-direction:column;">
+           <text>粉丝</text>
+           <text>{{item.fans}}</text>
+         </view>
+       </view>
+
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'Rank'
+    }
+    data = {
+      data1: [{imgUrl: '../assets/img/boy.jpeg', name: '陈泽铭', gender: 'female', title: '特约加冰', from: '武汉大学', fans: '23万'}, {imgUrl: '../assets/img/boy.jpeg', name: '陈泽铭', gender: 'female', title: '特约加冰', from: '武汉大学', fans: '23万'}, {imgUrl: '../assets/img/boy.jpeg', name: '陈泽铭', gender: 'female', title: '特约加冰', from: '武汉大学', fans: '23万'}, {imgUrl: '../assets/img/boy.jpeg', name: '陈泽铭', gender: 'female', title: '特约加冰', from: '武汉大学', fans: '23万'}],
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight
+    }
+
+    methods = {
+    }
+  }
+</script>
