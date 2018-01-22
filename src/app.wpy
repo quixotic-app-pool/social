@@ -17,11 +17,11 @@ export default class extends wepy.app {
   config = {
     pages: [
       // 'pages/eventList',
-      'pages/eventDetail',
-      'pages/eventMemory',
-      'pages/rank',
-      'pages/timeline',
-      // 'pages/intro',
+      // 'pages/eventDetail',
+      // 'pages/eventMemory',
+      // 'pages/rank',
+      // 'pages/timeline',
+      'pages/intro',
       // 'pages/edit',
       'pages/input',
     ],

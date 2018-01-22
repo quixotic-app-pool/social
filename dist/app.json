@@ -1,1 +1,1 @@
-{"pages":["pages/eventDetail","pages/eventMemory","pages/rank","pages/timeline","pages/input"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
+{"pages":["pages/intro","pages/input"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
