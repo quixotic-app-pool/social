@@ -1,115 +1,66 @@
 <style lang="less">
+.bg1 {
+  background-image: linear-gradient(
+    90deg,
+    white, rgb(212,214,217)
+    );
+}
+.bg2 {
+  background-image: linear-gradient(
+    90deg,
+    white, rgb(55,197,247)
+    );
+}
+.bg3 {
+  background-image: linear-gradient(
+    90deg,
+    rgb(254,239,231), white
+    );
+}
+.bg4 {
+  background-image: linear-gradient(
+    90deg,
+    rgb(255,251,236), white
+    );
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>
 <template>
-  <view class="container">
+  <view class="container bg1">
     <!-- 个人头条 -->
-    <view style="width:{{screenWidth}}px;height: {{screenWidth/2846 * 1000}}px; display: flex; justify-content:center; align-items:center;">
-      <image style=" width:{{screenWidth}}px; height: {{screenWidth/2846 * 1000}}px; position: absolute;" src="../assets/img/bubble.jpg" />
-      <view style="z-index:1;display: flex; width:100%;">
-        <view style="flex:2">
-          <image src="../assets/img/boy.jpeg" style="width:50px; height:50px;" />
+    <view class="bg2" style="margin-bottom:20px;width:{{screenWidth}}px;height: {{screenWidth/2846 * 1000}}px; display: flex; justify-content:center; align-items:center;">
+      <!-- <image style=" width:{{screenWidth}}px; height: {{screenWidth/2846 * 1000}}px; position: absolute;" src="../assets/img/bubble.jpg" /> -->
+      <view style="padding:20px;z-index:1;display: flex; width:100%;">
+        <view class="center" style="flex:2; ">
+          <image src="../assets/img/boy.jpeg" style="border-radius:100%;width:80px; height:80px;" />
         </view>
-        <view style="flex:8">
-          <view>
-            <view>陈泽铭</view>
-            <view>
-              <image src="../assets/img/male.png" style="width:20px; height:20px;"/>
-            </view>
+        <view class="between" style="flex-direction:column;flex:4;padding-left:10px;">
+          <view class="center" style="align-self:flex-start;">
+            <text style="font-size:25px;">陈泽铭</text>
+            <image src="../assets/img/male.png" style="width:20px; height:20px;"/>
           </view>
-          <view>
-            <view>
-              关注 1299
-            </view>
-            <view>粉丝 2111</view>
+          <view class="center" style="opacity:0.6;align-self:flex-start;font-size:12px;">
+            <text style="padding-right:15px;">关注 1299</text>|<text style="padding-left:15px;">粉丝 2111</text>
           </view>
         </view>
-        <view style="flex:2">
-          <view>个人主页</view>
+        <view class="between" style="flex:3">
+          <text style="font-size:15px;opacity:0.6;">个人主页</text>
           <image src="../assets/img/right-arrow.png" style="width:30px; height:30px;"/>
         </view>
       </view>
     </view>
 
-    <!-- 今日话题 -->
-    <view style="width:{{screenWidth}}px;">
-      <view style="display: flex; justify-content:center; align-items:center;">
-        <view>
-          今日话题
-        </view>
-        <view style="align-content: flex-end;">
-          <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
-        </view>
-      </view>
-      <image src="../assets/img/topic.jpeg" style="width:{{screenWidth}}px;"/>
-      <view style="display: flex; justify-content: space-between;">
-        <view>
-          <image src="../assets/img/share.png" style="width:30px; height:30px;"/>
-          转发
-        </view>
-        <view>
-          <image src="../assets/img/comment.png" style="width:30px; height:30px;"/>
-          1992
-        </view>
-        <view>
-          <image src="../assets/img/like.png" style="width:30px; height:30px;"/>
-          221
-        </view>
-      </view>
-    </view>
-
-    <!-- 个人发文 -->
-    <view style="width:{{screenWidth}}px;">
-      <view style="display: flex;">
-        <view style="flex:2;">
-          <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
-        </view>
-        <view style="flex:8;">
-          <view>
-            <text>谭马儒</text>
-            <image src="../assets/img/male.png" style="width:10px; height:10px;"/>
-            <view>
-              <text>Lv5</text>
-            </view>
-          </view>
-          <view>
-            昨日 23：27 来自[帝都]
-          </view>
-        </view>
-        <view style="flex:2;">
-          <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
-        </view>
-      </view>
-      <view>
-        <text>#主题跳转#</text>
-        <text>想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹,想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹</text>
-      </view>
-      <view>
-        <repeat
-         for="{{imgUrls1}}"
-         item= "item"
-         index= "index"
-         key= "index">
-         <image src="{{item}}" style="width:{{screenWidth/3}}px; height:{{screenWidth/3}}px;" />
-        </repeat>
-      </view>
-      <view style="display: flex; justify-content: space-between;">
-        <view>
-          <image src="../assets/img/share.png" style="width:30px; height:30px;"/>
-          转发
-        </view>
-        <view>
-          <image src="../assets/img/comment.png" style="width:30px; height:30px;"/>
-          1992
-        </view>
-        <view>
-          <image src="../assets/img/like.png" style="width:30px; height:30px;"/>
-          221
-        </view>
-      </view>
-    </view>
-
     <!-- 推荐 -->
-    <view style="width:{{screenWidth}}px;">
+    <!-- <view style="width:{{screenWidth}}px;">
       <view style="display: flex; justify-content: space-between;">
         <view>
           推荐
@@ -137,41 +88,124 @@
          </view>
         </repeat>
       </view>
-    </view>
+    </view> -->
 
-    <view style="width:{{screenWidth}}px;">
+    <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
       <!-- 这里有用gradient做标题背景色，简单实用 -->
-      <view>热门话题</view>
-      <view style="display: flex;flex-wrap:wrap; justify-content: space-around; align-items: center;">
+      <view class="bg3" style="color:rgb(245,136,79);padding:10px;">热门话题</view>
+      <view class="center" style="justify-content:flex-start;display:flex;padding:10px;flex-wrap:wrap;">
         <repeat
          for="{{data1}}"
          item= "item"
          index= "index"
          key= "index">
-         <view style="display: flex; width:40%;">
-           <image src="{{item.imgUrl}}" style="width:50px; height:50px;"/>
-           <text>{{item.title}}</text>
+         <view class="center" style="width:50%;justify-content:flex-start;">
+           <image src="{{item.imgUrl}}" style="width:40px; height:40px;"/>
+           <text style="color:rgb(94,118,158)">{{item.title}}</text>
          </view>
         </repeat>
       </view>
     </view>
 
-    <view style="width:{{screenWidth}}px;">
+    <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
       <!-- 这里有用gradient做标题背景色，简单实用 -->
-      <view>官方话题</view>
-      <view style="display: flex;flex-wrap:wrap; justify-content: space-around; align-items: center;">
+      <view class="bg4" style="color:rgb(250,214,44);padding:10px;">官方话题</view>
+      <view class="center" style="justify-content:flex-start;display:flex;padding:10px;flex-wrap:wrap;">
         <repeat
          for="{{data2}}"
          item= "item"
          index= "index"
          key= "index">
-         <view style="display: flex; width:40%;">
-           <image src="{{item.imgUrl}}" style="width:50px; height:50px;"/>
-           <text>{{item.title}}</text>
+         <view class="center" style="width:50%;justify-content:flex-start;">
+           <image src="{{item.imgUrl}}" style="width:40px; height:40px;"/>
+           <text style="color:rgb(94,118,158)">{{item.title}}</text>
          </view>
         </repeat>
       </view>
     </view>
+
+
+
+    <!-- 今日话题 -->
+    <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
+      <view class="center" style="padding: 10px;">
+        <text style="font-size:20px;color:rgb(156,168,189)">今日话题</text>
+        <image src="../assets/img/more.png" style="opacity:0.3;position:absolute; right:10px;width:30px; height:30px;"/>
+      </view>
+      <view class="center" style="flex-direction:column;padding:10px;">
+        <text style="padding-bottom:10px;">假如你的前任掉水里了，你学习的专业能做点什么？</text>
+        <image src="../assets/img/topic.jpeg" style="width:{{screenWidth -20}}px;"/>
+      </view>
+      <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
+        <view class="center" style="padding: 10px 0;">
+          <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
+          <text style="font-size:15px; opacity:0.6;">转发</text>
+        </view>
+        <view class="center" style="padding: 10px 0;">
+          <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
+          <text style="font-size:15px; opacity:0.6;">1992</text>
+        </view>
+        <view class="center" style="padding: 10px 0;">
+          <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
+          <text style="font-size:15px; opacity:0.6;">221</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 个人发文 -->
+    <repeat
+     for="{{['', '']}}"
+     item= "item"
+     index= "index"
+     key= "index">
+     <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;">
+       <view style="display: flex;">
+         <view style="flex:2;">
+           <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
+         </view>
+         <view style="flex:8;">
+           <view class="center" style="justify-content:flex-start;">
+             <text>谭马儒</text>
+             <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
+             <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
+               <text style="color:white;font-size:12px;">Lv5</text>
+             </view>
+           </view>
+           <view style="font-size:12px;opacity:0.6;">
+             昨日 23：27 来自[帝都]
+           </view>
+         </view>
+         <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+       </view>
+       <view>
+         <text style="color:rgb(95,112,139)">#主题跳转#</text>
+         <text>想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹,想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹</text>
+       </view>
+       <view style="padding:10px 0;">
+         <repeat
+          for="{{imgUrls1}}"
+          item= "item"
+          index= "index"
+          key= "index">
+          <image src="{{item}}" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
+         </repeat>
+       </view>
+       <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
+         <view class="center" style="padding: 10px 0;">
+           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
+           <text style="font-size:15px; opacity:0.6;">转发</text>
+         </view>
+         <view class="center" style="padding: 10px 0;">
+           <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
+           <text style="font-size:15px; opacity:0.6;">1992</text>
+         </view>
+         <view class="center" style="padding: 10px 0;">
+           <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
+           <text style="font-size:15px; opacity:0.6;">221</text>
+         </view>
+       </view>
+     </view>
+    </repeat>
   </view>
 </template>
 
@@ -180,7 +214,8 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'Timeline'
+      navigationBarTitleText: 'Timeline',
+      backgroundColor: 'rgb(232,232,232)'
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,

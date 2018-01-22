@@ -1,0 +1,1 @@
+.bg1{background-image:linear-gradient(90deg, white, #d4d6d9)}.bg2{background-image:linear-gradient(90deg, white, #37c5f7)}.bg3{background-image:linear-gradient(90deg, #feefe7, white)}.bg4{background-image:linear-gradient(90deg, #fffbec, white)}.center{display:flex;justify-content:center;align-items:center}.between{display:flex;justify-content:space-between;align-items:center}

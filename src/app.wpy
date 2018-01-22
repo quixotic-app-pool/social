@@ -20,7 +20,7 @@ export default class extends wepy.app {
       // 'pages/eventDetail',
       // 'pages/eventMemory',
       // 'pages/rank',
-      // 'pages/timeline',
+      'pages/timeline',
       'pages/intro',
       // 'pages/edit',
       'pages/input',
