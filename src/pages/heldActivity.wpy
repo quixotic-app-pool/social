@@ -1,0 +1,25 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    <!-- TODO: current dev ID not supported -->
+    <web-view src="https://mp.weixin.qq.com/s?__biz=MzUyMDM5NDAxNQ==&mid=2247483773&idx=1&sn=a1a9c434d40ca301a7d15c9d2bc14097&chksm=f9ea450dce9dcc1b6896aa726ca4450705b93df6b9264b709d38536a3ffaaf44dfe2993365f0#rd"></web-view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'Edit'
+    }
+    data = {
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight
+    }
+
+    methods = {
+    }
+  }
+</script>

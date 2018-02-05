@@ -1,26 +1,8 @@
 
   <view class="container bg1">
-    <!-- 个人头条 -->
-    <view class="bg2" style="margin-bottom:20px;width:{{screenWidth}}px;height: {{screenWidth/2846 * 1000}}px; display: flex; justify-content:center; align-items:center;">
-      <!-- <image style=" width:{{screenWidth}}px; height: {{screenWidth/2846 * 1000}}px; position: absolute;" src="../assets/img/bubble.jpg" /> -->
-      <view style="padding:20px;z-index:1;display: flex; width:100%;">
-        <view class="center" style="flex:2; ">
-          <image src="../assets/img/boy.jpeg" style="border-radius:100%;width:80px; height:80px;"/>
-        </view>
-        <view class="between" style="flex-direction:column;flex:4;padding-left:10px;">
-          <view class="center" style="align-self:flex-start;">
-            <text style="font-size:25px;">陈泽铭</text>
-            <image src="../assets/img/male.png" style="width:20px; height:20px;"/>
-          </view>
-          <view class="center" style="opacity:0.6;align-self:flex-start;font-size:12px;">
-            <text style="padding-right:15px;">关注 1299</text>|<text style="padding-left:15px;">粉丝 2111</text>
-          </view>
-        </view>
-        <view class="between" style="flex:3">
-          <text style="font-size:15px;opacity:0.6;">个人主页</text>
-          <image src="../assets/img/right-arrow.png" style="width:30px; height:30px;"/>
-        </view>
-      </view>
+
+    <view catchtap="editStatus" class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:60px;width:60px;border-radius:100%;position:fixed;right:10px;bottom:20px;" catchlongpress="longpress">
+      <image src="../assets/img/plus2.png" style="width:30px;height:30px;"/>
     </view>
 
     <!-- 推荐 -->
@@ -54,36 +36,44 @@
       </view>
     </view> -->
 
-    <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
-      <!-- 这里有用gradient做标题背景色，简单实用 -->
+<!-- 热门话题 -->
+    <!-- <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
       <view class="bg3" style="color:rgb(245,136,79);padding:10px;">热门话题</view>
       <view class="center" style="justify-content:flex-start;display:flex;padding:10px;flex-wrap:wrap;">
-        <block wx:for="{{data1}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <repeat
+         for="{{data1}}"
+         item= "item"
+         index= "index"
+         key= "index">
          <view class="center" style="width:50%;justify-content:flex-start;">
            <image src="{{item.imgUrl}}" style="width:40px; height:40px;"/>
            <text style="color:rgb(94,118,158)">{{item.title}}</text>
          </view>
-        </block>
+        </repeat>
       </view>
-    </view>
+    </view> -->
 
-    <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
-      <!-- 这里有用gradient做标题背景色，简单实用 -->
+    <!-- 官方话题 -->
+    <!-- <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
       <view class="bg4" style="color:rgb(250,214,44);padding:10px;">官方话题</view>
       <view class="center" style="justify-content:flex-start;display:flex;padding:10px;flex-wrap:wrap;">
-        <block wx:for="{{data2}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <repeat
+         for="{{data2}}"
+         item= "item"
+         index= "index"
+         key= "index">
          <view class="center" style="width:50%;justify-content:flex-start;">
            <image src="{{item.imgUrl}}" style="width:40px; height:40px;"/>
            <text style="color:rgb(94,118,158)">{{item.title}}</text>
          </view>
-        </block>
+        </repeat>
       </view>
-    </view>
+    </view> -->
 
 
 
     <!-- 今日话题 -->
-    <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
+    <!-- <view style="width:{{screenWidth}}px;background-color:white;margin-bottom:20px;">
       <view class="center" style="padding: 10px;">
         <text style="font-size:20px;color:rgb(156,168,189)">今日话题</text>
         <image src="../assets/img/more.png" style="opacity:0.3;position:absolute; right:10px;width:30px; height:30px;"/>
@@ -106,7 +96,7 @@
           <text style="font-size:15px; opacity:0.6;">221</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 个人发文 -->
     <block wx:for="{{['', '']}}" wx:for-index="index" wx:for-item="item" wx:key="index">

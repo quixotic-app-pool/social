@@ -6,7 +6,7 @@
     </view>
     <view style="width: {{screenWidth}}px; position:relative;top:50px; ">
       <block wx:for="{{data1}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-       <view style="border-radius: 3px; margin:10px; box-shadow: 1px 1px 10px silver;">
+       <view catchtap="goDetail" style="border-radius: 3px; margin:10px; box-shadow: 1px 1px 10px silver;">
          <view style="height: 250px;">
            <image style="width: {{screenWidth}}px; position:absolute;" src="{{item.imgUrl}}"/>
            <view style="top:136px;padding:20px;position: relative;display: flex; flex-direction:column;">

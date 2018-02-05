@@ -1,35 +1,82 @@
 <style lang="less">
 .container {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
 }
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.column {
+  flex-direction: column;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>
 
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
+import api from './api/api'
 
 export default class extends wepy.app {
   config = {
     pages: [
-      // 'pages/eventList',
-      // 'pages/eventDetail',
-      // 'pages/eventMemory',
-      // 'pages/rank',
-      'pages/timeline',
-      'pages/intro',
-      // 'pages/edit',
-      'pages/input',
+      'pages/minePage',
+      'pages/mainPage',
+      'pages/activityPage',
+      // 'pages/newActivity',
+      'pages/heldActivity',
+      'pages/timelinePage',
+      'pages/editPage',
+      // 'pages/minePage',
+      'pages/individualPage',
+      'pages/itemEditPage'
     ],
+    tabBar: {
+      color: '#828282',
+      backgroundColor : '#ffffff',
+      borderStyle : 'white',
+      selectedColor: '#FF9F00',
+      list: [{
+        "pagePath": "pages/mainPage",
+        "text": "线上",
+        "iconPath": "assets/img/tab-list-empty.png",
+        "selectedIconPath": "assets/img/tab-list-fill.png"
+      },
+      {
+        "pagePath": "pages/activityPage",
+        "text": "线下",
+        "iconPath": "assets/img/tab-event-empty.png",
+        "selectedIconPath": "assets/img/tab-event-fill.png"
+      },
+      {
+        "pagePath": "pages/timelinePage",
+        "text": "心情",
+        "iconPath": "assets/img/tab-timeline-empty.png",
+        "selectedIconPath": "assets/img/tab-timeline-fill.png"
+      },
+      {
+        "pagePath": "pages/minePage",
+        "text": "自个儿",
+        "iconPath": "assets/img/tab-mine-empty.png",
+        "selectedIconPath": "assets/img/tab-mine-fill.png"
+      }]
+    },
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#CE452F',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'white'
     }
   }
 
@@ -40,23 +87,51 @@ export default class extends wepy.app {
   constructor () {
     super()
     this.use('requestfix')
+    this.use('promisify')
   }
 
-  onLaunch() {
-    this.testAsync()
-  }
+  async onLaunch() {
+    var self = this
+    var userInfo = wepy.getStorageSync('userInfo') || {}
+    // console.log("userInfo: " + JSON.stringify(userInfo));
+    var UserSession = wepy.getStorageSync('UserSession') || {}
+    wepy.removeStorageSync('UserSession')
+    // if(false){
+    if((UserSession.createdAt || Date.now()) < (Date.now() + 86400000)) {
+      // console.log('expire');
+      var res = await wepy.login()
+      // console.log('res: ' + JSON.stringify(res))
+      if (res.code) {
+        // console.log('res.code: ' + res.code)
 
-  sleep (s) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve('promise resolved')
-      }, s * 1000)
-    })
-  }
+        //存储userInfo 
+        var c = await wepy.getUserInfo()
+        wepy.setStorageSync('UserInfo', c.userInfo)
 
-  async testAsync () {
-    const data = await this.sleep(3)
-    console.log(data)
+        //存储系统信息 
+        var systemInfo = wepy.getSystemInfoSync()
+        wepy.setStorageSync('SystemInfo', systemInfo)
+
+        var u = await api.wechatActivity({
+          query: {
+            code: res.code,
+            userInfo: JSON.stringify({nickName: c.userInfo.nickName, avatarUrl: c.userInfo.avatarUrl, gender: c.userInfo.gender}),
+            encryptedData: c.encryptedData,
+            iv: c.iv,
+            UserSession: UserSession.sessionId
+          }
+        })
+        // console.log('info from wechat: ' + JSON.stringify(u));
+        if(u && u.data && u.data.flag == 'success') {
+          wepy.setStorageSync('UserId', u.data.user_id)
+          wepy.setStorageSync('UserAuthority', u.data.user_position)
+          wepy.setStorageSync('UserSession', u.data.session)
+          // console.log('UserId: ' + JSON.stringify(u.data.user_id));
+          // console.log('UserSession: ' + JSON.stringify(u.data.session));
+        }
+      }
+
+    }
   }
 
   getUserInfo(cb) {

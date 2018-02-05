@@ -1,0 +1,1 @@
+.img_item{width:48%;margin:1%;display:inline-block;vertical-align:top}.center{display:flex;justify-content:center;align-items:center}.between{display:flex;justify-content:space-between;align-items:center}.bg-img{background-image:radial-gradient(circle farthest-side at right, rgba(56,224,245,0.8), rgba(32,190,236,0.8))}

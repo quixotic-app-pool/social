@@ -1,0 +1,65 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    <view style="z-index:10;position: fixed; display:flex; height: 50px; background-color:white;top: 0; width: {{screenWidth}}px;">
+      <view class="center" style="flex:1;background-color:#FFD300;">
+        <text style="color:white;">进行当中</text>
+      </view>
+      <view class="center" style="flex:1">
+        <text>活动回顾</text>
+      </view>
+    </view>
+    <view style="width: {{screenWidth}}px; position:relative;top:50px; ">
+      <repeat
+       for="{{data1}}"
+       item= "item"
+       index= "index"
+       key= "index">
+       <view @tap.stop="goDetail" style="border-radius: 3px; margin:2%; width:96%;box-shadow: 1px 1px 10px silver;">
+         <view style="height: 250px;">
+           <image style="width:96%; position:absolute;" src="{{item.imgUrl}}" />
+           <view style="top:136px;padding:20px;position: relative;display: flex; flex-direction:column;">
+             <text style="font-size:30px;font-weight:bold;">{{item.mainTitle}}</text>
+             <text style="font-size:15px;">{{item.subTitle}}</text>
+           </view>
+         </view>
+         <view style="padding:5px;opacity:0.8;font-size:15px;">
+           <view style="display:flex; justify-content:flex-start; align-items:center;">
+             <image src="../assets/img/date.png" style="width:30px; height:30px;"/>
+             <text>{{item.eventTime}}</text>
+           </view>
+           <view style="display:flex; justify-content:flex-start; align-items:center;">
+             <image src="../assets/img/tab-event-fill.png" style="padding:0 5px; width:20px; height:20px;"/>
+             <text>春熙路14号大街</text>
+           </view>
+         </view>
+       </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarBackgroundColor: '#FFD300',
+      navigationBarTitleText: '相知于活动'
+    }
+    data = {
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      data1: [{imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}, {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}, {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}]
+    }
+
+    methods = {
+      goDetail () {
+        wepy.navigateTo({
+          url: 'heldActivity'
+        })
+      }
+    }
+  }
+</script>

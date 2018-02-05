@@ -1,0 +1,412 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container" style="height:{{screenHeight}}px;background-color: rgb(245, 244, 240)">
+    <!-- 个人信息 -->
+    <view wx:if="{{index == 'person'}}" style="width: 100%;font-size:20px;">
+      <view style="opacity:0.6;border-bottom:1px solid rgb(232,232,232);display:flex;align-items:flex-end;height:50px;padding:10px;">
+        <text>个人详情:</text>
+      </view>
+      <view style="background-color:white;border-bottom:1px solid rgb(232,232,232);">
+         <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex;">
+           <view style="flex:1">
+             <text>性别</text>
+           </view>
+           <picker style="flex:1" bindchange="bindPickerChange" value="{{index1}}" range="{{array1}}">
+             <view>
+              {{array1[index1]}}
+             </view>
+           </picker>
+         </view>
+         <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
+           <view style="flex:1">
+             <text>昵称</text>
+           </view>
+           <input style="flex:1" value="Michael" bindinput=""/>
+         </view>
+         <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
+           <view style="flex:1">
+             <text>身高(cm)</text>
+           </view>
+           <input style="flex:1" value="165" bindinput=""/>
+         </view>
+         <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
+           <view style="flex:1">
+             <text>体重(kg)</text>
+           </view>
+           <input style="flex:1" value="45" bindinput=""/>
+         </view>
+         <view style="height:30px;padding:20px 10px 10px 10px;opacity:0.8;display: flex; justify-content:space-between;">
+           <view style="flex:1">
+             <text>生日</text>
+           </view>
+           <picker style="flex:1" mode="date" value="{{date1}}" start="1900-01-01" end="2018-01-01" bindchange="bindDateChange">
+              <view>
+                {{date1}}
+              </view>
+           </picker>
+         </view>
+      </view>
+    </view>
+
+    <!-- 行业 -->
+    <view  wx:if="{{index == '行业'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data2}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view wx:if="{{index == 3}}" class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 工作领域 -->
+    <view wx:if="{{index == '工作领域'}}"  style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data3}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view wx:if="{{index == 3}}" class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 公司 -->
+    <view  wx:if="{{index == '公司'}}" style="margin:0 10px;border-bottom:1px solid rgb(232,232,232);display:flex; align-items:flex-end;height:100px;width: {{screenWidth -20}}px;">
+      <input placeholder="输入公司..." style="font-size:20px;"  />
+    </view>
+
+    <!-- 来自 -->
+    <view wx:if="{{index == '来自'}}" style="font-size:20px;height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <picker class="" style="" mode="region" bindchange="bindRegionChange" value="{{region1}}" custom-item="{{customItem}}">
+        <view style="padding:10px 0;opacity:0.6;">当前选择:</view>
+        <view class="center" style="opacity:0.8;center;height:100px;border:1px dashed rgb(232,232,232)">
+          {{region1[0]}}，{{region1[1]}}，{{region1[2]}}
+        </view>
+      </picker>
+    </view>
+
+    <!-- 经常出没 -->
+    <view wx:if="{{index == '经常出没'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
+      <textarea maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..." />
+    </view>
+
+    <!-- 个人签名 -->
+    <view wx:if="{{index == '个人签名'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
+      <textarea maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..." />
+    </view>
+
+    <!-- 我的签名 -->
+    <view wx:if="{{index == 'tag'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data4}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 运动 -->
+    <view wx:if="{{index == 'sports'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data5}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 音乐 -->
+    <view wx:if="{{index == 'music'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data6}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 食物 -->
+    <view wx:if="{{index == 'food'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data7}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 电影 -->
+    <view wx:if="{{index == 'tv'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data8}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 书籍 -->
+    <view wx:if="{{index == 'book'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data9}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 旅行 -->
+    <view wx:if="{{index == 'place'}}" style="height:100%;background-color:white;width: {{screenWidth}}px;padding:0 10px;box-sizing:border-box;">
+      <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <view class="center" style="justify-content: flex-start;">
+          <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+          <view class="center" style="padding-left:5px;opacity:0.6;">
+            <text>创建我自己的标签</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+      <view>
+        <repeat
+         for="{{data10}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+           <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
+             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+           </view>
+           <view class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <!-- 你的回答，所有回答统一title -->
+    <view wx:if="{{index == 'question' || index == 'newQuestion'}}" style="font-size:20px;width: {{screenWidth}}px;">
+      <view style="padding: 20px 10px 10px 10px;opacity:0.5;">
+        如果有时间，最想去做什么？
+      </view>
+      <view style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
+        <textarea maxlength="1000"	style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..." />
+      </view>
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '编辑'
+    }
+    data = {
+      // data1: [{title: '性别', value: '男'}, {title: '昵称', value: 'Michael'}, {title: '生日', value: '1/1/2001'} ],
+      data2: ['IT&Internet', '学生', '文化/艺术', '影视/娱乐', '金融', '医药/健康', '工业/制造业', 'IT/互联网/通信', '媒体/公关', '零售', '教育/科研' ],
+      data3: ['Engineer', '高管', '创始人', '投资人', '职业经理人', '咨询顾问', '市场', '产品', '客服', '销售', '商务', '公关', '人事', '行政' ],
+      data4: ['Patient', 'Romantic', 'Skillful', 'Intelligent', 'Elegant', 'Creative', 'Charming', 'Caring', 'Calm', 'Active', '萌萌哒'],
+      data5: ['Running', 'Basketball', 'Badminton', '游泳', '跑步', '单车', '瑜伽', '篮球', '足球', '滑板', '滑雪'],
+      data6: ['Easy Listening', '欧美', '日韩', '流行', '摇滚', '电子', 'R&B', '嘻哈', '爵士', '布鲁斯', '金属'],
+      data7: ['北京烤鸭', '港式早茶', '火锅', '烤串', '麻辣烫', '麻辣香锅', '麻小', '生煎包', '卤肉饭', '寿司', '生鱼片'],
+      data8: ['肖申克的救赎', '霸王别姬', '这个杀手不太冷', '教父', '阿甘正传', '泰坦尼克号', '盗梦空间', '黑客帝国', '蝙蝠侠', '低俗小说', '搏击俱乐部'],
+      data9: ['金庸', '古龙', '鲁迅', '韩寒', '郭敬明', '王朔', '王小波', '三毛', '琼瑶', '亦舒', '张爱玲'],
+      data10: ['法国', '日本', '非洲', '全世界', '成都', '桂林', '三亚', '丽江', '大理', '香格里拉', '西藏'],
+      array1: ['男生', '女生'],
+      index1: 0,
+      date1: '2016-09-01',
+      region1: ['广东省', '广州市', '海珠区'],
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      index: undefined
+    }
+    onLoad(option) {
+      this.index = option.index
+    }
+    methods = {
+    }
+  }
+</script>

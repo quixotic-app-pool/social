@@ -1,0 +1,392 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    <view class="center"  @tap.stop="toggle()" style="z-index:10;position:fixed; bottom:0; width:100%;height:50px;background-color:#CE452F;">
+      <view style="color:white;">
+        {{editMode ? '保存': '编辑'}}
+      </view>
+    </view>
+    <swiper wx:if="{{!editMode}}" style="width: {{screenWidth}}px; height: {{screenWidth}}px;" indicator-dots="true"
+      autoplay="false" interval="5000" duration="1000">
+      <repeat
+       for="{{imgUrls}}"
+       item= "item"
+       index= "index"
+       key= "index">
+        <swiper-item>
+          <image style="width: {{screenWidth}}px; height: {{screenWidth}}px;" src="{{item}}" class="slide-image"/>
+        </swiper-item>
+      </repeat>
+    </swiper>
+    <view wx:if="{{editMode}}" style="width: {{screenWidth}}px; height: {{screenWidth}}px;">
+      <view style="display:flex;flex-wrap:wrap;">
+        <view class="center" style="border-right:1px solid white;border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*2/3 - 1}}px; height: {{screenWidth*2/3 - 1}}px">
+          <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+        </view>
+
+        <view style="display:flex; flex-direction:column;">
+          <view class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 - 1}}px">
+            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          </view>
+          <view class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 -1 }}px">
+            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          </view>
+        </view>
+
+        <view class="center">
+          <view class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 - 1}}px">
+            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          </view>
+          <view class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
+            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          </view>
+          <view class="center" style="background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
+            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          </view>
+        </view>
+      </view>
+      <!-- <image src='../assets/img/choose-image.png' style="width:{{screenWidth*2/3}}px; height: {{screenWidth*2/3}}px"/> -->
+    </view>
+
+    <view wx:if="{{!editMode}}" style="width: {{screenWidth}}px;">
+      <view style="padding: 10px;">
+        <view style="color:rgb(193,89,76)">王小猴</view>
+        <view style="display: flex;font-size:15px;">
+          <view class="between" style="padding:0 2px; border-radius:4px; width:30px; background-color: rgb(242,195,245)">
+            <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
+            <text style="color:white;">25</text>
+          </view>
+          <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
+            <text style="font-size:12px; color:white;">165cm</text>
+          </view>
+          <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
+            <text style="font-size:12px; color:white;">45kg</text>
+          </view>
+          <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
+            <text style="font-size:12px; color:white;">天蝎座</text>
+          </view>
+        </view>
+        <view style="padding: 6px 0; opacity:0.6; font-size:12px;">
+          2km, 1分钟前活跃
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{editMode}}"  @tap.stop="goEdit('person')" style="width: {{screenWidth}}px;">
+      <view class="between" style="padding: 10px;">
+        <view class="center" style="justify-content:flex-start;">
+          <text>王小猴,</text>
+          <text style="padding:0 5px;">25,</text>
+          <text style="padding:0 5px;">165cm,</text>
+          <text style="padding:0 5px;">45kg,</text>
+          <image src="../assets/img/female.png" style="width:20px; height:20px;"/>
+        </view>
+        <image src="../assets/img/right-arrow.png" style="opacity:0.5; width:20px; height:20px;"/>
+      </view>
+    </view>
+
+    <view wx:if="{{!editMode}}" style="width: {{screenWidth}}px;border-top:1px solid rgb(232,232,232);border-bottom:1px solid rgb(232,232,232);">
+      <view class="between" style="padding: 10px;">
+        <view class="center">
+          <image src="../assets/img/album.png" style="width:30px; height:30px;"/>
+          <view style="padding-left:5px; font-size:15px; opacity:0.8;">个人相册</view>
+        </view>
+        <view class="center">
+          <view class="center">
+            <repeat
+             for="{{imgUrls}}"
+             item= "item"
+             index= "index"
+             key= "index">
+             <image style="padding-right:5px; width: 50px; height: 50px;" src="{{item}}" class="slide-image"/>
+            </repeat>
+          </view>
+          <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:30px; height:30px;"/>
+        </view>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px;">
+      <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
+        <text style="padding-bottom:10px;">我的信息</text>
+      </view>
+      <view style="border-bottom:1px solid rgb(232,232,232);">
+        <repeat
+         for="{{myInfo}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view wx:if="{{item.title == '星座'&&!editMode || item.title != '星座'}}" @tap.stop="goEdit({{item.title}})" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}">
+           <view class="center" style="flex:7;opacity:0.6; height:60px;justify-content:flex-start;">
+             <text style="flex:3;">{{item.title}}</text>
+             <text style="flex:7;">{{item.value}}</text>
+           </view>
+           <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px;">
+      <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
+        <text style="padding-bottom:10px;">我的标签</text>
+      </view>
+      <view @tap.stop="goEdit('tag')" style="display:flex;padding:10px 0;">
+        <view style="flex:1;" class="center">
+          <image src="../assets/img/hash.png" style="width:30px; height:30px;" />
+        </view>
+        <view style="flex: 7; display: flex;flex-wrap:wrap;padding-right:10px;">
+          <repeat
+           for="{{myTags}}"
+           item= "item"
+           index= "index"
+           key= "index">
+           <view style="margin:3px;; padding:0 4px; background-color: rgb(177, 175, 179); border-radius: 4px;">
+             <text style="color:rgb(64, 74, 98)">{{item}}</text>
+           </view>
+          </repeat>
+        </view>
+        <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+          <image src="../assets/img/right-arrow.png" style="padding-right:10px;opacity:0.5;width:20px; height:20px;"/>
+        </view>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px;border:1px solid rgb(232,232,232)">
+      <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
+        <text style="padding-bottom:10px;">我的兴趣</text>
+      </view>
+      <view @tap.stop="goEdit('sports')" style="display:flex;">
+        <view style="display:flex; padding:0 10px;width:100%;">
+          <view style="flex:1;" class="center">
+            <image src="../assets/img/sports.png" style="width:30px; height:30px;" />
+          </view>
+          <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
+            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <repeat
+               for="{{myInterest1}}"
+               item= "item"
+               index= "index"
+               key= "index">
+               <view style="margin:3px;; padding:0 4px; background-color: rgb(205, 233, 214); border-radius: 4px;">
+                 <text style="color:rgb(43, 91, 61)">{{item}}</text>
+               </view>
+              </repeat>
+            </view>
+            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view @tap.stop="goEdit('music')" style="display:flex;">
+        <view style="display:flex; padding:0 10px;width:100%;">
+          <view style="flex:1;" class="center">
+            <image src="../assets/img/music.png" style="width:30px; height:30px;" />
+          </view>
+          <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
+            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <repeat
+               for="{{myInterest2}}"
+               item= "item"
+               index= "index"
+               key= "index">
+               <view style="margin:3px;; padding:0 4px; background-color: rgb(178,186,219); border-radius: 4px;">
+                 <text style="color:rgb(63,77,161)">{{item}}</text>
+               </view>
+              </repeat>
+            </view>
+            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view @tap.stop="goEdit('food')" style="display:flex;">
+        <view style="display:flex; padding:0 10px;width:100%;">
+          <view style="flex:1;" class="center">
+            <image src="../assets/img/food.png" style="width:30px; height:30px;" />
+          </view>
+          <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
+            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <repeat
+               for="{{myInterest3}}"
+               item= "item"
+               index= "index"
+               key= "index">
+               <view style="margin:3px;; padding:0 4px; background-color: rgb(241,170,160); border-radius: 4px;">
+                 <text style="color:rgb(173,72,56)">{{item}}</text>
+               </view>
+              </repeat>
+            </view>
+            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view @tap.stop="goEdit('tv')" style="display:flex;">
+        <view style="display:flex; padding:0 10px;width:100%;">
+          <view style="flex:1;" class="center">
+            <image src="../assets/img/tv.png" style="width:30px; height:30px;" />
+          </view>
+          <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
+            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <repeat
+               for="{{myInterest4}}"
+               item= "item"
+               index= "index"
+               key= "index">
+               <view style="margin:3px;; padding:0 4px; background-color: rgb(200,197,224); border-radius: 4px;">
+                 <text style="color:rgb(80,75,114)">{{item}}</text>
+               </view>
+              </repeat>
+            </view>
+            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view @tap.stop="goEdit('book')" style="display:flex;">
+        <view style="display:flex; padding:0 10px;width:100%;">
+          <view style="flex:1;" class="center">
+            <image src="../assets/img/book.png" style="width:30px; height:30px;" />
+          </view>
+          <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
+            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <repeat
+               for="{{myInterest5}}"
+               item= "item"
+               index= "index"
+               key= "index">
+               <view style="margin:3px;; padding:0 4px; background-color: rgb(253,238,186); border-radius: 4px;">
+                 <text style="color:rgb(184,157,71)">{{item}}</text>
+               </view>
+              </repeat>
+            </view>
+            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view @tap.stop="goEdit('place')" style="display:flex;">
+        <view style="display:flex; padding:0 10px;width:100%;">
+          <view style="flex:1;" class="center">
+            <image src="../assets/img/flight.png" style="width:30px; height:30px;" />
+          </view>
+          <view class="between" style="flex: 7;">
+            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <repeat
+               for="{{myInterest6}}"
+               item= "item"
+               index= "index"
+               key= "index">
+               <view style="margin:3px;; padding:0 4px; background-color: rgb(209,220,224); border-radius: 4px;">
+                 <text style="color:rgb(75,111,138)">{{item}}</text>
+               </view>
+              </repeat>
+            </view>
+            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view style="width: {{screenWidth}}px; margin-bottom:30px;">
+      <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
+        <text style="padding-bottom:10px;">我的问答</text>
+      </view>
+      <view style="box-sizing:border-box;padding:0 10px;width:100%;">
+        <repeat
+         for="{{myAns}}"
+         item= "item"
+         index= "index"
+         key= "index">
+         <view @tap.stop="goEdit('question')" class="between" style="border-bottom:1px solid rgb(232,232,232)">
+           <view>
+             <view style="padding-top: 5px;opacity:0.8;">
+               <text>{{item.title}}</text>
+             </view>
+             <view style="padding: 5px 0;opacity:0.6;">
+               <text>{{item.value}}</text>
+             </view>
+           </view>
+           <view wx:if="{{editMode}}" wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+             <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+           </view>
+         </view>
+        </repeat>
+
+        <view wx:if="{{editMode}}" @tap.stop="goEdit('newQuestion')" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+          <view class="center" style="justify-content: flex-start;">
+            <image src="../assets/img/plus.png" style="width:30px; height:30px;"/>
+            <view class="center" style="padding-left:5px;opacity:0.6;">
+              <text>添加问题</text>
+            </view>
+          </view>
+          <view class="center" style="justify-content:flex-end;flex:1;">
+            <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
+          </view>
+        </view>
+
+      </view>
+    </view>
+    <view style="height:30px;"></view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'Intro'
+    }
+    data = {
+      editMode: false,
+      imgUrls: [
+         'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
+         'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
+         'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
+       ],
+       screenWidth: wepy.getSystemInfoSync().windowWidth,
+       screenHeight: wepy.getSystemInfoSync().windowHeight,
+       myInfo: [{'title': '星座', value: '天蝎座'}, {title: '行业', value: '旅游'}, {title: '工作领域', value: '策划'}, {title: '公司', value: '爱辉科技有限公司'}, {title: '来自', value: '江苏'}, {title: '经常出没', value: '春熙路'}, {title: '个人签名', value: '聪明是一种天赋，而善良是一种选择。'}],
+       myTags: ['女汉子', '喜欢简单', '靠谱', '安静', '选择恐惧症', '文艺', '厚道', '讲义气', '随性'],
+       myInterest1: ['篮球', '健身房', '舞蹈', '台球', '射箭', '睡觉'],
+       myInterest2: ['刘德华', '五百', '80年代经典'],
+       myInterest3: ['牛排', '火锅', '美食'],
+       myInterest4: ['我的少女时代', '喜剧之王', '倩女幽魂', '背景遇上西雅图', '机械师', '剪刀手爱德华', '傲慢与偏见'],
+       myInterest5: ['殷桃小丸子', '琼瑶', '灌篮高手'],
+       myInterest6: ['北海', '泰国', '大理', '九寨沟', '成都', '丽江', '香格里拉', '普吉岛', '越南'],
+       myAns: [{title: '如果能有一种超能力，要什么？', value: '时光能倒流'}, {title: '如果有钱有时间，最想去做什么？', value: '环游世界'}, {title: '什么样的异性最让你心动？', value: '帅 颜值高 绅士 人品好个子高'}, {title: '如果女朋友/男朋友生气了，怎么哄？', value: '一直说开心的事情，如果还在生气就一直哄'}, {title: '可以接受的约会有哪些？', value: '电影 吃饭 篮球'}]
+    }
+
+    methods = {
+      goEdit (index) {
+        if(!this.editMode) {
+          return
+        }
+        wepy.navigateTo({
+          url: 'itemEditPage?index=' + index
+        })
+      },
+      toggle () {
+        // console.log('？？');
+        this.editMode = !this.editMode
+        this.$apply()
+      }
+    }
+  }
+</script>

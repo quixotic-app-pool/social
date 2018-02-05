@@ -1,0 +1,188 @@
+<style lang="less">
+.img_item {
+  width: 48%;
+  margin: 1%;
+  display: inline-block;
+  vertical-align: top;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bg-img {
+  background-image: radial-gradient(circle farthest-side at right, rgba(56, 224, 245,0.8), rgba(32, 190, 236,0.8));
+}
+</style>
+<template>
+  <view class="container" style="background-color:rgb(246,246,246)">
+
+    <!-- <view class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:40px;width:40px;border-radius:100%;position:fixed;right:10px;top:10px;" catchlongpress="longpress">
+      <text style="color:white;font-size:12px;">过滤</text>
+    </view> -->
+
+    <view style="display:none">
+      <image wx:for="{{images}}" wx:key="id" id="{{item.id}}" src="{{item.pic}}" bindload="onImageLoad"></image>
+    </view>
+    <scroll-view scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
+      <view style="width:100%;">
+        <view class="img_item">
+          <view @tap="navigate()" wx:for="{{col1}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;">
+            <image src="{{item.pic}}" style="border-radius: 5px 5px 0 0;width:100%;height:{{item.height}}px"></image>
+            <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex;align-items:center;flex-wrap:wrap;">
+              <view class="between" style="justify-content:flex-start;width:100%;">
+                <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
+                <text style="padding-left:2px;color:rgb(252, 121, 153);">25</text>
+                <text style="padding-left:4px;">165cm</text>
+                <text style="padding-left:4px;">45kg</text>
+              </view>
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">硕士及以上</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">事业单位</text>
+              <text>南京市***医院</text>
+            </view>
+            <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
+              <view class="center">
+                <image src='../assets/img/heart.png' style="width:20px; height:20px;" />
+                <text style="padding-left:5px;opacity:0.8;font-size:13px;">关注</text>
+              </view>
+              <!-- <view class="center">
+                <image src='../assets/img/comment.png' style="width:20px; height:20px;" />
+                <text style="padding-left:5px;">打招呼</text>
+              </view> -->
+            </view>
+          </view>
+        </view>
+        <view class="img_item">
+          <view @tap="navigate()" wx:for="{{col2}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;">
+            <image src="{{item.pic}}" style="border-radius: 5px 5px 0 0;width:100%;height:{{item.height}}px"></image>
+            <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex; align-items:center;flex-wrap:wrap;">
+              <view class="between" style="justify-content:flex-start;width:100%;">
+                <image src="../assets/img/male.png" style="width:10px; height:10px;"/>
+                <text style="padding-left:2px;color:rgb(252, 121, 153);">27</text>
+                <text style="padding-left:4px;">165cm</text>
+                <text style="padding-left:4px;">45kg</text>
+              </view>
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">本科</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">外资企业</text>
+              <text>江苏省国际***进出口有限责任公司</text>
+            </view>
+            <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
+              <view class="center">
+                <image src='../assets/img/heart.png' style="width:20px; height:20px;" />
+                <text style="padding-left:5px;opacity:0.8;font-size:13px;">关注</text>
+              </view>
+              <!-- <view class="center">
+                <image src='../assets/img/comment.png' style="width:20px; height:20px;" />
+                <text style="padding-left:5px;">打招呼</text>
+              </view> -->
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  let col1H = 0;
+  let col2H = 0;
+  export default class MainPage extends wepy.page {
+    config = {
+      navigationBarTitleText: '相识于眼缘'
+    }
+    data = {
+      scrollH: 0,
+      imgWidth: 0,
+      loadingCount: 0,
+      images: [],
+      col1: [],
+      col2: [],
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight
+    }
+    onLoad () {
+      var imgWidth = this.screenWidth * 0.48;
+      var scrollH = this.screenHeight;
+
+      this.scrollH= scrollH
+      this.imgWidth= imgWidth
+
+      this.loadImages()
+     }
+     onImageLoad (e) {
+         let imageId = e.currentTarget.id;
+         let oImgW = e.detail.width;         //图片原始宽度
+         let oImgH = e.detail.height;        //图片原始高度
+         let imgWidth = this.data.imgWidth;  //图片设置的宽度
+         let scale = imgWidth / oImgW;        //比例计算
+         let imgHeight = oImgH * scale;      //自适应高度
+
+         let images = this.data.images;
+         let imageObj = null;
+
+         for (let i = 0; i < images.length; i++) {
+             let img = images[i];
+             if (img.id === imageId) {
+                 imageObj = img;
+                 break;
+             }
+         }
+
+         imageObj.height = imgHeight;
+
+         let loadingCount = this.data.loadingCount - 1;
+         let col1 = this.data.col1;
+         let col2 = this.data.col2;
+
+         if (col1H <= col2H) {
+             col1H += imgHeight;
+             col1.push(imageObj);
+         } else {
+             col2H += imgHeight;
+             col2.push(imageObj);
+         }
+
+         let data = {
+             loadingCount: loadingCount,
+             col1: col1,
+             col2: col2
+         };
+
+         if (!loadingCount) {
+             data.images = [];
+         }
+
+         this.setData(data);
+     }
+     loadImages () {
+       let images = [
+           { pic: "../assets/img/1.jpeg", height: 0 },
+           { pic: "../assets/img/2.jpeg", height: 0 },
+           { pic: "../assets/img/3.jpeg", height: 0 },
+           { pic: "../assets/img/4.jpg", height: 0 },
+           { pic: "../assets/img/5.jpg", height: 0 }
+       ];
+
+       let baseId = "img-" + (+new Date());
+
+       for (let i = 0; i < images.length; i++) {
+           images[i].id = baseId + "-" + i;
+       }
+
+
+       this.loadingCount= images.length
+       this.images= images
+    }
+    methods = {
+      navigate () {
+        wepy.navigateTo({url: 'individualPage'})
+      }
+    }
+  }
+</script>

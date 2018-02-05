@@ -1,4 +1,14 @@
 
   <view class="container">
-    Edit
+    <view>
+    </view>
+    <view style="width:96%;margin: 2%;border-radius:5px;border: 1px solid #3FC5F4;">
+      <textarea style="height:100px;width:100%;padding:5px;" maxlength="1000" placeholder-style="width:100%;" value="{{initMsg}}" bindinput="replyMsg" placeholder=""/>
+    </view>
+    <view class="center" style="color:white;font-size:30px;height: 60px;z-index:2; width: {{screenWidth}}px;position:fixed; bottom: 0;">
+        <!-- <text style="color:white;font-size:30px;">{{lang == 'EN' ? 'Answer' : '回答'}}</text> -->
+        <view hover-class="clickSend" class="center" style="margin-right:2px;box-shadow:1px 1px 10px 0px #3FC5F4;flex:1;height:100%;background-color: #3FC5F4;">
+          <text>发送</text>
+        </view>
+    </view>
   </view>
