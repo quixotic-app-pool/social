@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: api.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-02-08T15:37:31+08:00
+ * @Last modified time: 2018-02-08T20:51:50+08:00
  */
  import {
    wxRequest
@@ -27,8 +27,9 @@
  const fetchNotificationList = (params) => wxRequest(params, host + "/api/fetchnotificationlist");
  const updateNotification = (params) => wxRequest(params, host + "/api/updatenotification");
 
- const memberList = (params) => wxRequest(params, host + "/api/memberlist");
- const member = (params) => wxRequest(params, host + "/api/member");
+ const profileList = (params) => wxRequest(params, host + "/api/profilelist");
+ const profile = (params) => wxRequest(params, host + "/api/profile");
+ const updateprofile = (params) => wxRequest(params, host + "/api/updateprofile");
 
  const fetchPostList = (params) => wxRequest(params, host + "/api/fetchpostlist");
  const fetchPost = (params) => wxRequest(params, host + "/api/fetchpost");
@@ -46,7 +47,7 @@
  const subscribe = (params) => wxRequest(params, host + "/api/subscribe");
  const userInfo = (params) => wxRequest(params, host + "/api/user");
 
- 
+
  module.exports = {
    //wechatActivity
    wechatActivity,
@@ -55,8 +56,8 @@
    fetchNotificationList,
    updateNotification,
    //memberlist
-   memberList,
-   member,
+   profileList,
+   profile,
    //post
    fetchPostList,
    fetchPost,

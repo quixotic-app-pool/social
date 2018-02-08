@@ -1,6 +1,6 @@
 <template>
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <commentsComponent />
+    <commentsComponent :type="{user_id: ''}"/>
  </scroll-view>
 </template>
 <script>
@@ -30,14 +30,9 @@ export default class TestPage extends wepy.page {
   async onLoad (option) {
     // wepy.setNavigationBarTitle({title: option.topic})
     this.user_id = wepy.getStorageSync('UserId')
-    //load notification list
-    await this.loadData()
   }
- async loadData () {
-
- }
  async lower () {
-   await this.loadData()
+
  }
  async upper () {
 

@@ -11,7 +11,7 @@
     <scroll-view scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
       <view style="width:100%;">
         <view class="img_item">
-          <view bindtap="navigate"  wx:for="{{col1}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;" data-wpynavigate-a="">
+          <view bindtap="navigate"  wx:for="{{col1}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;" data-wpynavigate-a="{{item._id}}">
             <image src="{{item.pic}}" style="border-radius: 5px 5px 0 0;width:100%;height:{{item.height}}px"/>
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex;align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">

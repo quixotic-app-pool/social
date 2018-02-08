@@ -117,7 +117,7 @@
     <view wx:if="{{editMode}}"  @tap.stop="goEdit('person')" style="width: 100%;">
       <view class="between" style="padding: 10px;">
         <view class="center" style="justify-content:flex-start;">
-          <text>{{myData.nichName}},</text>
+          <text>{{myData.nickName}},</text>
           <text style="padding:0 5px;">{{myData.age}},</text>
           <text style="padding:0 5px;">{{myData.height}}cm,</text>
           <text style="padding:0 5px;">{{myData.weight}}kg,</text>
@@ -389,6 +389,7 @@
 
 <script>
   import wepy from 'wepy'
+  import api from './../api/api'
 
   export default class Index extends wepy.page {
     config = {
@@ -404,13 +405,28 @@
          'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
          'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg',
          'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg'
-       ]
+       ],
+       profile_id: ''
     }
-    async onLoad () {
-      // TODO: loading data
-      await this.loadData()
+    async onLoad (option) {
+      this.profile_id = option._id
+      await this.loadData(this.profile_id)
     }
-    async loadData() {
+    onShow() {
+      // TODO: here we need to update specific item through global Object
+      var editedPiece = wepy.getStorageSync('editedPiece')
+      //everytime we have editedPiece = {index: '', value:''}
+    }
+    async loadData(_id) {
+      // TODO: load data
+      // var res = await api.profile({
+      //   query: {
+      //     _id: _id
+      //   }
+      // })
+      //  if(res.data && res.data.flag == 'success') {
+      //    this.myData = res.data.data
+      //  }
         this.myData = {
           gender: 'female',
           age: '25',
@@ -441,7 +457,6 @@
     }
     methods = {
       async chooseImage () {
-        console.log('?');
         const { tempFilePaths } = await wepy.chooseImage({
           count: 6 - this.tempImgUrls.length,
           sizeType: 'compressed'
@@ -463,8 +478,19 @@
           url: 'itemEditPage?index=' + index
         })
       },
-      toggle () {
-        // console.log('？？');
+      async toggle () {
+        // TODO: save edited profile
+        // if(this.editMode) {
+        //   var res = await api.updateProfile({
+        //     pack: {
+        //       _id: this.profile_id,
+        //       data: this.myData
+        //     }
+        //   })
+        //   if(res.data && res.data.flag == 'success') {
+        //     this.myData = res.data.data
+        //   }
+        // }
         this.editMode = !this.editMode
         this.$apply()
       },

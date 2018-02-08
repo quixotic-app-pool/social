@@ -7,7 +7,6 @@
         </view>
     </view>
 
-
     <textarea
       class="textarea"
       auto-focus
@@ -58,19 +57,20 @@
         <image class="location-icon" src="../assets/img/location.svg"></image>
         <text>{{ location === '' ? '点击添加位置' : location }}</text>
       </view>
-      <view
+      <!-- <view
         class="isanonymous-btn {{ isAnonymous ? 'anonymous' : 'named' }}"
         @tap.stop="anonymousChange">
         <text class="anonymous-text">匿名</text>
         <text class="named-text">实名</text>
         <view class="isanonymous-btn-key"></view>
-      </view>
+      </view> -->
     </view>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
+import api from './../api/api'
 // import { api } from '../config'
 // import http from '../utils/request'
 // import sensitiveWordChecker from '../utils/sensitiveWordChecker'
@@ -86,7 +86,7 @@ export default class NewBlog extends wepy.page {
     screenHeight: wepy.getSystemInfoSync().windowHeight,
     content: '',
     images: [],
-    isAnonymous: false,
+    // isAnonymous: false,
     device: '',
     location: '',
     latitude: '',
@@ -164,10 +164,10 @@ export default class NewBlog extends wepy.page {
     /**
      * 切换实名、匿名
      */
-    anonymousChange () {
-      this.isAnonymous = !this.isAnonymous
-      this.$apply()
-    },
+    // anonymousChange () {
+    //   this.isAnonymous = !this.isAnonymous
+    //   this.$apply()
+    // },
 
     /**
      * 发送树洞
@@ -218,7 +218,6 @@ export default class NewBlog extends wepy.page {
 
       const pack = {
         content: this.content,
-        isAnonymous: this.isAnonymous,
         images: [],
         device: this.device,
         location: this.location,
@@ -266,11 +265,12 @@ export default class NewBlog extends wepy.page {
 
       // upload blog
       try {
-        await http({
-          url: api.blog.new.url,
-          method: api.blog.new.method,
-          data: pack
-        })
+        // var res = await api.newPost({
+        //   pack: pack
+        // })
+        // if(res.data && res.data.flay = 'success') {
+        //
+        // }
       } catch (e) {
         wepy.hideToast()
         wepy.showModal({

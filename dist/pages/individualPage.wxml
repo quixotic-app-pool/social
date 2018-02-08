@@ -80,7 +80,7 @@
     <view wx:if="{{editMode}}" catchtap="goEdit" style="width: 100%;" data-wpygoedit-a="person">
       <view class="between" style="padding: 10px;">
         <view class="center" style="justify-content:flex-start;">
-          <text>{{myData.nichName}},</text>
+          <text>{{myData.nickName}},</text>
           <text style="padding:0 5px;">{{myData.age}},</text>
           <text style="padding:0 5px;">{{myData.height}}cm,</text>
           <text style="padding:0 5px;">{{myData.weight}}kg,</text>

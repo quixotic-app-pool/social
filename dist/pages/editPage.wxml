@@ -7,7 +7,6 @@
         </view>
     </view>
 
-
     <textarea class="textarea" auto-focus bindinput="inputChange" maxlength="-1" placeholder="留下你的足迹..." placeholder-style="">
     </textarea>
     <view class="image-list">
@@ -34,10 +33,11 @@
         <image class="location-icon" src="../assets/img/location.svg"/>
         <text>{{ location === '' ? '点击添加位置' : location }}</text>
       </view>
-      <view class="isanonymous-btn {{ isAnonymous ? 'anonymous' : 'named' }}" catchtap="anonymousChange">
+      <!-- <view
+        class="isanonymous-btn {{ isAnonymous ? 'anonymous' : 'named' }}" catchtap="anonymousChange">
         <text class="anonymous-text">匿名</text>
         <text class="named-text">实名</text>
-        <view class="isanonymous-btn-key"/>
-      </view>
+        <view class="isanonymous-btn-key"></view>
+      </view> -->
     </view>
   </view>

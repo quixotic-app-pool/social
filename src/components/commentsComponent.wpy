@@ -35,48 +35,71 @@
 
 <script>
   import wepy from 'wepy'
+  import api from './../api/api'
 
   export default class Index extends wepy.component {
     config = {
       navigationBarBackgroundColor: '#FFD300'
+    }
+    props = {
+      post_id: {
+        type: String,
+        default: {}
+      },
+      user_id: {
+        type: String,
+        default: {}
+      },
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       myComments: []
     }
-    onLoad () {
+    async onLoad () {
+      if(this.post_id) {
+        await this.loadComment()
+      }
+    }
+    async loadComment () {
+      // TODO: load data
+      // var res = await api.commentList({
+      //   query: {
+      //
+      //   }
+      // })
+      // if(res.data && res.data.flay = 'success') {
+      //   this.postData = res.data.data
+      // }
       this.myComments = [
         {
-          avatarUrl: '../assets/img/boy.jpeg',
-          nickName: '扎西德勒',
-          gender: 'male',
-          age: 25,
-          createdAt: '一小时前',
-          msg: '你想我说什么好呢，你好无聊',
-          likeNum: 2
-        },
-        {
-          avatarUrl: '../assets/img/boy.jpeg',
-          nickName: '小叮当',
-          gender: 'female',
-          age: 22,
-          createdAt: '一小时前',
-          msg: '你想我说什么好呢，爱聊不聊',
-          likeNum: 22
-        },
-        {
-          avatarUrl: '../assets/img/boy.jpeg',
-          nickName: '爱的狂想曲',
-          gender: 'male',
-          age: 30,
-          createdAt: '两小时前',
-          msg: '你想我说什么好呢，无聊呗',
-          likeNum: 12
-        }
+            avatarUrl: '../assets/img/boy.jpeg',
+            nickName: '谭马儒',
+            gender: 'male',
+            age: 25,
+            createdAt: '昨日 23：27',
+            msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+            likesNum: 32
+          },
+          {
+              avatarUrl: '../assets/img/boy.jpeg',
+              nickName: '谭马儒',
+              gender: 'male',
+              age: 25,
+              createdAt: '昨日 23：27',
+              msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+              likesNum: 32
+            },{
+                avatarUrl: '../assets/img/boy.jpeg',
+                nickName: '谭马儒',
+                gender: 'male',
+                age: 25,
+                createdAt: '昨日 23：27',
+                msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+                likesNum: 32
+              }
       ]
     }
-
     methods = {
     }
   }

@@ -2,8 +2,8 @@
 </style>
 <template>
   <view class="container">
-    <!-- 可以同样结合公众号的界面，需要考虑报名端口的问题，具体开发过程中寻求方案 -->
-    <web-view src="https://mp.weixin.qq.com/"></web-view>
+    <!-- TODO: current dev ID not supported -->
+    <web-view src="{{url}}"></web-view>
   </view>
 </template>
 
@@ -16,9 +16,12 @@
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
-      screenHeight: wepy.getSystemInfoSync().windowHeight
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      url: ''
     }
-
+    onLoad (option) {
+      this.url = option.url
+    }
     methods = {
     }
   }

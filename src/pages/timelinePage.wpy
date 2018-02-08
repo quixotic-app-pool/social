@@ -146,57 +146,8 @@
      item= "item"
      index= "index"
      key= "index">
-     <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;padding-bottom:0;">
-       <view @tap.stop="go('individualPage')"  style="display: flex;">
-         <view style="flex:2;">
-           <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
-         </view>
-         <view style="flex:8;">
-           <view class="center" style="justify-content:flex-start;">
-             <text>{{item.nickName}}</text>
-             <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
-             <!-- <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
-               <text style="color:white;font-size:12px;">Lv5</text>
-             </view> -->
-           </view>
-           <view style="font-size:12px;opacity:0.6;">
-             {{item.createdAt}}
-           </view>
-         </view>
-         <view @tap.stop="moreOption">
-           <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
-         </view>
-       </view>
-       <view @tap.stop="go('detailPage')">
-         <view>
-           <!-- <text style="color:rgb(95,112,139)">#主题跳转#</text> -->
-         <text>{{item.msg}}</text>
-         </view>
-         <view style="padding:10px 0;">
-           <repeat
-            for="{{item.imgUrls}}"
-            item= "subItem"
-            index= "index"
-            key= "index">
-            <image src="{{subItem}}" mode="aspectFill" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
-           </repeat>
-         </view>
-       </view>
-
-       <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232);">
-         <!-- <view class="center" style="padding: 10px 0;">
-           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
-           <text style="font-size:15px; opacity:0.6;">转发</text>
-         </view> -->
-         <view @tap.stop="go('detailPage')" class="center" style="padding: 10px 0;">
-           <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
-           <text style="font-size:15px; opacity:0.6;">{{item.commentsNum}}</text>
-         </view>
-         <view class="center" style="padding: 10px 0;">
-           <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
-           <text style="font-size:15px; opacity:0.6;">{{item.likesNum}}</text>
-         </view>
-       </view>
+     <view @tap.stop="go('detailPage')" >
+        <postComponent :postData.sync = 'item'/>
      </view>
     </repeat>
   </view>
@@ -204,6 +155,7 @@
 
 <script>
   import wepy from 'wepy'
+  import postComponent from '../components/postComponent'
 
   export default class Index extends wepy.page {
     config = {
@@ -220,11 +172,24 @@
       // data1: [{imgUrl: '../assets/img/school.png', title: '#校园浪漫#'}, {imgUrl: '../assets/img/food.png', title: '#成都美食#'}, {imgUrl: '../assets/img/fire.png', title: '#燃烧青春#'}],
       // data2: [{imgUrl: '../assets/img/school.png', title: '#单身狗的日常#'}, {imgUrl: '../assets/img/food.png', title: '#我这么美为什么单身#'}, {imgUrl: '../assets/img/school.png', title: '#一起来运动#'}, {imgUrl: '../assets/img/school.png', title: '#我是学霸我怕谁#'}, {imgUrl: '../assets/img/fire.png', title: '#条骚市场#'}]
     }
+    components = {
+      postComponent : postComponent
+    }
     async onLoad () {
       await this.loadData()
     }
     async loadData () {
       // TODO: load data
+      //  var res = await api.fetchPostList({
+      //    query: {
+      //      page: 0,
+      //      type: 'all'
+      //    }
+      //  })
+       //
+      //  if(res.data && res.data.flag == 'success') {
+      //    list = res.data.data
+      //  }
       this.listData = [
         {
           nickName: '谭马儒',

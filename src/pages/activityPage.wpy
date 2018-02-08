@@ -16,7 +16,7 @@
        item= "item"
        index= "index"
        key= "index">
-       <view @tap.stop="goDetail" style="border-radius: 3px; margin:2%; width:96%;box-shadow: 1px 1px 10px silver;">
+       <view @tap.stop="goDetail({{item.imgUrl}})" style="border-radius: 3px; margin:2%; width:96%;box-shadow: 1px 1px 10px silver;">
          <view style="height: 250px;">
            <image style="width:96%; position:absolute;" src="{{item.imgUrl}}" />
            <view style="top:136px;padding:20px;position: relative;display: flex; flex-direction:column;">
@@ -42,6 +42,7 @@
 
 <script>
   import wepy from 'wepy'
+  import api from './../api/api'
 
   export default class Index extends wepy.page {
     config = {
@@ -51,21 +52,37 @@
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      myData: [
+      myData: [],
+      piece: 1
+    }
+    async onLoad () {
+      await this.loadData()
+    }
+    async loadData () {
+      // TODO: load activity list
+      // var res = await api.activityList({
+      //   query: {
+      //     page: 0,
+      //     type: this.piece
+      //   }
+      // })
+      // if(res.data && res.data.flay = 'success') {
+      //   this.postData = res.data.data
+      // }
+      this.myData = [
           {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'},
           {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'},
           {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'}
-        ],
-      piece: 1
+        ]
     }
-
     methods = {
-      jump (index) {
+      async jump (index) {
         this.piece = index
+        await loadData()
       },
-      goDetail () {
+      goDetail (url) {
         wepy.navigateTo({
-          url: 'heldActivity'
+          url: 'activityWebPage?url=' + url
         })
       }
     }

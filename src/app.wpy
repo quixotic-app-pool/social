@@ -33,8 +33,7 @@ export default class extends wepy.app {
     pages: [
       'pages/mainPage',
       'pages/activityPage',
-      // 'pages/newActivity',
-      'pages/heldActivity',
+      'pages/activityWebPage',
       'pages/timelinePage',
       'pages/myTM',
       'pages/editPage',

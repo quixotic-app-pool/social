@@ -1,0 +1,131 @@
+<style lang="less">
+</style>
+<template>
+    <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;padding-bottom:0;">
+      <view style="display: flex;">
+        <view style="flex:2;">
+          <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
+        </view>
+        <view style="flex:8;">
+          <view class="center" style="justify-content:flex-start;">
+            <text>{{postData.nickName}}</text>
+            <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
+            <!-- <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
+              <text style="color:white;font-size:12px;">Lv5</text>
+            </view> -->
+          </view>
+          <view style="font-size:12px;opacity:0.6;">
+            {{postData.createdAt}}
+          </view>
+        </view>
+        <view @tap.stop="moreOption">
+          <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+        </view>
+      </view>
+      <view>
+        <!-- <text style="color:rgb(95,112,139)">#主题跳转#</text> -->
+        <text>{{postData.msg}}</text>
+      </view>
+      <view style="padding:10px 0;">
+        <repeat
+         for="{{postData.imgUrls}}"
+         item= "subItem"
+         index= "index"
+         key= "index">
+         <image @tap.stop="previewImage({{ subItem }}, {{ postData.imgUrls }})" mode="aspectFill" src="{{subItem}}" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
+        </repeat>
+      </view>
+      <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
+        <!-- <view class="center" style="padding: 10px 0;">
+          <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
+          <text style="font-size:15px; opacity:0.6;">转发</text>
+        </view> -->
+        <view @tap.stop="go('detailPage')" class="center" style="padding: 10px 0;">
+          <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
+          <text style="font-size:15px; opacity:0.6;">{{postData.commentsNum}}</text>
+        </view>
+        <view @tap.stop="like()" class="center" style="padding: 10px 0;">
+          <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
+          <text style="font-size:15px; opacity:0.6;">{{postData.likesNum}}</text>
+        </view>
+      </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from './../api/api'
+
+  export default class Index extends wepy.component {
+    config = {
+      navigationBarBackgroundColor: '#FFD300'
+    }
+    props = {
+      postData: {
+        type: Object,
+        default: {}
+      }
+    }
+    data = {
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      post_id: ''
+    }
+    onLoad (option) {
+
+    }
+
+    methods = {
+      previewImage (cur, imageList) {
+        wepy.previewImage({
+          current: cur,
+          urls: imageList
+        })
+      },
+      async like () {
+        // TODO: update like
+        //  var res = await api.like({
+        //    pack: {
+        //      page: 0,
+        //      type: 'post',
+        //      value: true
+        //    }
+        //  })
+         //
+        //  if(res.data && res.data.flag == 'success') {
+        //    list = res.data.data
+        //  }
+      },
+      go () {
+        wepy.navigateTo({
+          url: page
+        })
+      },
+      moreOption () {
+        wepy.showActionSheet({
+          itemList: ['取消关注', '举报']
+        }).then(async function(res){
+          // if(res.tapIndex = 1) {
+          //   var r = await api.subscribe({
+          //     pack: {
+          //       user_id: this.user_id
+          //     }
+          //   })
+          //   if(res.data && res.data.flag == 'success') {
+          //
+          //   }
+          // } else {
+          //   var r = await api.report({
+          //     pack: {
+          //       user_id: this.user_id
+          //     }
+          //   })
+          //   if(res.data && res.data.flag == 'success') {
+          //
+          //   }
+          // }
+        })
+      },
+    }
+  }
+</script>

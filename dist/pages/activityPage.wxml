@@ -10,7 +10,7 @@
     </view>
     <view style="width: {{screenWidth}}px; position:relative;top:50px; ">
       <block wx:for="{{myData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-       <view catchtap="goDetail" style="border-radius: 3px; margin:2%; width:96%;box-shadow: 1px 1px 10px silver;">
+       <view catchtap="goDetail" style="border-radius: 3px; margin:2%; width:96%;box-shadow: 1px 1px 10px silver;" data-wpygodetail-a="{{item.imgUrl}}">
          <view style="height: 250px;">
            <image style="width:96%; position:absolute;" src="{{item.imgUrl}}"/>
            <view style="top:136px;padding:20px;position: relative;display: flex; flex-direction:column;">
