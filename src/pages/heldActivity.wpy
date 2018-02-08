@@ -12,7 +12,7 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'Edit'
+      navigationBarBackgroundColor: '#FFD300'
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,

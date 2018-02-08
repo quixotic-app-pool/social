@@ -12,7 +12,7 @@
     </view>
     <view style="width: {{screenWidth}}px; position:relative;top:50px; ">
       <repeat
-       for="{{data1}}"
+       for="{{myData}}"
        item= "item"
        index= "index"
        key= "index">
@@ -31,7 +31,7 @@
            </view>
            <view style="display:flex; justify-content:flex-start; align-items:center;">
              <image src="../assets/img/tab-event-fill.png" style="padding:0 5px; width:20px; height:20px;"/>
-             <text>春熙路14号大街</text>
+             <text>{{item.address}}</text>
            </view>
          </view>
        </view>
@@ -46,12 +46,16 @@
   export default class Index extends wepy.page {
     config = {
       navigationBarBackgroundColor: '#FFD300',
-      navigationBarTitleText: '相知于活动'
+      navigationBarTitleText: '相交于活动'
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      data1: [{imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}, {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}, {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9'}]
+      myData: [
+          {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'},
+          {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'},
+          {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'}
+        ]
     }
 
     methods = {

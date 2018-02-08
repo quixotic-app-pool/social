@@ -1,22 +1,27 @@
 
   <view style="width: {{screenWidth}}px; height: {{screenHeight + 50}}px;">
 
-    <view class="bg2" style="margin-bottom:20px;width:{{screenWidth}}px;height: {{screenWidth/2846 * 1000}}px; display: flex; justify-content:center; align-items:center;">
+    <view class="bg2" style="width:{{screenWidth}}px;height: {{screenWidth/2846 * 1000}}px; display: flex; justify-content:center; align-items:center;">
       <!-- <image style=" width:{{screenWidth}}px; height: {{screenWidth/2846 * 1000}}px; position: absolute;" src="../assets/img/bubble.jpg" /> -->
       <view style="padding:20px;z-index:1;display: flex; width:100%;">
         <view class="center" style="flex:2; ">
-          <image src="{{info.avatarUrl ? info.avatarUrl : '../assets/img/boy.jpeg'}}" style="border-radius:100%;width:80px; height:80px;"/>
+          <image src="{{myData.avatarUrl ? myData.avatarUrl : '../assets/img/boy.jpeg'}}" style="border-radius:100%;width:80px; height:80px;"/>
         </view>
         <view class="between" style="flex-direction:column;flex:4;padding-left:10px;">
           <view class="center" style="align-self:flex-start;">
-            <text style="font-size:25px;">扎西德勒</text>
+            <text style="font-size:25px;">{{myData.nickName}}</text>
             <image src="../assets/img/male.png" style="width:20px; height:20px;"/>
           </view>
           <view class="center" style="opacity:0.6;align-self:flex-start;font-size:12px;">
-            <text style="padding-right:15px;">关注 1299</text>|<text style="padding-left:15px;">粉丝 2111</text>
+            <view catchtap="go" data-wpygo-a="listPage">
+              <text style="padding-right:15px;">关注 {{myData.subscribedNum}}</text>
+            </view>
+            <view catchtap="go" data-wpygo-a="listPage">
+              <text style="padding-left:15px;">粉丝 {{myData.subscribeNum}}</text>
+            </view>
           </view>
         </view>
-        <view class="between" style="flex:3">
+        <view catchtap="go" class="between" style="flex:3" data-wpygo-a="individualPage">
           <text style="font-size:15px;opacity:0.6;">个人主页</text>
           <image src="../assets/img/right-arrow.png" style="width:30px; height:30px;"/>
         </view>
@@ -26,32 +31,55 @@
 
     <view style="width: {{screenWidth}}px;">
 
-      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);justify-content:space-between;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="questions">
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);justify-content:space-between;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="myTM">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/question.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
           <text style="font-size:20px;">我的状态</text>
         </view>
         <view class="center" style="flex:1;margin-right:20px;font-size:30px;color:#6fe0e7;justify-content:flex-end;width:100px;">
-          <text>{{info.questions.length || 0}}</text>
+          <text>{{myData.postsNum || 0}}</text>
         </view>
       </view>
 
-      <view catchtap="go" class="center" style="justify-content:space-between;border-bottom:1px solid rgb(232,232,232);background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="answers">
+      <view catchtap="go" class="center" style="justify-content:space-between;border-bottom:1px solid rgb(232,232,232);background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="commentsPage">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/answer.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
           <text style="font-size:20px;">我的评论</text>
         </view>
         <view class="center" style="flex:1;margin-right:20px;font-size:30px;color:#6fe0e7;justify-content:flex-end;width:100px;">
-          <text>{{info.answers.length || 0}}</text>
+          <text>{{myData.commentsNum || 0}}</text>
         </view>
       </view>
 
-      <view catchtap="about" class="center" style="border-bottom:1px solid rgb(232,232,232);background-color:white; padding: 10px;" data-wpyabout-a="">
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="myTM">
+        <view class="center" style="flex:3;justify-content:flex-start;">
+          <image src="../assets/img/like-fill.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
+          <text style="font-size:20px;">点赞心情</text>
+        </view>
+        <view class="center" style="flex:1;margin-right:20px;font-size:30px;color:#6fe0e7;justify-content:flex-end;width:100px;">
+          <text>{{myData.likes.length || 0}}</text>
+        </view>
+      </view>
+
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="commentsPage">
+        <view class="center" style="flex:3;justify-content:flex-start;">
+          <image src="../assets/img/like-fill.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
+          <text style="font-size:20px;">点赞评论</text>
+        </view>
+        <view class="center" style="flex:1;margin-right:20px;font-size:30px;color:#6fe0e7;justify-content:flex-end;width:100px;">
+          <text>{{myData.likes.length || 0}}</text>
+        </view>
+      </view>
+
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);background-color:white; padding: 10px;" data-wpygo-a="aboutPage">
         <text style="font-size:20px;">关于我们</text>
       </view>
 
-      <view class="center" style="position:absolute; bottom:0;width:100%;">
+      <view class="center" style="position:absolute; bottom:20px;width:100%;">
         <text style="font-size:10px;opacity:0.5;">v1.01</text>
+      </view>
+      <view class="center" style="position:absolute; bottom:0;width:100%;">
+        <text style="font-size:10px;opacity:0.5;">泽铭提供技术支持</text>
       </view>
     </view>
   </view>

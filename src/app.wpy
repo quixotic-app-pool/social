@@ -31,16 +31,21 @@ import api from './api/api'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/minePage',
       'pages/mainPage',
       'pages/activityPage',
       // 'pages/newActivity',
       'pages/heldActivity',
       'pages/timelinePage',
+      'pages/myTM',
       'pages/editPage',
-      // 'pages/minePage',
+      'pages/minePage',
       'pages/individualPage',
-      'pages/itemEditPage'
+      'pages/itemEditPage',
+      'pages/aboutPage',
+      'pages/commentsPage',
+      'pages/notificationPage',
+      'pages/detailPage',
+      'pages/listPage'
     ],
     tabBar: {
       color: '#828282',
@@ -54,16 +59,16 @@ export default class extends wepy.app {
         "selectedIconPath": "assets/img/tab-list-fill.png"
       },
       {
-        "pagePath": "pages/activityPage",
-        "text": "线下",
-        "iconPath": "assets/img/tab-event-empty.png",
-        "selectedIconPath": "assets/img/tab-event-fill.png"
-      },
-      {
         "pagePath": "pages/timelinePage",
         "text": "心情",
         "iconPath": "assets/img/tab-timeline-empty.png",
         "selectedIconPath": "assets/img/tab-timeline-fill.png"
+      },
+      {
+        "pagePath": "pages/activityPage",
+        "text": "线下",
+        "iconPath": "assets/img/tab-event-empty.png",
+        "selectedIconPath": "assets/img/tab-event-fill.png"
       },
       {
         "pagePath": "pages/minePage",
@@ -75,7 +80,6 @@ export default class extends wepy.app {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#CE452F',
-      navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'white'
     }
   }

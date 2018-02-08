@@ -9,7 +9,7 @@
       </view>
     </view>
     <view style="width: {{screenWidth}}px; position:relative;top:50px; ">
-      <block wx:for="{{data1}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+      <block wx:for="{{myData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
        <view catchtap="goDetail" style="border-radius: 3px; margin:2%; width:96%;box-shadow: 1px 1px 10px silver;">
          <view style="height: 250px;">
            <image style="width:96%; position:absolute;" src="{{item.imgUrl}}"/>
@@ -25,7 +25,7 @@
            </view>
            <view style="display:flex; justify-content:flex-start; align-items:center;">
              <image src="../assets/img/tab-event-fill.png" style="padding:0 5px; width:20px; height:20px;"/>
-             <text>春熙路14号大街</text>
+             <text>{{item.address}}</text>
            </view>
          </view>
        </view>

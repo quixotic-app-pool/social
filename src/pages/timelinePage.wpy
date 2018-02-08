@@ -39,6 +39,10 @@
 <template>
   <view class="container bg1">
 
+    <view @tap.stop="go('notificationPage')" wx:if="{{notifNum > 0}}" class="center" style="opacity:0.5;z-index:10;height:40px; width:40px; position: fixed; right: 10px; top: 10px;background-color:red; border-radius:100%;">
+      <text style="color:white;">66</text>
+    </view>
+
     <view @tap.stop="editStatus" class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:60px;width:60px;border-radius:100%;position:fixed;right:10px;bottom:20px;" catchlongpress="longpress">
       <image src="../assets/img/plus2.png" style="width:30px;height:30px;"></image>
     </view>
@@ -138,54 +142,59 @@
 
     <!-- 个人发文 -->
     <repeat
-     for="{{['', '']}}"
+     for="{{listData}}"
      item= "item"
      index= "index"
      key= "index">
      <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;">
-       <view style="display: flex;">
+       <view @tap.stop="go('individualPage')"  style="display: flex;">
          <view style="flex:2;">
            <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
          </view>
          <view style="flex:8;">
            <view class="center" style="justify-content:flex-start;">
-             <text>谭马儒</text>
+             <text>{{item.nickName}}</text>
              <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
              <!-- <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
                <text style="color:white;font-size:12px;">Lv5</text>
              </view> -->
            </view>
            <view style="font-size:12px;opacity:0.6;">
-             昨日 23：27
+             {{item.createdAt}}
            </view>
          </view>
-         <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+         <view @tap.stop="moreOption">
+           <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+         </view>
        </view>
-       <view>
-         <!-- <text style="color:rgb(95,112,139)">#主题跳转#</text> -->
-         <text>想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额</text>
+       <view @tap.stop="go('detailPage')">
+         <view>
+           <!-- <text style="color:rgb(95,112,139)">#主题跳转#</text> -->
+         <text>{{item.msg}}</text>
+         </view>
+         <view style="padding:10px 0;">
+           <repeat
+            for="{{item.imgUrls}}"
+            item= "subItem"
+            index= "index"
+            key= "index">
+            <image src="{{subItem}}" mode="aspectFill" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
+           </repeat>
+         </view>
        </view>
-       <view style="padding:10px 0;">
-         <repeat
-          for="{{imgUrls1}}"
-          item= "item"
-          index= "index"
-          key= "index">
-          <image src="{{item}}" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
-         </repeat>
-       </view>
+
        <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
          <view class="center" style="padding: 10px 0;">
            <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
            <text style="font-size:15px; opacity:0.6;">转发</text>
          </view>
-         <view class="center" style="padding: 10px 0;">
+         <view @tap.stop="go('detailPage')" class="center" style="padding: 10px 0;">
            <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
-           <text style="font-size:15px; opacity:0.6;">1992</text>
+           <text style="font-size:15px; opacity:0.6;">{{item.commentsNum}}</text>
          </view>
          <view class="center" style="padding: 10px 0;">
            <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
-           <text style="font-size:15px; opacity:0.6;">221</text>
+           <text style="font-size:15px; opacity:0.6;">{{item.likesNum}}</text>
          </view>
        </view>
      </view>
@@ -199,22 +208,60 @@
   export default class Index extends wepy.page {
     config = {
       navigationBarBackgroundColor: '#20BEEC',
-      navigationBarTitleText: '相交于文字',
+      navigationBarTitleText: '相知于文字',
       backgroundColor: 'rgb(232,232,232)'
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      imgUrls1: ['../assets/img/bg.jpg', '../assets/img/bg.jpg', '../assets/img/bg.jpg', '../assets/img/bg.jpg', '../assets/img/bg.jpg', '../assets/img/bg.jpg', '../assets/img/bg.jpg', '../assets/img/bg.jpg'],
-      imgUrls2: [{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}],
-      data1: [{imgUrl: '../assets/img/school.png', title: '#校园浪漫#'}, {imgUrl: '../assets/img/food.png', title: '#成都美食#'}, {imgUrl: '../assets/img/fire.png', title: '#燃烧青春#'}],
-      data2: [{imgUrl: '../assets/img/school.png', title: '#单身狗的日常#'}, {imgUrl: '../assets/img/food.png', title: '#我这么美为什么单身#'}, {imgUrl: '../assets/img/school.png', title: '#一起来运动#'}, {imgUrl: '../assets/img/school.png', title: '#我是学霸我怕谁#'}, {imgUrl: '../assets/img/fire.png', title: '#条骚市场#'}]
+      listData: [],
+      notifNum: 0
+      // imgUrls2: [{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}],
+      // data1: [{imgUrl: '../assets/img/school.png', title: '#校园浪漫#'}, {imgUrl: '../assets/img/food.png', title: '#成都美食#'}, {imgUrl: '../assets/img/fire.png', title: '#燃烧青春#'}],
+      // data2: [{imgUrl: '../assets/img/school.png', title: '#单身狗的日常#'}, {imgUrl: '../assets/img/food.png', title: '#我这么美为什么单身#'}, {imgUrl: '../assets/img/school.png', title: '#一起来运动#'}, {imgUrl: '../assets/img/school.png', title: '#我是学霸我怕谁#'}, {imgUrl: '../assets/img/fire.png', title: '#条骚市场#'}]
     }
+    async onLoad () {
+      await this.loadData()
+    }
+    async loadData () {
+      // TODO: load data
+      this.listData = [
+        {
+          nickName: '谭马儒',
+          createdAt: '昨日 23：27',
+          msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+          imgUrls: ['../assets/img/5.jpg', '../assets/img/4.jpg', '../assets/img/3.jpeg', '../assets/img/2.jpeg', '../assets/img/1.jpeg', '../assets/img/5.jpg', '../assets/img/5.jpg', '../assets/img/4.jpg'],
+          commentsNum: 12,
+          likesNum: 32
+        },
+        {
+          nickName: '谭马儒',
+          createdAt: '昨日 23：27',
+          msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+          imgUrls: ['../assets/img/4.jpg', '../assets/img/5.jpg', '../assets/img/3.jpeg', '../assets/img/2.jpeg', '../assets/img/1.jpeg', '../assets/img/5.jpg', '../assets/img/5.jpg', '../assets/img/4.jpg'],
+          commentsNum: 12,
+          likesNum: 32
+        }
+      ]
 
+      this.notifNum = 66
+    }
     methods = {
+      moreOption () {
+        wepy.showActionSheet({
+          itemList: ['取消关注', '举报']
+        }).then(function(res){
+          console.log(res)
+        })
+      },
       editStatus () {
         wepy.navigateTo({
           url: 'editPage'
+        })
+      },
+      go(page) {
+        wepy.navigateTo({
+          url: page
         })
       }
     }

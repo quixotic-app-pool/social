@@ -1,0 +1,123 @@
+<template>
+  <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <repeat
+     for="{{dataList}}"
+     item= "item"
+     index= "index"
+     key= "index"
+     style="width:100%;"
+    >
+    <view @tap.stop="go('detailPage')" class="center {{item.unRead ? 'unread' : ''}}" style="box-sizing:border-box;border-bottom:1px solid rgb(236,236,236); min-height:70px;width: {{screenWidth}}px;padding: 5px 10px;">
+      <view style="flex:1;">
+        <image src="{{item.from_user.avatarUrl}}" style="width:30px; height:30px; border-radius:100%;"/>
+      </view>
+      <view style="flex:6;">
+        <view wx:if="{{item.type == 'comment'}}" style="font-size:15px;">
+          <text style="font-weight:bold;">{{item.from_user.nickName}}</text>
+          <text> 评论了 </text>
+        </view>
+
+        <view wx:if="{{item.type == 'like'}}" style="font-size:15px;">
+          <text style="font-weight:bold;">{{item.from_user.nickName}}</text>
+          <text> 对你的状态点赞 </text>
+        </view>
+
+        <view>
+          <view style="font-size: 15px;">
+            <text style="font-weight:bold;">{{item.post.value}}</text>
+          </view>
+        </view>
+        <view class="center" style="justify-content:space-between;">
+          <image wx:if="{{item.type == 'comment'}}" src="../assets/img/answer.png" style="width:20px; height:20px; border-radius:5px;"/>
+          <image wx:if="{{item.type == 'like'}}" src="../assets/img/like-fill.png" style="width:20px; height:20px; border-radius:5px;"/>
+          <text style="font-size:12px; opacity:0.7;">{{item.createdAt}}</text>
+        </view>
+      </view>
+    </view>
+    </repeat>
+ </scroll-view>
+</template>
+<script>
+import wepy from 'wepy'
+import api from './../api/api'
+import util from '../utils/util'
+
+export default class TestPage extends wepy.page {
+  config = {
+    navigationBarTitleText: '新消息',
+    backgroundColor: '#6fe0e7',
+    navigationBarBackgroundColor: '#6fe0e7',
+    navigationBarTextStyle: 'white',
+    enablePullDownRefresh: true
+  }
+  data = {
+    screenWidth: wepy.getSystemInfoSync().windowWidth,
+    screenHeight: wepy.getSystemInfoSync().windowHeight,
+    dataList: [],
+    currentPage: -1,
+    user_id: ''
+  }
+  async onLoad (option) {
+    // wepy.setNavigationBarTitle({title: option.topic})
+    this.user_id = wepy.getStorageSync('UserId')
+    //load notification list
+    await this.loadData()
+  }
+ async loadData () {
+   // TODO: load data
+   this.dataList = [
+     {
+      from_user: {
+        nickName: '扎西德勒',
+        avatarUrl: '../assets/img/boy.jpeg'
+      },
+      type: 'comment',
+      post: {value: '标题标题是啥？'},
+      unRead: true,
+      createdAt: '两分钟前'
+    },
+    {
+     from_user: {
+       nickName: '小叮当',
+       avatarUrl: '../assets/img/boy.jpeg'
+     },
+     type: 'like',
+     post: {value: '标题标题是啥？'},
+     unRead: true,
+     createdAt: '两分钟前'
+   },
+   {
+    from_user: {
+      nickName: '小叮当',
+      avatarUrl: '../assets/img/boy.jpeg'
+    },
+    type: 'comment',
+    post: {value: '标题标题是啥？'},
+    unRead: true,
+    createdAt: '两分钟前'
+  }
+   ]
+ }
+ async lower () {
+   await this.loadData()
+ }
+ async upper () {
+ }
+  methods = {
+    go (page) {
+      wepy.navigateTo({url: page})
+    }
+  }
+}
+</script>
+
+<style lang="less">
+.unread {
+  background-color: gold;
+}
+.center {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+</style>

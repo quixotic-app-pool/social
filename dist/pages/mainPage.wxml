@@ -16,13 +16,13 @@
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex;align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">
                 <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
-                <text style="padding-left:2px;color:rgb(252, 121, 153);">25</text>
-                <text style="padding-left:4px;">165cm</text>
-                <text style="padding-left:4px;">45kg</text>
+                <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
+                <text style="padding-left:4px;">{{item.h}}cm</text>
+                <text style="padding-left:4px;">{{item.weight}}kg</text>
               </view>
-              <text style="color:rgb(250, 159, 78);padding-right:10px;">硕士及以上</text>
-              <text style="color:rgb(130, 95, 227);padding-right:10px;">事业单位</text>
-              <text>南京市***医院</text>
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
+              <text>{{item.company}}</text>
             </view>
             <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
               <view class="center">
@@ -42,13 +42,13 @@
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex; align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">
                 <image src="../assets/img/male.png" style="width:10px; height:10px;"/>
-                <text style="padding-left:2px;color:rgb(252, 121, 153);">27</text>
-                <text style="padding-left:4px;">165cm</text>
-                <text style="padding-left:4px;">45kg</text>
+                <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
+                <text style="padding-left:4px;">{{item.h}}cm</text>
+                <text style="padding-left:4px;">{{item.weight}}kg</text>
               </view>
-              <text style="color:rgb(250, 159, 78);padding-right:10px;">本科</text>
-              <text style="color:rgb(130, 95, 227);padding-right:10px;">外资企业</text>
-              <text>江苏省国际***进出口有限责任公司</text>
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
+              <text>{{item.company}}</text>
             </view>
             <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
               <view class="center">

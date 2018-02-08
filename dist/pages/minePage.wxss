@@ -1,1 +1,1 @@
-.bg2{background-image:linear-gradient(90deg, white, #37c5f7)}.center{display:flex;justify-content:center;align-items:center}
+.bg2{border-bottom:1px solid #e8e8e8}.center{display:flex;justify-content:center;align-items:center}

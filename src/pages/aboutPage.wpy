@@ -1,0 +1,32 @@
+<style lang="less">
+</style>
+<template>
+  <view class="container">
+    <view style="padding:10px;text-align:justify;">
+      <view class="center" style="width:100%;">
+        <image src="../assets/img/circle.png" style="width:{{screenWidth/2}}px;height:{{screenWidth/2}}px;"/>
+      </view>
+      <view style="padding: 20px;text-align:justify;">
+        <text style="opacity:0.8;">致力于打造南京同城最现代化最活跃的线下线上本硕博海归同城单身相亲平台，欢迎您的参与。</text>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '关于我们',
+      navigationBarBackgroundColor: '#ffffff'
+    }
+    data = {
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight
+    }
+
+    methods = {
+    }
+  }
+</script>

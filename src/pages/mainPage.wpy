@@ -37,13 +37,13 @@
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex;align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">
                 <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
-                <text style="padding-left:2px;color:rgb(252, 121, 153);">25</text>
-                <text style="padding-left:4px;">165cm</text>
-                <text style="padding-left:4px;">45kg</text>
+                <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
+                <text style="padding-left:4px;">{{item.h}}cm</text>
+                <text style="padding-left:4px;">{{item.weight}}kg</text>
               </view>
-              <text style="color:rgb(250, 159, 78);padding-right:10px;">硕士及以上</text>
-              <text style="color:rgb(130, 95, 227);padding-right:10px;">事业单位</text>
-              <text>南京市***医院</text>
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
+              <text>{{item.company}}</text>
             </view>
             <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
               <view class="center">
@@ -63,13 +63,13 @@
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex; align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">
                 <image src="../assets/img/male.png" style="width:10px; height:10px;"/>
-                <text style="padding-left:2px;color:rgb(252, 121, 153);">27</text>
-                <text style="padding-left:4px;">165cm</text>
-                <text style="padding-left:4px;">45kg</text>
+                <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
+                <text style="padding-left:4px;">{{item.h}}cm</text>
+                <text style="padding-left:4px;">{{item.weight}}kg</text>
               </view>
-              <text style="color:rgb(250, 159, 78);padding-right:10px;">本科</text>
-              <text style="color:rgb(130, 95, 227);padding-right:10px;">外资企业</text>
-              <text>江苏省国际***进出口有限责任公司</text>
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
+              <text>{{item.company}}</text>
             </view>
             <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
               <view class="center">
@@ -116,57 +116,60 @@
       this.loadImages()
      }
      onImageLoad (e) {
-         let imageId = e.currentTarget.id;
-         let oImgW = e.detail.width;         //图片原始宽度
-         let oImgH = e.detail.height;        //图片原始高度
-         let imgWidth = this.data.imgWidth;  //图片设置的宽度
-         let scale = imgWidth / oImgW;        //比例计算
-         let imgHeight = oImgH * scale;      //自适应高度
+       let imageId = e.currentTarget.id;
+       let oImgW = e.detail.width;         //图片原始宽度
+       let oImgH = e.detail.height;        //图片原始高度
+       let imgWidth = this.data.imgWidth;  //图片设置的宽度
+      //  console.log('this.data : ' + JSON.stringify(this.data))
+       let scale = imgWidth / oImgW;        //比例计算
+       let imgHeight = oImgH * scale;      //自适应高度
 
-         let images = this.data.images;
-         let imageObj = null;
+       let images = this.data.images;
+       let imageObj = null;
 
-         for (let i = 0; i < images.length; i++) {
-             let img = images[i];
-             if (img.id === imageId) {
-                 imageObj = img;
-                 break;
-             }
-         }
+       for (let i = 0; i < images.length; i++) {
+           let img = images[i];
+           if (img.id === imageId) {
+               imageObj = img;
+               break;
+           }
+       }
 
-         imageObj.height = imgHeight;
+       imageObj.height = imgHeight;
 
-         let loadingCount = this.data.loadingCount - 1;
-         let col1 = this.data.col1;
-         let col2 = this.data.col2;
+       let loadingCount = this.data.loadingCount - 1;
+       let col1 = this.data.col1;
+       let col2 = this.data.col2;
 
-         if (col1H <= col2H) {
-             col1H += imgHeight;
-             col1.push(imageObj);
-         } else {
-             col2H += imgHeight;
-             col2.push(imageObj);
-         }
+       if (col1H <= col2H) {
+           col1H += imgHeight;
+           col1.push(imageObj);
+       } else {
+           col2H += imgHeight;
+           col2.push(imageObj);
+       }
 
-         let data = {
-             loadingCount: loadingCount,
-             col1: col1,
-             col2: col2
-         };
+       let data = {
+           loadingCount: loadingCount,
+           col1: col1,
+           col2: col2
+       };
 
-         if (!loadingCount) {
-             data.images = [];
-         }
+       if (!loadingCount) {
+           data.images = [];
+       }
 
-         this.setData(data);
+       this.setData(data);
      }
      loadImages () {
+       // TODO: here we gonna load data
+      //  {pic: "../assets/img/1.jpeg", height: 0, gender: 'female', height: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市鼓楼医院'}
        let images = [
-           { pic: "../assets/img/1.jpeg", height: 0 },
-           { pic: "../assets/img/2.jpeg", height: 0 },
-           { pic: "../assets/img/3.jpeg", height: 0 },
-           { pic: "../assets/img/4.jpg", height: 0 },
-           { pic: "../assets/img/5.jpg", height: 0 }
+         {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '164', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/5.jpg", height: 0, age:'25', gender: 'female', h: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
        ];
 
        let baseId = "img-" + (+new Date());

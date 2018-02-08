@@ -7,64 +7,105 @@
         {{editMode ? '保存': '编辑'}}
       </view>
     </view>
-    <swiper wx:if="{{!editMode}}" style="width: {{screenWidth}}px; height: {{screenWidth}}px;" indicator-dots="true"
+    <swiper wx:if="{{!editMode}}" style="width: 100%; height: {{screenWidth}}px;" indicator-dots="true"
       autoplay="false" interval="5000" duration="1000">
       <repeat
-       for="{{imgUrls}}"
+       for="{{myData.imgUrls}}"
        item= "item"
        index= "index"
        key= "index">
         <swiper-item>
-          <image style="width: {{screenWidth}}px; height: {{screenWidth}}px;" src="{{item}}" class="slide-image"/>
+          <image @tap.stop="previewImage({{ item }}, {{ myData.imgUrls }})" style="width: 100%; height: {{screenWidth}}px;" src="{{item}}" class="slide-image"/>
         </swiper-item>
       </repeat>
     </swiper>
-    <view wx:if="{{editMode}}" style="width: {{screenWidth}}px; height: {{screenWidth}}px;">
+    <view wx:if="{{editMode}}" style="width: 100%; height: {{screenWidth}}px;">
       <view style="display:flex;flex-wrap:wrap;">
-        <view class="center" style="border-right:1px solid white;border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*2/3 - 1}}px; height: {{screenWidth*2/3 - 1}}px">
-          <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+        <view @tap.stop="chooseImage" class="center" style="border-right:1px solid white;border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*2/3 - 1}}px; height: {{screenWidth*2/3 - 1}}px">
+          <image wx:if="{{!tempImgUrls[0]}}" src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          <image
+            wx:else
+            @tap.stop="previewImage({{ tempImgUrls[0] }}, {{ tempImgUrls }})"
+            src="{{tempImgUrls[0]}}"
+            mode="aspectFill"
+            style="width:100%;height:100%;">
+          </image>
         </view>
 
         <view style="display:flex; flex-direction:column;">
-          <view class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 - 1}}px">
-            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          <view @tap.stop="chooseImage" class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 - 1}}px">
+            <image wx:if="{{!tempImgUrls[1]}}" src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+            <image
+              wx:else
+              @tap.stop="previewImage({{ tempImgUrls[1] }}, {{ tempImgUrls }})"
+              src="{{tempImgUrls[1]}}"
+              mode="aspectFill"
+              style="width:100%;height:100%;">
+            </image>
           </view>
-          <view class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 -1 }}px">
-            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          <view @tap.stop="chooseImage" class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 -1 }}px">
+            <image wx:if="{{!tempImgUrls[2]}}" src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+            <image
+              wx:else
+              @tap.stop="previewImage({{ tempImgUrls[2] }}, {{ tempImgUrls }})"
+              src="{{tempImgUrls[2]}}"
+              mode="aspectFill"
+              style="width:100%;height:100%;">
+            </image>
           </view>
         </view>
 
         <view class="center">
-          <view class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 - 1}}px">
-            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          <view @tap.stop="chooseImage" class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 - 1}}px">
+            <image wx:if="{{!tempImgUrls[3]}}" src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+            <image
+              wx:else
+              @tap.stop="previewImage({{ tempImgUrls[3] }}, {{ tempImgUrls }})"
+              src="{{tempImgUrls[3]}}"
+              mode="aspectFill"
+              style="width:100%;height:100%;">
+            </image>
           </view>
-          <view class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
-            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          <view @tap.stop="chooseImage" class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
+            <image wx:if="{{!tempImgUrls[4]}}" src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+            <image
+              wx:else
+              @tap.stop="previewImage({{ tempImgUrls[4] }}, {{ tempImgUrls }})"
+              src="{{tempImgUrls[4]}}"
+              mode="aspectFill"
+              style="width:100%;height:100%;">
+            </image>
           </view>
-          <view class="center" style="background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
-            <image src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+          <view @tap.stop="chooseImage" class="center" style="background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
+            <image wx:if="{{!tempImgUrls[5]}}" src='../assets/img/choose-image2.png' style="width:40px; height:40px;" />
+            <image
+              wx:else
+              @tap.stop="previewImage({{ tempImgUrls[5] }}, {{ tempImgUrls }})"
+              src="{{tempImgUrls[5]}}"
+              mode="aspectFill"
+              style="width:100%;height:100%;">
+            </image>
           </view>
         </view>
       </view>
-      <!-- <image src='../assets/img/choose-image.png' style="width:{{screenWidth*2/3}}px; height: {{screenWidth*2/3}}px"/> -->
     </view>
 
-    <view wx:if="{{!editMode}}" style="width: {{screenWidth}}px;">
+    <view wx:if="{{!editMode}}" style="width: 100%;">
       <view style="padding: 10px;">
-        <view style="color:rgb(193,89,76)">王小猴</view>
+        <view style="color:rgb(193,89,76)">{{myData.nichName}}</view>
         <view style="display: flex;font-size:15px;">
           <view class="between" style="padding:0 2px; border-radius:4px; width:30px; background-color: rgb(242,195,245)">
             <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
-            <text style="color:white;">25</text>
+            <text style="color:white;">{{myData.age}}</text>
           </view>
           <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
-            <text style="font-size:12px; color:white;">165cm</text>
+            <text style="font-size:12px; color:white;">{{myData.h}}cm</text>
           </view>
           <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
-            <text style="font-size:12px; color:white;">45kg</text>
+            <text style="font-size:12px; color:white;">{{myData.weight}}kg</text>
           </view>
           <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
-            <text style="font-size:12px; color:white;">天蝎座</text>
+            <text style="font-size:12px; color:white;">{{myData.xingZuo}}</text>
           </view>
         </view>
         <view style="padding: 6px 0; opacity:0.6; font-size:12px;">
@@ -73,29 +114,29 @@
       </view>
     </view>
 
-    <view wx:if="{{editMode}}"  @tap.stop="goEdit('person')" style="width: {{screenWidth}}px;">
+    <view wx:if="{{editMode}}"  @tap.stop="goEdit('person')" style="width: 100%;">
       <view class="between" style="padding: 10px;">
         <view class="center" style="justify-content:flex-start;">
-          <text>王小猴,</text>
-          <text style="padding:0 5px;">25,</text>
-          <text style="padding:0 5px;">165cm,</text>
-          <text style="padding:0 5px;">45kg,</text>
+          <text>{{myData.nichName}},</text>
+          <text style="padding:0 5px;">{{myData.age}},</text>
+          <text style="padding:0 5px;">{{myData.height}}cm,</text>
+          <text style="padding:0 5px;">{{myData.weight}}kg,</text>
           <image src="../assets/img/female.png" style="width:20px; height:20px;"/>
         </view>
         <image src="../assets/img/right-arrow.png" style="opacity:0.5; width:20px; height:20px;"/>
       </view>
     </view>
 
-    <view wx:if="{{!editMode}}" style="width: {{screenWidth}}px;border-top:1px solid rgb(232,232,232);border-bottom:1px solid rgb(232,232,232);">
+    <view @tap.stop="go('myTM')" wx:if="{{!editMode}}" style="width: 100%;border-top:1px solid rgb(232,232,232);border-bottom:1px solid rgb(232,232,232);">
       <view class="between" style="padding: 10px;">
         <view class="center">
           <image src="../assets/img/album.png" style="width:30px; height:30px;"/>
-          <view style="padding-left:5px; font-size:15px; opacity:0.8;">个人相册</view>
+          <view style="padding-left:5px; font-size:15px; opacity:0.8;">个人状态</view>
         </view>
         <view class="center">
           <view class="center">
             <repeat
-             for="{{imgUrls}}"
+             for="{{myData.timeline_imgUrls}}"
              item= "item"
              index= "index"
              key= "index">
@@ -107,13 +148,13 @@
       </view>
     </view>
 
-    <view style="width: {{screenWidth}}px;">
+    <view style="width: 100%;">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的信息</text>
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);">
         <repeat
-         for="{{myInfo}}"
+         for="{{myData.myInfo}}"
          item= "item"
          index= "index"
          key= "index">
@@ -130,7 +171,7 @@
       </view>
     </view>
 
-    <view style="width: {{screenWidth}}px;">
+    <view style="width: 100%;">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的标签</text>
       </view>
@@ -140,7 +181,7 @@
         </view>
         <view style="flex: 7; display: flex;flex-wrap:wrap;padding-right:10px;">
           <repeat
-           for="{{myTags}}"
+           for="{{myData.myTags}}"
            item= "item"
            index= "index"
            key= "index">
@@ -155,7 +196,7 @@
       </view>
     </view>
 
-    <view style="width: {{screenWidth}}px;border:1px solid rgb(232,232,232)">
+    <view style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的兴趣</text>
       </view>
@@ -167,7 +208,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myInterest1}}"
+               for="{{myData.sports}}"
                item= "item"
                index= "index"
                key= "index">
@@ -190,7 +231,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myInterest2}}"
+               for="{{myData.music}}"
                item= "item"
                index= "index"
                key= "index">
@@ -214,7 +255,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myInterest3}}"
+               for="{{myData.food}}"
                item= "item"
                index= "index"
                key= "index">
@@ -238,7 +279,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myInterest4}}"
+               for="{{myData.myInterest4}}"
                item= "item"
                index= "index"
                key= "index">
@@ -262,7 +303,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myInterest5}}"
+               for="{{myData.myInterest5}}"
                item= "item"
                index= "index"
                key= "index">
@@ -286,7 +327,7 @@
           <view class="between" style="flex: 7;">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myInterest6}}"
+               for="{{myData.place}}"
                item= "item"
                index= "index"
                key= "index">
@@ -303,13 +344,13 @@
       </view>
     </view>
 
-    <view style="width: {{screenWidth}}px; margin-bottom:30px;">
+    <view style="width: 100%; margin-bottom:30px;">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的问答</text>
       </view>
       <view style="box-sizing:border-box;padding:0 10px;width:100%;">
         <repeat
-         for="{{myAns}}"
+         for="{{myData.myAns}}"
          item= "item"
          index= "index"
          key= "index">
@@ -351,29 +392,69 @@
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: 'Intro'
+      navigationBarTitleText: '王小虎'
     }
     data = {
-      editMode: false,
-      imgUrls: [
-         'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
-         'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
-         'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
-       ],
+       editMode: false,
        screenWidth: wepy.getSystemInfoSync().windowWidth,
        screenHeight: wepy.getSystemInfoSync().windowHeight,
-       myInfo: [{'title': '星座', value: '天蝎座'}, {title: '行业', value: '旅游'}, {title: '工作领域', value: '策划'}, {title: '公司', value: '爱辉科技有限公司'}, {title: '来自', value: '江苏'}, {title: '经常出没', value: '春熙路'}, {title: '个人签名', value: '聪明是一种天赋，而善良是一种选择。'}],
-       myTags: ['女汉子', '喜欢简单', '靠谱', '安静', '选择恐惧症', '文艺', '厚道', '讲义气', '随性'],
-       myInterest1: ['篮球', '健身房', '舞蹈', '台球', '射箭', '睡觉'],
-       myInterest2: ['刘德华', '五百', '80年代经典'],
-       myInterest3: ['牛排', '火锅', '美食'],
-       myInterest4: ['我的少女时代', '喜剧之王', '倩女幽魂', '背景遇上西雅图', '机械师', '剪刀手爱德华', '傲慢与偏见'],
-       myInterest5: ['殷桃小丸子', '琼瑶', '灌篮高手'],
-       myInterest6: ['北海', '泰国', '大理', '九寨沟', '成都', '丽江', '香格里拉', '普吉岛', '越南'],
-       myAns: [{title: '如果能有一种超能力，要什么？', value: '时光能倒流'}, {title: '如果有钱有时间，最想去做什么？', value: '环游世界'}, {title: '什么样的异性最让你心动？', value: '帅 颜值高 绅士 人品好个子高'}, {title: '如果女朋友/男朋友生气了，怎么哄？', value: '一直说开心的事情，如果还在生气就一直哄'}, {title: '可以接受的约会有哪些？', value: '电影 吃饭 篮球'}]
+       myData: {},
+       tempImgUrls: [
+         'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
+         'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
+         'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg',
+         'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg'
+       ]
     }
-
+    async onLoad () {
+      // TODO: loading data
+      await this.loadData()
+    }
+    async loadData() {
+        this.myData = {
+          gender: 'female',
+          age: '25',
+          xingZuo: '双鱼座',
+          nichName: '王小虎',
+          h: '165',
+          weight: '45',
+          imgUrls: [
+             'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
+             'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
+             'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
+           ],
+           timeline_imgUrls: [
+              'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
+              'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
+              'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
+           ],
+           myInfo: [{'title': '星座', value: '天蝎座'}, {title: '行业', value: '旅游'}, {title: '工作领域', value: '策划'}, {title: '公司', value: '爱辉科技有限公司'}, {title: '来自', value: '江苏'}, {title: '经常出没', value: '春熙路'}, {title: '个人签名', value: '聪明是一种天赋，而善良是一种选择。'}],
+           myTags: ['女汉子', '喜欢简单', '靠谱', '安静', '选择恐惧症', '文艺', '厚道', '讲义气', '随性'],
+           sports: ['篮球', '健身房', '舞蹈', '台球', '射箭', '睡觉'],
+           music: ['刘德华', '五百', '80年代经典'],
+           food: ['牛排', '火锅', '美食'],
+           tv: ['我的少女时代', '喜剧之王', '倩女幽魂', '背景遇上西雅图', '机械师', '剪刀手爱德华', '傲慢与偏见'],
+           book: ['殷桃小丸子', '琼瑶', '灌篮高手'],
+           place: ['北海', '泰国', '大理', '九寨沟', '成都', '丽江', '香格里拉', '普吉岛', '越南'],
+           myAns: [{title: '如果能有一种超能力，要什么？', value: '时光能倒流'}, {title: '如果有钱有时间，最想去做什么？', value: '环游世界'}, {title: '什么样的异性最让你心动？', value: '帅 颜值高 绅士 人品好个子高'}, {title: '如果女朋友/男朋友生气了，怎么哄？', value: '一直说开心的事情，如果还在生气就一直哄'}, {title: '可以接受的约会有哪些？', value: '电影 吃饭 篮球'}]
+        }
+    }
     methods = {
+      async chooseImage () {
+        console.log('?');
+        const { tempFilePaths } = await wepy.chooseImage({
+          count: 6 - this.tempImgUrls.length,
+          sizeType: 'compressed'
+        })
+        this.tempImgUrls.push(...tempFilePaths)
+        this.$apply()
+      },
+      previewImage (cur, imageList) {
+        wepy.previewImage({
+          current: cur,
+          urls: imageList
+        })
+      },
       goEdit (index) {
         if(!this.editMode) {
           return
@@ -386,6 +467,11 @@
         // console.log('？？');
         this.editMode = !this.editMode
         this.$apply()
+      },
+      go (page) {
+        wepy.navigateTo({
+          url: page
+        })
       }
     }
   }

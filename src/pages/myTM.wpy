@@ -1,0 +1,141 @@
+<style lang="less">
+.bg1 {
+  background-image: linear-gradient(
+    90deg,
+    white, rgb(212,214,217)
+    );
+}
+
+.bg3 {
+  background-image: linear-gradient(
+    90deg,
+    rgb(254,239,231), white
+    );
+}
+.bg4 {
+  background-image: linear-gradient(
+    90deg,
+    rgb(255,251,236), white
+    );
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.bg-img {
+  // background-image: linear-gradient(
+  //   45deg,
+  //   rgba(56, 224, 245,0.8), rgba(32, 190, 236,0.8)
+  // );
+  background-image: radial-gradient(circle farthest-side at right, rgba(56, 224, 245,0.8), rgba(32, 190, 236,0.8));
+}
+</style>
+<template>
+  <view class="container bg1">
+    <!-- 个人发文 -->
+    <repeat
+     for="{{listData}}"
+     item= "item"
+     index= "index"
+     key= "index">
+     <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;">
+       <view style="display: flex;">
+         <view style="flex:2;">
+           <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
+         </view>
+         <view style="flex:8;">
+           <view class="center" style="justify-content:flex-start;">
+             <text>{{item.nickName}}</text>
+             <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
+             <!-- <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
+               <text style="color:white;font-size:12px;">Lv5</text>
+             </view> -->
+           </view>
+           <view style="font-size:12px;opacity:0.6;">
+             {{item.createdAt}}
+           </view>
+         </view>
+       </view>
+       <view>
+         <!-- <text style="color:rgb(95,112,139)">#主题跳转#</text> -->
+         <text>{{item.msg}}</text>
+       </view>
+       <view style="padding:10px 0;">
+         <repeat
+          for="{{item.imgUrls}}"
+          item= "subItem"
+          index= "index"
+          key= "index">
+          <image mode="aspectFill" src="{{subItem}}" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
+         </repeat>
+       </view>
+       <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
+         <view class="center" style="padding: 10px 0;">
+           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
+           <text style="font-size:15px; opacity:0.6;">转发</text>
+         </view>
+         <view class="center" style="padding: 10px 0;">
+           <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
+           <text style="font-size:15px; opacity:0.6;">{{item.commentsNum}}</text>
+         </view>
+         <view class="center" style="padding: 10px 0;">
+           <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
+           <text style="font-size:15px; opacity:0.6;">{{item.likesNum}}</text>
+         </view>
+       </view>
+     </view>
+    </repeat>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarBackgroundColor: '#20BEEC',
+      navigationBarTitleText: '个人状态',
+      backgroundColor: 'rgb(232,232,232)'
+    }
+    data = {
+      screenWidth: wepy.getSystemInfoSync().windowWidth,
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      listData: []
+      // imgUrls2: [{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}],
+      // data1: [{imgUrl: '../assets/img/school.png', title: '#校园浪漫#'}, {imgUrl: '../assets/img/food.png', title: '#成都美食#'}, {imgUrl: '../assets/img/fire.png', title: '#燃烧青春#'}],
+      // data2: [{imgUrl: '../assets/img/school.png', title: '#单身狗的日常#'}, {imgUrl: '../assets/img/food.png', title: '#我这么美为什么单身#'}, {imgUrl: '../assets/img/school.png', title: '#一起来运动#'}, {imgUrl: '../assets/img/school.png', title: '#我是学霸我怕谁#'}, {imgUrl: '../assets/img/fire.png', title: '#条骚市场#'}]
+    }
+    async onLoad () {
+      await this.loadData()
+    }
+    async loadData () {
+      // TODO: load data
+      this.listData = [
+        {
+          nickName: '谭马儒',
+          createdAt: '昨日 23：27',
+          msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+          imgUrls: ['../assets/img/1.jpeg', '../assets/img/2.jpeg', '../assets/img/3.jpeg', '../assets/img/4.jpg', '../assets/img/5.jpg'],
+          commentsNum: 12,
+          likesNum: 32
+        },
+        {
+          nickName: '谭马儒',
+          createdAt: '昨日 23：27',
+          msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+          imgUrls: ['../assets/img/1.jpeg', '../assets/img/2.jpeg', '../assets/img/3.jpeg', '../assets/img/4.jpg', '../assets/img/5.jpg', '../assets/img/1.jpeg', '../assets/img/2.jpeg', '../assets/img/3.jpeg'],
+          commentsNum: 12,
+          likesNum: 32
+        }
+      ]
+    }
+    methods = {
+    }
+  }
+</script>

@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: api.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-01-30T10:17:50+08:00
+ * @Last modified time: 2018-02-06T21:36:57+08:00
  */
  import {
    wxRequest
@@ -26,25 +26,25 @@
  const fetchNotificationNum = (params) => wxRequest(params, host + "/api/fetchnotificationnum");
  const fetchNotificationList = (params) => wxRequest(params, host + "/api/fetchnotificationlist");
  const updateNotification = (params) => wxRequest(params, host + "/api/updatenotification");
- const enOrDisableNotification = (params) => wxRequest(params, host + "/api/enordisablenotification");
 
- // Question
- // fetch, update by filter or not; like/featured/bookmark categorized ones
- const fetchQuestionList = (params) => wxRequest(params, host + "/api/fetchquestionlist");
- const fetchQuestion = (params) => wxRequest(params, host + "/api/fetchquestion");
- const postQuestion = (params) => wxRequest(params, host + "/api/postquestion");
- const editQuestion = (params) => wxRequest(params, host + "/api/editquestion");
- const featurecloseQuestion = (params) => wxRequest(params, host + "/api/featureclose");
- const delQuestion = (params) => wxRequest(params, host + "/api/delquestion");
+ const memberList = (params) => wxRequest(params, host + "/api/memberlist");
+ const member = (params) => wxRequest(params, host + "/api/member");
 
- const answer = (params) => wxRequest(params, host + "/api/answer");
+ const fetchPostList = (params) => wxRequest(params, host + "/api/fetchpostlist");
+ const fetchPost = (params) => wxRequest(params, host + "/api/fetchpost");
+ const newPost = (params) => wxRequest(params, host + "/api/newpost");
+ const delPost = (params) => wxRequest(params, host + "/api/delpost");
+
+ const activityList = (params) => wxRequest(params, host + "/api/activitylist");
+
+ const commentList = (params) => wxRequest(params, host + "/api/commentlist");
+ const comment = (params) => wxRequest(params, host + "/api/comment");
  const like = (params) => wxRequest(params, host + "/api/like");
- const bookmark = (params) => wxRequest(params, host + "/api/bookmark");
  const report = (params) => wxRequest(params, host + "/api/report");
 
  //user
+ const subscribe = (params) => wxRequest(params, host + "/api/subscribe");
  const userInfo = (params) => wxRequest(params, host + "/api/user");
-
  module.exports = {
    //wechatActivity
    wechatActivity,
@@ -52,18 +52,22 @@
    fetchNotificationNum,
    fetchNotificationList,
    updateNotification,
-   enOrDisableNotification,
-   //question
-   fetchQuestionList,
-   fetchQuestion,
-   postQuestion,
-   editQuestion,
-   featurecloseQuestion,
-   delQuestion,
-   answer,
+   //memberlist
+   memberList,
+   member,
+   //post
+   fetchPostList,
+   fetchPost,
+   newPost,
+   delPost,
+   //activity
+   activityList,
+   //comment
+   commentList,
+   comment,
    like,
-   bookmark,
    report,
-   //USER
-   userInfo
+   //user
+   userInfo,
+   subscribe
  }
