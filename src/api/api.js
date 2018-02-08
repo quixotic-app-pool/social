@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: api.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-02-06T21:36:57+08:00
+ * @Last modified time: 2018-02-08T15:37:31+08:00
  */
  import {
    wxRequest
@@ -45,6 +45,8 @@
  //user
  const subscribe = (params) => wxRequest(params, host + "/api/subscribe");
  const userInfo = (params) => wxRequest(params, host + "/api/user");
+
+ 
  module.exports = {
    //wechatActivity
    wechatActivity,

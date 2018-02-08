@@ -39,6 +39,9 @@
             <text>{{item.company}}</text>
           </view>
         </view>
+        <view @tap.stop="unsubscribe()" class="center">
+          <text style="font-size:12px; opacity: 0.8;">取消关注</text>
+        </view>
       </view>
     </scroll-view>
   </view>
@@ -73,6 +76,9 @@
     methods = {
       navigate () {
         wepy.navigateTo({url: 'individualPage'})
+      },
+      unsubscribe () {
+
       }
     }
   }

@@ -18,6 +18,9 @@
             <text>{{item.company}}</text>
           </view>
         </view>
+        <view catchtap="unsubscribe" class="center" data-wpyunsubscribe-a="">
+          <text style="font-size:12px; opacity: 0.8;">取消关注</text>
+        </view>
       </view>
     </scroll-view>
   </view>

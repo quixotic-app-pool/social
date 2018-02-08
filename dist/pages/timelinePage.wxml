@@ -104,7 +104,7 @@
 
     <!-- 个人发文 -->
     <block wx:for="{{listData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-     <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;">
+     <view style="margin-bottom:20px;width:{{screenWidth - 20}}px;padding:10px;background-color:white;padding-bottom:0;">
        <view catchtap="go" style="display: flex;" data-wpygo-a="individualPage">
          <view style="flex:2;">
            <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
@@ -137,11 +137,11 @@
          </view>
        </view>
 
-       <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
-         <view class="center" style="padding: 10px 0;">
+       <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232);">
+         <!-- <view class="center" style="padding: 10px 0;">
            <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
            <text style="font-size:15px; opacity:0.6;">转发</text>
-         </view>
+         </view> -->
          <view catchtap="go" class="center" style="padding: 10px 0;" data-wpygo-a="detailPage">
            <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
            <text style="font-size:15px; opacity:0.6;">{{item.commentsNum}}</text>

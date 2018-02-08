@@ -1,25 +1,31 @@
 
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <view>
-      <block wx:for="{{myComments}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-       <view style="padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
-         <view class="center" style="flex:1">
-           <image src="{{item.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%"/>
+    
+  <view>
+    <block wx:for="{{$commentsComponent$myComments}}" wx:for-index="$commentsComponent$index" wx:for-item="$commentsComponent$item" wx:key="$commentsComponent$index">
+     <view style="padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
+       <view class="center" style="flex:1">
+         <image src="{{$commentsComponent$item.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%"/>
+       </view>
+       <view class="center" style="flex-direction:column;align-items:flex-start; flex:4">
+         <view style="font-size:12px;opacity:0.8;padding-bottom:5px;">
+           <text>{{$commentsComponent$item.nickName}}</text>
+           <image src="{{$commentsComponent$item.gender == 'male' ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="padding:0 10px;width:10px; height:10px;"/>
+           <text>{{$commentsComponent$item.age}}</text>
+           <view>
+             <text>{{$commentsComponent$item.createdAt}}</text>
+           </view>
          </view>
-         <view class="center" style="flex-direction:column;align-items:flex-start; flex:4">
-           <view style="font-size:12px;opacity:0.8;padding-bottom:5px;">
-             <text>{{item.nickName}}</text>
-             <image src="{{item.gender == 'male' ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="padding:0 10px;width:10px; height:10px;"/>
-             <text>{{item.age}}</text>
-             <view>
-               <text>{{item.createdAt}}</text>
-             </view>
-           </view>
-           <view style="font-size:15px;opacity:0.6;">
-             <text>{{item.msg}}</text>
-           </view>
+         <view style="font-size:15px;opacity:0.6;">
+           <text>{{$commentsComponent$item.msg}}</text>
          </view>
        </view>
-      </block>
-    </view>
+       <view style="flex:1;display:flex;">
+         <image src="../assets/img/like.png" style="width:20px; height:20px;"/>
+         <text style="align-self:center;font-size:12px; opacity:0.5; padding-left:5px;">{{$commentsComponent$item.likeNum}}</text>
+       </view>
+     </view>
+    </block>
+  </view>
+
  </scroll-view>

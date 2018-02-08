@@ -1,10 +1,10 @@
 
   <view class="container">
     <view style="z-index:10;position: fixed; display:flex; height: 50px; background-color:white;top: 0; width: {{screenWidth}}px;">
-      <view class="center" style="flex:1;background-color:#FFD300;">
-        <text style="color:white;">进行当中</text>
+      <view catchtap="jump" class="center" style="flex:1;color:{{piece == 1 ? 'white' : 'black'}};background-color:{{piece == 1 ? '#FFD300' : ''}};" data-wpyjump-a="1">
+        <text>进行当中</text>
       </view>
-      <view class="center" style="flex:1">
+      <view catchtap="jump" class="center" style="color:{{piece == 2 ? 'white' : 'black'}};flex:1;background-color:{{piece == 2 ? '#FFD300' : ''}};" data-wpyjump-a="2">
         <text>活动回顾</text>
       </view>
     </view>

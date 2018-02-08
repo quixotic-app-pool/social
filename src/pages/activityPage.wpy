@@ -3,10 +3,10 @@
 <template>
   <view class="container">
     <view style="z-index:10;position: fixed; display:flex; height: 50px; background-color:white;top: 0; width: {{screenWidth}}px;">
-      <view class="center" style="flex:1;background-color:#FFD300;">
-        <text style="color:white;">进行当中</text>
+      <view @tap.stop="jump(1)" class="center" style="flex:1;color:{{piece == 1 ? 'white' : 'black'}};background-color:{{piece == 1 ? '#FFD300' : ''}};">
+        <text>进行当中</text>
       </view>
-      <view class="center" style="flex:1">
+      <view @tap.stop="jump(2)" class="center" style="color:{{piece == 2 ? 'white' : 'black'}};flex:1;background-color:{{piece == 2 ? '#FFD300' : ''}};">
         <text>活动回顾</text>
       </view>
     </view>
@@ -55,10 +55,14 @@
           {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'},
           {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'},
           {imgUrl: 'https://www.eatrightontario.ca/EatRightOntario/media/Website-images-resized/10-22smart-22-physical-activity-goals-resized.jpg', mainTitle: '活动一', subTitle: '这是副标题额', eventTime: '2/14 17:00 ~ 21:00', num: '9', address: '春熙路14号大街'}
-        ]
+        ],
+      piece: 1
     }
 
     methods = {
+      jump (index) {
+        this.piece = index
+      },
       goDetail () {
         wepy.navigateTo({
           url: 'heldActivity'

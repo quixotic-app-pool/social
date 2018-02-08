@@ -1,37 +1,13 @@
 <template>
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <view>
-      <repeat
-       for="{{myComments}}"
-       item= "item"
-       index= "index"
-       key= "index">
-       <view style="padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
-         <view class="center" style="flex:1">
-           <image src="{{item.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%" />
-         </view>
-         <view class="center" style="flex-direction:column;align-items:flex-start; flex:4">
-           <view style="font-size:12px;opacity:0.8;padding-bottom:5px;">
-             <text>{{item.nickName}}</text>
-             <image src="{{item.gender == 'male' ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="padding:0 10px;width:10px; height:10px;" />
-             <text>{{item.age}}</text>
-             <view>
-               <text>{{item.createdAt}}</text>
-             </view>
-           </view>
-           <view style="font-size:15px;opacity:0.6;">
-             <text>{{item.msg}}</text>
-           </view>
-         </view>
-       </view>
-      </repeat>
-    </view>
+    <commentsComponent />
  </scroll-view>
 </template>
 <script>
 import wepy from 'wepy'
 import api from './../api/api'
 import util from '../utils/util'
+import commentsComponent from '../components/commentsComponent'
 
 export default class TestPage extends wepy.page {
   config = {
@@ -48,6 +24,9 @@ export default class TestPage extends wepy.page {
     currentPage: -1,
     user_id: ''
   }
+  components = {
+    commentsComponent : commentsComponent
+  }
   async onLoad (option) {
     // wepy.setNavigationBarTitle({title: option.topic})
     this.user_id = wepy.getStorageSync('UserId')
@@ -55,32 +34,7 @@ export default class TestPage extends wepy.page {
     await this.loadData()
   }
  async loadData () {
-   this.myComments = [
-     {
-       avatarUrl: '../assets/img/boy.jpeg',
-       nickName: '扎西德勒',
-       gender: 'male',
-       age: 25,
-       createdAt: '一小时前',
-       msg: '你想我说什么好呢，你好无聊'
-     },
-     {
-       avatarUrl: '../assets/img/boy.jpeg',
-       nickName: '小叮当',
-       gender: 'female',
-       age: 22,
-       createdAt: '一小时前',
-       msg: '你想我说什么好呢，爱聊不聊'
-     },
-     {
-       avatarUrl: '../assets/img/boy.jpeg',
-       nickName: '爱的狂想曲',
-       gender: 'male',
-       age: 30,
-       createdAt: '两小时前',
-       msg: '你想我说什么好呢，无聊呗'
-     }
-   ]
+
  }
  async lower () {
    await this.loadData()

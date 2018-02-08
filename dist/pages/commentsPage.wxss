@@ -1,1 +1,2 @@
+@import "./../components/commentsComponent.wxss";
 .unread{background-color:gold}.center{display:flex;justify-content:center;align-items:center}
