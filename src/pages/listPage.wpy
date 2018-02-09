@@ -49,9 +49,11 @@
 
 <script>
   import wepy from 'wepy'
+  import api from './../api/api'
+
   export default class MainPage extends wepy.page {
     config = {
-      navigationBarTitleText: 'list'
+      navigationBarTitleText: '关注'
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
@@ -62,6 +64,16 @@
       await this.loadData()
     }
     async loadData () {
+      // TODO: here we gonna load data
+     //  var res = await api.profileList({
+     //    query: {
+     //      page: 0
+     //    }
+     //  })
+      //
+     //  if(res.data && res.data.flag == 'success') {
+     //    this.myData = res.data.data
+     //  }
       this.myData.push(
         ...[
           {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
