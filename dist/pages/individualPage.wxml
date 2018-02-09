@@ -58,7 +58,7 @@
         <view style="color:rgb(193,89,76)">{{myData.nickName}}</view>
         <view style="display: flex;font-size:15px;">
           <view class="between" style="padding:0 2px; border-radius:4px; width:30px; background-color: rgb(242,195,245)">
-            <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
+            <image src="{{myData.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png' }}" style="width:10px; height:10px;"/>
             <text style="color:white;">{{myData.age}}</text>
           </view>
           <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
@@ -113,7 +113,7 @@
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);">
         <block wx:for="{{myData.myInfo}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view wx:if="{{item.title == '星座'&&!editMode || item.title != '星座'}}" catchtap="goEdit" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}" data-wpygoedit-a="{{item.title}}">
+         <view wx:if="{{item.title == '星座'&&!editMode || item.title != '星座'}}" catchtap="goEdit" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}" data-wpygoedit-a="{{item.title}}" data-wpygoedit-b="{{item.value}}">
            <view class="center" style="flex:7;opacity:0.6; height:60px;justify-content:flex-start;">
              <text style="flex:3;">{{item.title}}</text>
              <text style="flex:7;">{{item.value}}</text>
@@ -130,7 +130,7 @@
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的标签</text>
       </view>
-      <view catchtap="goEdit" style="display:flex;padding:10px 0;" data-wpygoedit-a="tag">
+      <view catchtap="goEdit" style="display:flex;padding:10px 0;" data-wpygoedit-a="tag" data-wpygoedit-b="{{myData.myTags}}">
         <view style="flex:1;" class="center">
           <image src="../assets/img/hash.png" style="width:30px; height:30px;"/>
         </view>
@@ -151,7 +151,7 @@
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的兴趣</text>
       </view>
-      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="sports">
+      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="sports" data-wpygoedit-b="{{myData.sports}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/sports.png" style="width:30px; height:30px;"/>
@@ -170,7 +170,7 @@
           </view>
         </view>
       </view>
-      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="music">
+      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="music" data-wpygoedit-b="{{myData.music}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/music.png" style="width:30px; height:30px;"/>
@@ -190,7 +190,7 @@
         </view>
       </view>
 
-      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="food">
+      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="food" data-wpygoedit-b="{{myData.food}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/food.png" style="width:30px; height:30px;"/>
@@ -210,7 +210,7 @@
         </view>
       </view>
 
-      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="tv">
+      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="tv" data-wpygoedit-b="{{myData.tv}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/tv.png" style="width:30px; height:30px;"/>
@@ -230,7 +230,7 @@
         </view>
       </view>
 
-      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="book">
+      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="book" data-wpygoedit-b="{{myData.book}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/book.png" style="width:30px; height:30px;"/>
@@ -250,7 +250,7 @@
         </view>
       </view>
 
-      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="place">
+      <view catchtap="goEdit" style="display:flex;" data-wpygoedit-a="place" data-wpygoedit-b="{{myData.place}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/flight.png" style="width:30px; height:30px;"/>
@@ -277,7 +277,7 @@
       </view>
       <view style="box-sizing:border-box;padding:0 10px;width:100%;">
         <block wx:for="{{myData.myAns}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view catchtap="goEditQuestion" class="between" style="border-bottom:1px solid rgb(232,232,232)" data-wpygoeditquestion-a="{{index}}" data-wpygoeditquestion-b="{{item.title}}">
+         <view catchtap="goEdit" class="between" style="border-bottom:1px solid rgb(232,232,232)" data-wpygoedit-a="question" data-wpygoedit-b="{{item}}" data-wpygoedit-c="{{index}}">
            <view>
              <view style="padding-top: 5px;opacity:0.8;">
                <text>{{item.title}}</text>

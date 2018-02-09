@@ -22,19 +22,19 @@
            <view style="flex:1">
              <text>昵称</text>
            </view>
-           <input style="flex:1" value="Michael" bindinput="nickNamePick"/>
+           <input style="flex:1" value="{{nickName}}" bindinput="nickNamePick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>身高(cm)</text>
            </view>
-           <input style="flex:1" value="165" bindinput="heightPick"/>
+           <input style="flex:1" value="{{height}}" bindinput="heightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>体重(kg)</text>
            </view>
-           <input style="flex:1" value="45" bindinput="weightPick"/>
+           <input style="flex:1" value="{{weight}}" bindinput="weightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
@@ -113,7 +113,7 @@
 
     <!-- 公司 -->
     <view  wx:if="{{index == '公司'}}" style="margin:0 10px;border-bottom:1px solid rgb(232,232,232);display:flex; align-items:flex-end;height:100px;width: {{screenWidth -20}}px;">
-      <input bindinput="companyPick" placeholder="输入公司..." style="font-size:20px;"  />
+      <input bindinput="companyPick" value="{{company}}" placeholder="输入公司..." style="font-size:20px;"  />
     </view>
 
     <!-- 来自 -->
@@ -139,12 +139,12 @@
 
     <!-- 经常出没 -->
     <view wx:if="{{index == '经常出没'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea bindinput="spotPick" maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..." />
+      <textarea value="{{spot}}" bindinput="spotPick" maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..." />
     </view>
 
     <!-- 个人签名 -->
     <view wx:if="{{index == '个人签名'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea bindinput="signaturePick" maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..." />
+      <textarea value="{{signature}}" bindinput="signaturePick" maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..." />
     </view>
 
     <!-- 我的签名 -->
@@ -367,10 +367,10 @@
     <!-- 你的回答，所有回答统一title -->
     <view wx:if="{{index == 'question' || index == 'newQuestion'}}" style="font-size:20px;width: {{screenWidth}}px;">
       <view style="padding: 20px 10px 10px 10px;opacity:0.5;">
-        {{backPack && backPack.title}}
+        {{questionanswer && questionanswer.title}}
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-        <textarea bindinput="answerPick" maxlength="1000"	style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..." />
+        <textarea value="{{questionanswer && questionanswer.value}}" bindinput="answerPick" maxlength="1000"	style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..." />
       </view>
     </view>
 
@@ -395,56 +395,166 @@
       tvList: [{picked:false, value: '肖申克的救赎'}, {picked:false, value: '霸王别姬'}, {picked:false, value: '这个杀手不太冷'}, {picked:false, value: '教父'}, {picked:false, value: '阿甘正传'}, {picked:false, value: '泰坦尼克号'}, {picked:false, value: '盗梦空间'}, {picked:false, value: '黑客帝国'}, {picked:false, value: '蝙蝠侠'}, {picked:false, value: '低俗小说'}, {picked:false, value: '搏击俱乐部'}],
       bookList: [{picked:false, value: '金庸'}, {picked:false, value: '古龙'}, {picked:false, value: '鲁迅'}, {picked:false, value: '韩寒'}, {picked:false, value: '郭敬明'}, {picked:false, value: '王朔'}, {picked:false, value: '王小波'}, {picked:false, value: '三毛'}, {picked:false, value: '琼瑶'}, {picked:false, value: '亦舒'}, {picked:false, value: '张爱玲'}],
       placeList: [{picked:false, value: '法国'}, {picked:false, value: '日本'}, {picked:false, value: '非洲'}, {picked:false, value: '全世界'}, {picked:false, value: '成都'}, {picked:false, value: '桂林'}, {picked:false, value: '三亚'}, {picked:false, value: '丽江'}, {picked:false, value: '大理'}, {picked:false, value: '香格里拉'}, {picked:false, value: '西藏'}],
-      genderArray: [{picked:false, value: '男生'}, {picked:false, value: '女生'}],
+      genderArray: ['女生', '男生'],
       genderIndex: 0,
+      nickName: '',
+      birthDate: '',
+      height: '',
+      weight: '',
       industryIndex: undefined,
       majorIndex: undefined,
-      birthDate: '1990-01-01',
-      hometown: ['广东省', '广州市', '海珠区'],
+      company: '',
+      spot: '',
+      signature: '',
+      questionanswer: {},
+      hometown: ['江苏省', '南京市', '鼓楼区'],
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       index: undefined,
       backPack: {}
     }
-    onLoad(option) {
-      this.backPack = {}
-      this.index = option.index
-      //index == question
-      if(option.subIndex) {
-        this.backPack.title = option.title
-        this.backPack.subIndex = option.subIndex
+    onLoad() {
+      var self = this
+      this.index = this.$parent.globalData.editedPiece.index
+      this.backPack = this.$parent.globalData.editedPiece.data
+      this.$parent.globalData.editedPiece.data = ''
+      // console.log('index: ' + this.index);
+      if(this.index == 'person') {
+        this.genderIndex = this.backPack.gender
+        this.nickName = this.backPack.nickName
+        this.birthDate = this.backPack.birthDate || '1990-01-01'
+        this.height = this.backPack.height
+        this.weight = this.backPack.weight
+      } else if(this.index == '行业') {
+        // console.log('?: ' + JSON.stringify(this.backPack))
+        this.industryList.find(function(el, i) {
+          if(el == self.backPack) {
+            self.industryIndex = i
+          }
+        })
+      } else if(this.index == '工作领域') {
+        this.majorList.find(function(el, i) {
+          if(el == self.backPack) {
+            self.majorIndex = i
+          }
+        })
+      } else if(this.index == '公司') {
+        this.company = this.backPack
+      } else if(this.index == '来自') {
+        this.hometown = this.backPack
+      } else if(this.index == '经常出没') {
+        this.spot = this.backPack
+      } else if(this.index == '个人签名') {
+        this.signature = this.backPack
+      } else if(this.index == 'tag') {
+        this.tagsList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'sports') {
+        this.sportsList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'music') {
+        this.musicList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'food') {
+        this.foodList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'tv') {
+        this.tvList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'book') {
+        this.bookList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'place') {
+        this.placeList.forEach(function(el) {
+          // console.log(self.backPack)
+          self.backPack.find(function(item) {
+            // console.log(item);
+            if(el.value == item) {
+              el.picked = true
+              return true
+            }
+          })
+        })
+      } else if(this.index == 'question') {
+        this.questionanswer = this.backPack
       }
-      this.backPack.index = this.index
-      wepy.setStorageSync('editedPiece', this.backPack)
-      // wepy.setStorageSync('editedPiece', {faked: 'yes'})
-      var test = wepy.getStorageSync('editedPiece')
-      console.log(test)
-      this.$apply()
+      //index == question
+      // if(option.subIndex) {
+      //   this.backPack.title = option.title
+      //   this.backPack.subIndex = option.subIndex
+      // }
     }
     methods = {
       //index = person
       genderPick (e) {
         this.genderIndex = e.detail.value
-        this.backPack.gender = this.genderArray[this.genderIndex]
-        wepy.setStorageSync('editedPiece', this.backPack)
-        // console.log(wepy.getStorageSync('editedPiece'));
+        this.backPack.gender = this.genderIndex
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       nickNamePick (e) {
         this.backPack.nickName = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       heightPick (e) {
         this.backPack.height = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       weightPick (e) {
         this.backPack.weight = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       dateBirthPick (e) {
         this.birthDate = e.detail.value
         this.backPack.birthDate = this.birthDate
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == 行业
@@ -452,91 +562,91 @@
         // console.log(e.detail.value);
         // console.log(this.industryList[index]);
         this.industryIndex = index
-        this.backPack.industry = this.industryList[index]
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.industryList[index]
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       //index == 工作领域
       majorPick (index) {
         // console.log(e.detail.value);
         // console.log(this.industryList[index]);
         this.majorIndex = index
-        this.backPack.major = this.majorList[index]
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.majorList[index]
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       //index == 公司
       companyPick (e) {
-        this.backPack.company = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = e.detail.value
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       //index == 来自
       hometownPick (e) {
         this.hometown = e.detail.value
-        this.backPack.hometown = this.hometown
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.hometown
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       //index == 经常出没
       spotPick (e) {
-        this.backPack.input = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = e.detail.value
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       //index == 个人签名
       signaturePick (e) {
-        this.backPack.signature = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = e.detail.value
+        this.$parent.globalData.editedPiece.data = this.backPack
       },
       //index == 个人签名
       tagPick (index) {
         this.tagsList[index].picked = !this.tagsList[index].picked
-        this.backPack.tagsList = this.tagsList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.tagsList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == sports
       sportsPick (index) {
         this.sportsList[index].picked = !this.sportsList[index].picked
-        this.backPack.sportsList = this.sportsList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.sportsList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == music
       musicPick (index) {
         this.musicList[index].picked = !this.musicList[index].picked
-        this.backPack.musicList = this.musicList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.musicList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == tv,
       tvPick (index) {
         this.tvList[index].picked = !this.tvList[index].picked
-        this.backPack.tvList = this.tvList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.tvList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == book,
       bookPick (index) {
         this.bookList[index].picked = !this.bookList[index].picked
-        this.backPack.bookList = this.bookList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.bookList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == place,
       spacePick (index) {
         this.placeList[index].picked = !this.placeList[index].picked
-        this.backPack.placeList = this.placeList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.placeList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       //index == food
       foodPick (index) {
         this.foodList[index].picked = !this.foodList[index].picked
-        this.backPack.foodList = this.foodList
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack = this.foodList
+        this.$parent.globalData.editedPiece.data = this.backPack
         // console.log(wepy.getStorageSync('editedPiece'));
       },
       // index == question
       answerPick (e) {
-        this.backPack.answer = e.detail.value
-        wepy.setStorageSync('editedPiece', this.backPack)
+        this.backPack.value = e.detail.value
+        this.$parent.globalData.editedPiece.data = this.backPack
       }
     }
   }

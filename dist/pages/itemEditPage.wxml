@@ -20,19 +20,19 @@
            <view style="flex:1">
              <text>昵称</text>
            </view>
-           <input style="flex:1" value="Michael" bindinput="nickNamePick"/>
+           <input style="flex:1" value="{{nickName}}" bindinput="nickNamePick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>身高(cm)</text>
            </view>
-           <input style="flex:1" value="165" bindinput="heightPick"/>
+           <input style="flex:1" value="{{height}}" bindinput="heightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>体重(kg)</text>
            </view>
-           <input style="flex:1" value="45" bindinput="weightPick"/>
+           <input style="flex:1" value="{{weight}}" bindinput="weightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
@@ -103,7 +103,7 @@
 
     <!-- 公司 -->
     <view wx:if="{{index == '公司'}}" style="margin:0 10px;border-bottom:1px solid rgb(232,232,232);display:flex; align-items:flex-end;height:100px;width: {{screenWidth -20}}px;">
-      <input bindinput="companyPick" placeholder="输入公司..." style="font-size:20px;"/>
+      <input bindinput="companyPick" value="{{company}}" placeholder="输入公司..." style="font-size:20px;"/>
     </view>
 
     <!-- 来自 -->
@@ -129,12 +129,12 @@
 
     <!-- 经常出没 -->
     <view wx:if="{{index == '经常出没'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea bindinput="spotPick" maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..."/>
+      <textarea value="{{spot}}" bindinput="spotPick" maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..."/>
     </view>
 
     <!-- 个人签名 -->
     <view wx:if="{{index == '个人签名'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea bindinput="signaturePick" maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..."/>
+      <textarea value="{{signature}}" bindinput="signaturePick" maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..."/>
     </view>
 
     <!-- 我的签名 -->
@@ -329,10 +329,10 @@
     <!-- 你的回答，所有回答统一title -->
     <view wx:if="{{index == 'question' || index == 'newQuestion'}}" style="font-size:20px;width: {{screenWidth}}px;">
       <view style="padding: 20px 10px 10px 10px;opacity:0.5;">
-        {{backPack && backPack.title}}
+        {{questionanswer && questionanswer.title}}
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-        <textarea bindinput="answerPick" maxlength="1000" style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..."/>
+        <textarea value="{{questionanswer && questionanswer.value}}" bindinput="answerPick" maxlength="1000" style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..."/>
       </view>
     </view>
 
