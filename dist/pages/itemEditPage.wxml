@@ -10,9 +10,9 @@
            <view style="flex:1">
              <text>性别</text>
            </view>
-           <picker style="flex:1" bindchange="bindPickerChange" value="{{index1}}" range="{{array1}}">
+           <picker style="flex:1" bindchange="genderPick" value="{{genderIndex}}" range="{{genderArray}}">
              <view>
-              {{array1[index1]}}
+              {{genderArray[genderIndex]}}
              </view>
            </picker>
          </view>
@@ -20,27 +20,27 @@
            <view style="flex:1">
              <text>昵称</text>
            </view>
-           <input style="flex:1" value="Michael" bindinput=""/>
+           <input style="flex:1" value="Michael" bindinput="nickNamePick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>身高(cm)</text>
            </view>
-           <input style="flex:1" value="165" bindinput=""/>
+           <input style="flex:1" value="165" bindinput="heightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>体重(kg)</text>
            </view>
-           <input style="flex:1" value="45" bindinput=""/>
+           <input style="flex:1" value="45" bindinput="weightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>生日</text>
            </view>
-           <picker style="flex:1" mode="date" value="{{date1}}" start="1900-01-01" end="2018-01-01" bindchange="bindDateChange">
+           <picker style="flex:1" mode="date" value="{{birthDate}}" start="1900-01-01" end="2018-01-01" bindchange="dateBirthPick">
               <view>
-                {{date1}}
+                {{birthDate}}
               </view>
            </picker>
          </view>
@@ -61,12 +61,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data2}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{industryList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="industryPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpyindustrypick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{index == industryIndex ? 'bold': ''}};">{{item}}</text>
            </view>
-           <view wx:if="{{index == 3}}" class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{index == industryIndex}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -88,12 +88,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data3}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{majorList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="majorPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpymajorpick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{index == majorIndex ? 'bold': ''}};">{{item}}</text>
            </view>
-           <view wx:if="{{index == 3}}" class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{index == majorIndex}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -103,7 +103,7 @@
 
     <!-- 公司 -->
     <view wx:if="{{index == '公司'}}" style="margin:0 10px;border-bottom:1px solid rgb(232,232,232);display:flex; align-items:flex-end;height:100px;width: {{screenWidth -20}}px;">
-      <input placeholder="输入公司..." style="font-size:20px;"/>
+      <input bindinput="companyPick" placeholder="输入公司..." style="font-size:20px;"/>
     </view>
 
     <!-- 来自 -->
@@ -119,22 +119,22 @@
           <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
         </view>
       </view>
-      <picker class="" style="" mode="region" bindchange="bindRegionChange" value="{{region1}}" custom-item="{{customItem}}">
+      <picker class="" style="" mode="region" bindchange="hometownPick" value="{{hometown}}">
         <view style="padding:10px 0;opacity:0.6;">当前选择:</view>
         <view class="center" style="opacity:0.8;center;height:100px;border:1px dashed rgb(232,232,232)">
-          {{region1[0]}}，{{region1[1]}}，{{region1[2]}}
+          {{hometown[0]}}，{{hometown[1]}}，{{hometown[2]}}
         </view>
       </picker>
     </view>
 
     <!-- 经常出没 -->
     <view wx:if="{{index == '经常出没'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..."/>
+      <textarea bindinput="spotPick" maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..."/>
     </view>
 
     <!-- 个人签名 -->
     <view wx:if="{{index == '个人签名'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..."/>
+      <textarea bindinput="signaturePick" maxlength="1000" style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..."/>
     </view>
 
     <!-- 我的签名 -->
@@ -151,12 +151,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data4}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{tagsList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="tagPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpytagpick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -178,12 +178,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data5}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{sportsList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="sportsPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpysportspick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -205,12 +205,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data6}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{musicList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="musicPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpymusicpick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -232,12 +232,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data7}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{foodList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="foodPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpyfoodpick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -259,12 +259,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data8}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{tvList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="tvPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpytvpick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -286,12 +286,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data9}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{bookList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="bookPick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpybookpick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -313,12 +313,12 @@
         </view>
       </view>
       <view>
-        <block wx:for="{{data10}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+        <block wx:for="{{placeList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+         <view catchtap="spacePick" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)" data-wpyspacepick-a="{{index}}">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -329,10 +329,10 @@
     <!-- 你的回答，所有回答统一title -->
     <view wx:if="{{index == 'question' || index == 'newQuestion'}}" style="font-size:20px;width: {{screenWidth}}px;">
       <view style="padding: 20px 10px 10px 10px;opacity:0.5;">
-        如果有时间，最想去做什么？
+        {{backPack && backPack.title}}
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-        <textarea maxlength="1000" style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..."/>
+        <textarea bindinput="answerPick" maxlength="1000" style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..."/>
       </view>
     </view>
 

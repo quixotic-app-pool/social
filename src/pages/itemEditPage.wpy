@@ -12,9 +12,9 @@
            <view style="flex:1">
              <text>性别</text>
            </view>
-           <picker style="flex:1" bindchange="bindPickerChange" value="{{index1}}" range="{{array1}}">
+           <picker style="flex:1" bindchange="genderPick" value="{{genderIndex}}" range="{{genderArray}}">
              <view>
-              {{array1[index1]}}
+              {{genderArray[genderIndex]}}
              </view>
            </picker>
          </view>
@@ -22,27 +22,27 @@
            <view style="flex:1">
              <text>昵称</text>
            </view>
-           <input style="flex:1" value="Michael" bindinput=""/>
+           <input style="flex:1" value="Michael" bindinput="nickNamePick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>身高(cm)</text>
            </view>
-           <input style="flex:1" value="165" bindinput=""/>
+           <input style="flex:1" value="165" bindinput="heightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;border-bottom:{{data1.length == index+1 ? '' : '1px solid rgb(232,232,232)'}};opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>体重(kg)</text>
            </view>
-           <input style="flex:1" value="45" bindinput=""/>
+           <input style="flex:1" value="45" bindinput="weightPick"/>
          </view>
          <view style="height:30px;padding:20px 10px 10px 10px;opacity:0.8;display: flex; justify-content:space-between;">
            <view style="flex:1">
              <text>生日</text>
            </view>
-           <picker style="flex:1" mode="date" value="{{date1}}" start="1900-01-01" end="2018-01-01" bindchange="bindDateChange">
+           <picker style="flex:1" mode="date" value="{{birthDate}}" start="1900-01-01" end="2018-01-01" bindchange="dateBirthPick">
               <view>
-                {{date1}}
+                {{birthDate}}
               </view>
            </picker>
          </view>
@@ -64,15 +64,15 @@
       </view>
       <view>
         <repeat
-         for="{{data2}}"
+         for="{{industryList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="industryPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{index == industryIndex ? 'bold': ''}};">{{item}}</text>
            </view>
-           <view wx:if="{{index == 3}}" class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{index == industryIndex}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -95,15 +95,15 @@
       </view>
       <view>
         <repeat
-         for="{{data3}}"
+         for="{{majorList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="majorPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{index == majorIndex ? 'bold': ''}};">{{item}}</text>
            </view>
-           <view wx:if="{{index == 3}}" class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{index == majorIndex}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -113,7 +113,7 @@
 
     <!-- 公司 -->
     <view  wx:if="{{index == '公司'}}" style="margin:0 10px;border-bottom:1px solid rgb(232,232,232);display:flex; align-items:flex-end;height:100px;width: {{screenWidth -20}}px;">
-      <input placeholder="输入公司..." style="font-size:20px;"  />
+      <input bindinput="companyPick" placeholder="输入公司..." style="font-size:20px;"  />
     </view>
 
     <!-- 来自 -->
@@ -129,22 +129,22 @@
           <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
         </view>
       </view>
-      <picker class="" style="" mode="region" bindchange="bindRegionChange" value="{{region1}}" custom-item="{{customItem}}">
+      <picker class="" style="" mode="region" bindchange="hometownPick" value="{{hometown}}">
         <view style="padding:10px 0;opacity:0.6;">当前选择:</view>
         <view class="center" style="opacity:0.8;center;height:100px;border:1px dashed rgb(232,232,232)">
-          {{region1[0]}}，{{region1[1]}}，{{region1[2]}}
+          {{hometown[0]}}，{{hometown[1]}}，{{hometown[2]}}
         </view>
       </picker>
     </view>
 
     <!-- 经常出没 -->
     <view wx:if="{{index == '经常出没'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..." />
+      <textarea bindinput="spotPick" maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="经常出没..." />
     </view>
 
     <!-- 个人签名 -->
     <view wx:if="{{index == '个人签名'}}" style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-      <textarea maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..." />
+      <textarea bindinput="signaturePick" maxlength="1000"	style="height:100px;width:100%;background-color:white;font-size:20px;padding:10px;box-sizing:border-box;" placeholder="个人签名..." />
     </view>
 
     <!-- 我的签名 -->
@@ -162,15 +162,15 @@
       </view>
       <view>
         <repeat
-         for="{{data4}}"
+         for="{{tagsList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="tagPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -193,15 +193,15 @@
       </view>
       <view>
         <repeat
-         for="{{data5}}"
+         for="{{sportsList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="sportsPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -224,15 +224,15 @@
       </view>
       <view>
         <repeat
-         for="{{data6}}"
+         for="{{musicList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="musicPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -255,15 +255,15 @@
       </view>
       <view>
         <repeat
-         for="{{data7}}"
+         for="{{foodList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="foodPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -286,15 +286,15 @@
       </view>
       <view>
         <repeat
-         for="{{data8}}"
+         for="{{tvList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="tvPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -317,15 +317,15 @@
       </view>
       <view>
         <repeat
-         for="{{data9}}"
+         for="{{bookList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="bookPick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -348,15 +348,15 @@
       </view>
       <view>
         <repeat
-         for="{{data10}}"
+         for="{{placeList}}"
          item= "item"
          index= "index"
          key= "index">
-         <view class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="spacePick({{index}})" class="between" style="height:60px;border-bottom:1px solid rgb(232,232,232)">
            <view class="center" style="justify-content: flex-start;padding-left:5px;opacity:0.6;">
-             <text style="font-weight:{{index == 3 ? 'bold': ''}};">{{item}}</text>
+             <text style="font-weight:{{item.picked ? 'bold': ''}};">{{item.value}}</text>
            </view>
-           <view class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{item.picked}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/tick.png" style="width:20px; height:20px;"/>
            </view>
          </view>
@@ -367,10 +367,10 @@
     <!-- 你的回答，所有回答统一title -->
     <view wx:if="{{index == 'question' || index == 'newQuestion'}}" style="font-size:20px;width: {{screenWidth}}px;">
       <view style="padding: 20px 10px 10px 10px;opacity:0.5;">
-        如果有时间，最想去做什么？
+        {{backPack && backPack.title}}
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);width: {{screenWidth}}px;">
-        <textarea maxlength="1000"	style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..." />
+        <textarea bindinput="answerPick" maxlength="1000"	style="height:100px;width:100%;background-color:white;padding:10px;box-sizing:border-box;" placeholder="想做啥呢..." />
       </view>
     </view>
 
@@ -386,27 +386,158 @@
     }
     data = {
       // data1: [{title: '性别', value: '男'}, {title: '昵称', value: 'Michael'}, {title: '生日', value: '1/1/2001'} ],
-      data2: ['IT&Internet', '学生', '文化/艺术', '影视/娱乐', '金融', '医药/健康', '工业/制造业', 'IT/互联网/通信', '媒体/公关', '零售', '教育/科研' ],
-      data3: ['Engineer', '高管', '创始人', '投资人', '职业经理人', '咨询顾问', '市场', '产品', '客服', '销售', '商务', '公关', '人事', '行政' ],
-      data4: ['Patient', 'Romantic', 'Skillful', 'Intelligent', 'Elegant', 'Creative', 'Charming', 'Caring', 'Calm', 'Active', '萌萌哒'],
-      data5: ['Running', 'Basketball', 'Badminton', '游泳', '跑步', '单车', '瑜伽', '篮球', '足球', '滑板', '滑雪'],
-      data6: ['Easy Listening', '欧美', '日韩', '流行', '摇滚', '电子', 'R&B', '嘻哈', '爵士', '布鲁斯', '金属'],
-      data7: ['北京烤鸭', '港式早茶', '火锅', '烤串', '麻辣烫', '麻辣香锅', '麻小', '生煎包', '卤肉饭', '寿司', '生鱼片'],
-      data8: ['肖申克的救赎', '霸王别姬', '这个杀手不太冷', '教父', '阿甘正传', '泰坦尼克号', '盗梦空间', '黑客帝国', '蝙蝠侠', '低俗小说', '搏击俱乐部'],
-      data9: ['金庸', '古龙', '鲁迅', '韩寒', '郭敬明', '王朔', '王小波', '三毛', '琼瑶', '亦舒', '张爱玲'],
-      data10: ['法国', '日本', '非洲', '全世界', '成都', '桂林', '三亚', '丽江', '大理', '香格里拉', '西藏'],
-      array1: ['男生', '女生'],
-      index1: 0,
-      date1: '2016-09-01',
-      region1: ['广东省', '广州市', '海珠区'],
+      industryList: ['IT&Internet', '学生', '文化/艺术', '影视/娱乐', '金融', '医药/健康', '工业/制造业', 'IT/互联网/通信', '媒体/公关', '零售', '教育/科研' ],
+      majorList: ['Engineer', '高管', '创始人', '投资人', '职业经理人', '咨询顾问', '市场', '产品', '客服', '销售', '商务', '公关', '人事', '行政' ],
+      tagsList: [{picked:false, value: 'Patient'}, {picked:false, value: 'Romantic'}, {picked:false, value: 'Skillful'}, {picked:false, value: 'Intelligent'}, {picked:false, value: 'Elegant'}, {picked:false, value: 'Creative'}, {picked:false, value: 'Charming'}, {picked:false, value: 'Caring'}, {picked:false, value: 'Calm'}, {picked:false, value: 'Active'}, {picked:false, value: '萌萌哒'}],
+      sportsList: [{picked:false, value: 'Running'}, {picked:false, value: 'Basketball'}, {picked:false, value: 'Badminton'}, {picked:false, value: '游泳'}, {picked:false, value: '跑步'}, {picked:false, value: '单车'}, {picked:false, value: '瑜伽'}, {picked:false, value: '篮球'}, {picked:false, value: '足球'}, {picked:false, value: '滑板'}, {picked:false, value: '滑雪'}],
+      musicList: [{picked:false, value: 'Easy Listening'}, {picked:false, value: '欧美'}, {picked:false, value: '日韩'}, {picked:false, value: '流行'}, {picked:false, value: '摇滚'}, {picked:false, value: '电子'}, {picked:false, value: 'R&B'}, {picked:false, value: '嘻哈'}, {picked:false, value: '爵士'}, {picked:false, value: '布鲁斯'}, {picked:false, value: '金属'}],
+      foodList: [{picked:false, value: '北京烤鸭'}, {picked:false, value: '港式早茶'}, {picked:false, value: '火锅'}, {picked:false, value: '烤串'}, {picked:false, value: '麻辣烫'}, {picked:false, value: '麻辣香锅'}, {picked:false, value: '麻小'}, {picked:false, value: '生煎包'}, {picked:false, value: '卤肉饭'}, {picked:false, value: '寿司'}, {picked:false, value: '生鱼片'}],
+      tvList: [{picked:false, value: '肖申克的救赎'}, {picked:false, value: '霸王别姬'}, {picked:false, value: '这个杀手不太冷'}, {picked:false, value: '教父'}, {picked:false, value: '阿甘正传'}, {picked:false, value: '泰坦尼克号'}, {picked:false, value: '盗梦空间'}, {picked:false, value: '黑客帝国'}, {picked:false, value: '蝙蝠侠'}, {picked:false, value: '低俗小说'}, {picked:false, value: '搏击俱乐部'}],
+      bookList: [{picked:false, value: '金庸'}, {picked:false, value: '古龙'}, {picked:false, value: '鲁迅'}, {picked:false, value: '韩寒'}, {picked:false, value: '郭敬明'}, {picked:false, value: '王朔'}, {picked:false, value: '王小波'}, {picked:false, value: '三毛'}, {picked:false, value: '琼瑶'}, {picked:false, value: '亦舒'}, {picked:false, value: '张爱玲'}],
+      placeList: [{picked:false, value: '法国'}, {picked:false, value: '日本'}, {picked:false, value: '非洲'}, {picked:false, value: '全世界'}, {picked:false, value: '成都'}, {picked:false, value: '桂林'}, {picked:false, value: '三亚'}, {picked:false, value: '丽江'}, {picked:false, value: '大理'}, {picked:false, value: '香格里拉'}, {picked:false, value: '西藏'}],
+      genderArray: [{picked:false, value: '男生'}, {picked:false, value: '女生'}],
+      genderIndex: 0,
+      industryIndex: undefined,
+      majorIndex: undefined,
+      birthDate: '1990-01-01',
+      hometown: ['广东省', '广州市', '海珠区'],
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      index: undefined
+      index: undefined,
+      backPack: {}
     }
     onLoad(option) {
+      this.backPack = {}
       this.index = option.index
+      //index == question
+      if(option.subIndex) {
+        this.backPack.title = option.title
+        this.backPack.subIndex = option.subIndex
+      }
+      this.backPack.index = this.index
+      wepy.setStorageSync('editedPiece', this.backPack)
+      // wepy.setStorageSync('editedPiece', {faked: 'yes'})
+      var test = wepy.getStorageSync('editedPiece')
+      console.log(test)
+      this.$apply()
     }
     methods = {
+      //index = person
+      genderPick (e) {
+        this.genderIndex = e.detail.value
+        this.backPack.gender = this.genderArray[this.genderIndex]
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      nickNamePick (e) {
+        this.backPack.nickName = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      heightPick (e) {
+        this.backPack.height = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      weightPick (e) {
+        this.backPack.weight = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      dateBirthPick (e) {
+        this.birthDate = e.detail.value
+        this.backPack.birthDate = this.birthDate
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == 行业
+      industryPick (index) {
+        // console.log(e.detail.value);
+        // console.log(this.industryList[index]);
+        this.industryIndex = index
+        this.backPack.industry = this.industryList[index]
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      //index == 工作领域
+      majorPick (index) {
+        // console.log(e.detail.value);
+        // console.log(this.industryList[index]);
+        this.majorIndex = index
+        this.backPack.major = this.majorList[index]
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      //index == 公司
+      companyPick (e) {
+        this.backPack.company = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      //index == 来自
+      hometownPick (e) {
+        this.hometown = e.detail.value
+        this.backPack.hometown = this.hometown
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      //index == 经常出没
+      spotPick (e) {
+        this.backPack.input = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      //index == 个人签名
+      signaturePick (e) {
+        this.backPack.signature = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      },
+      //index == 个人签名
+      tagPick (index) {
+        this.tagsList[index].picked = !this.tagsList[index].picked
+        this.backPack.tagsList = this.tagsList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == sports
+      sportsPick (index) {
+        this.sportsList[index].picked = !this.sportsList[index].picked
+        this.backPack.sportsList = this.sportsList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == music
+      musicPick (index) {
+        this.musicList[index].picked = !this.musicList[index].picked
+        this.backPack.musicList = this.musicList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == tv,
+      tvPick (index) {
+        this.tvList[index].picked = !this.tvList[index].picked
+        this.backPack.tvList = this.tvList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == book,
+      bookPick (index) {
+        this.bookList[index].picked = !this.bookList[index].picked
+        this.backPack.bookList = this.bookList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == place,
+      spacePick (index) {
+        this.placeList[index].picked = !this.placeList[index].picked
+        this.backPack.placeList = this.placeList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      //index == food
+      foodPick (index) {
+        this.foodList[index].picked = !this.foodList[index].picked
+        this.backPack.foodList = this.foodList
+        wepy.setStorageSync('editedPiece', this.backPack)
+        // console.log(wepy.getStorageSync('editedPiece'));
+      },
+      // index == question
+      answerPick (e) {
+        this.backPack.answer = e.detail.value
+        wepy.setStorageSync('editedPiece', this.backPack)
+      }
     }
   }
 </script>

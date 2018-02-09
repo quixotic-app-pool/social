@@ -92,7 +92,7 @@
 
     <view wx:if="{{!editMode}}" style="width: 100%;">
       <view style="padding: 10px;">
-        <view style="color:rgb(193,89,76)">{{myData.nichName}}</view>
+        <view style="color:rgb(193,89,76)">{{myData.nickName}}</view>
         <view style="display: flex;font-size:15px;">
           <view class="between" style="padding:0 2px; border-radius:4px; width:30px; background-color: rgb(242,195,245)">
             <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
@@ -119,7 +119,7 @@
         <view class="center" style="justify-content:flex-start;">
           <text>{{myData.nickName}},</text>
           <text style="padding:0 5px;">{{myData.age}},</text>
-          <text style="padding:0 5px;">{{myData.height}}cm,</text>
+          <text style="padding:0 5px;">{{myData.h}}cm,</text>
           <text style="padding:0 5px;">{{myData.weight}}kg,</text>
           <image src="../assets/img/female.png" style="width:20px; height:20px;"/>
         </view>
@@ -279,7 +279,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.myInterest4}}"
+               for="{{myData.tv}}"
                item= "item"
                index= "index"
                key= "index">
@@ -303,7 +303,7 @@
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
             <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.myInterest5}}"
+               for="{{myData.book}}"
                item= "item"
                index= "index"
                key= "index">
@@ -354,7 +354,7 @@
          item= "item"
          index= "index"
          key= "index">
-         <view @tap.stop="goEdit('question')" class="between" style="border-bottom:1px solid rgb(232,232,232)">
+         <view @tap.stop="goEditQuestion({{index}}, {{item.title}})" class="between" style="border-bottom:1px solid rgb(232,232,232)">
            <view>
              <view style="padding-top: 5px;opacity:0.8;">
                <text>{{item.title}}</text>
@@ -396,7 +396,7 @@
       navigationBarTitleText: '王小虎'
     }
     data = {
-       editMode: false,
+       editMode: true,
        screenWidth: wepy.getSystemInfoSync().windowWidth,
        screenHeight: wepy.getSystemInfoSync().windowHeight,
        myData: {},
@@ -411,11 +411,130 @@
     async onLoad (option) {
       this.profile_id = option._id
       await this.loadData(this.profile_id)
+      wepy.removeStorageSync('editedPiece')
     }
     onShow() {
-      // TODO: here we need to update specific item through global Object
+      var self = this
       var editedPiece = wepy.getStorageSync('editedPiece')
-      //everytime we have editedPiece = {index: '', value:''}
+      // console.log('editedPiece: ' + JSON.stringify(editedPiece));
+      // console.log(new Date().toISOString() - editedPiece.birthDate);
+      // console.log(editedPiece.birthDate.getMonth());
+      if(editedPiece.index == 'person') {
+        this.myData.gender = editedPiece.gender && editedPiece.gender || this.myData.gender
+        this.myData.nickName =  editedPiece.nickName && editedPiece.nickName || this.myData.nickName
+        this.myData.h = editedPiece.height && editedPiece.height || this.myData.h
+        this.myData.weight = editedPiece.weight && editedPiece.weight || this.myData.weight
+        this.myData.birthDate = editedPiece.birthDate && editedPiece.birthDate || this.myData.birthDate
+        if(editedPiece.birthDate) {
+          var currentTime = new Date().toISOString()
+          var customRegExp = /(\d{4})\-(\d{2})\-(\d{2})/
+          var date1 = customRegExp.exec(currentTime)
+          var date2 = customRegExp.exec(editedPiece.birthDate)
+          var age = (date1[1] - date2[1]) - (date1[2] < date1[2] ? 1 : 0)
+          this.myData.age = age || this.myData.age
+        }
+        // console.log('age: ' + age);
+        // console.log('date1: ' + date1);
+        // console.log('date2: ' + date2);
+        // console.log(currentTime);
+      } else if(editedPiece.index == '行业') {
+        this.myData.myInfo.find(function(el) {
+          if(el.title == '行业') {
+            el.value = editedPiece.industry
+            return true
+          }
+        })
+      } else if(editedPiece.index == '工作领域') {
+        this.myData.myInfo.find(function(el) {
+          if(el.title == '工作领域') {
+            el.value = editedPiece.major
+            return true
+          }
+        })
+      } else if(editedPiece.index == '公司') {
+        this.myData.myInfo.find(function(el) {
+          if(el.title == '公司') {
+            el.value = editedPiece.company
+            return true
+          }
+        })
+      } else if(editedPiece.index == '来自') {
+        this.myData.myInfo.find(function(el) {
+          if(el.title == '来自') {
+            el.value = editedPiece.hometown
+            return true
+          }
+        })
+      } else if(editedPiece.index == '经常出没') {
+        this.myData.myInfo.find(function(el) {
+          if(el.title == '经常出没') {
+            el.value = editedPiece.input
+            return true
+          }
+        })
+      } else if(editedPiece.index == '个人签名') {
+        this.myData.myInfo.find(function(el) {
+          if(el.title == '个人签名') {
+            el.value = editedPiece.signature
+            return true
+          }
+        })
+      } else if(editedPiece.index == 'tag') {
+        self.myData.myTags = []
+        editedPiece.tagsList.forEach(function(el) {
+          if(el.picked) {
+            // console.log('el.value: ' + el.value);
+            self.myData.myTags.push(el.value)
+            // console.log('  this.myData.myTags: ' +   self.myData.myTags);
+          }
+        })
+      } else if(editedPiece.index == 'sports') {
+        self.myData.sports = []
+        editedPiece.sportsList.forEach(function(el) {
+          if(el.picked) {
+            self.myData.sports.push(el.value)
+          }
+        })
+      } else if(editedPiece.index == 'music') {
+        self.myData.music = []
+        editedPiece.musicList.forEach(function(el) {
+          if(el.picked) {
+            self.myData.music.push(el.value)
+          }
+        })
+      } else if(editedPiece.index == 'food') {
+        self.myData.food = []
+        editedPiece.foodList.forEach(function(el) {
+          if(el.picked) {
+            self.myData.food.push(el.value)
+          }
+        })
+      } else if(editedPiece.index == 'tv') {
+        self.myData.tv = []
+        editedPiece.tvList.forEach(function(el) {
+          if(el.picked) {
+            self.myData.tv.push(el.value)
+          }
+        })
+      } else if(editedPiece.index == 'book') {
+        self.myData.book = []
+        editedPiece.bookList.forEach(function(el) {
+          if(el.picked) {
+            self.myData.book.push(el.value)
+          }
+        })
+      } else if(editedPiece.index == 'place') {
+        self.myData.place = []
+        editedPiece.placeList.forEach(function(el) {
+          if(el.picked) {
+            self.myData.place.push(el.value)
+          }
+        })
+      } else if(editedPiece.index == 'question') {
+        this.myData.myAns[editedPiece.subIndex].value = editedPiece.answer
+      }
+
+      wepy.removeStorageSync('editedPiece')
     }
     async loadData(_id) {
       // TODO: load data
@@ -431,7 +550,7 @@
           gender: 'female',
           age: '25',
           xingZuo: '双鱼座',
-          nichName: '王小虎',
+          nickName: '王小虎',
           h: '165',
           weight: '45',
           imgUrls: [
@@ -478,19 +597,36 @@
           url: 'itemEditPage?index=' + index
         })
       },
+      goEditQuestion (index, title) {
+        if(!this.editMode) {
+          return
+        }
+        wepy.navigateTo({
+          url: 'itemEditPage?index=question&subIndex=' + index + '&title=' + title
+        })
+      },
       async toggle () {
         // TODO: save edited profile
-        // if(this.editMode) {
-        //   var res = await api.updateProfile({
-        //     pack: {
-        //       _id: this.profile_id,
-        //       data: this.myData
-        //     }
-        //   })
-        //   if(res.data && res.data.flag == 'success') {
-        //     this.myData = res.data.data
-        //   }
-        // }
+        if(this.editMode) {
+          wepy.showModal({
+            title: '提示',
+            content: '确定保存吗？'
+          }).then(async function(res) {
+            console.log(JSON.stringify(res));
+            if(res.confirm) {
+              // var res = await api.updateProfile({
+              //   pack: {
+              //     _id: this.profile_id,
+              //     data: this.myData
+              //   }
+              // })
+              // if(res.data && res.data.flag == 'success') {
+              //   this.myData = res.data.data
+              // }
+            }
+            }
+          )
+        }
         this.editMode = !this.editMode
         this.$apply()
       },
