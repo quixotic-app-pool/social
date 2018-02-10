@@ -562,7 +562,7 @@
               'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
               'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
            ],
-           myInfo: [{'title': '星座', value: '天蝎座'}, {title: '行业', value: '金融'}, {title: '工作领域', value: '策划'}, {title: '公司', value: '爱辉科技有限公司'}, {title: '来自', value: '江苏'}, {title: '经常出没', value: '春熙路'}, {title: '个人签名', value: '聪明是一种天赋，而善良是一种选择。'}],
+           myInfo: [{'title': '星座', value: '天蝎座'}, {title: '行业', value: '金融'}, {title: '工作领域', value: '策划'}, {title: '公司', value: '爱辉科技有限公司'}, {title: '来自', value: '江苏,南京,鼓楼'}, {title: '经常出没', value: '春熙路'}, {title: '个人签名', value: '聪明是一种天赋，而善良是一种选择。'}],
            myTags: ['Patient', 'Creative', '女汉子', '喜欢简单', '靠谱', '安静', '选择恐惧症', '文艺', '厚道', '讲义气', '随性'],
            sports: ['Running', '篮球', '健身房', '舞蹈', '台球', '射箭', '睡觉'],
            music: ['刘德华', '五百', '80年代经典'],

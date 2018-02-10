@@ -57,13 +57,6 @@
         <image class="location-icon" src="../assets/img/location.svg"></image>
         <text>{{ location === '' ? '点击添加位置' : location }}</text>
       </view>
-      <!-- <view
-        class="isanonymous-btn {{ isAnonymous ? 'anonymous' : 'named' }}"
-        @tap.stop="anonymousChange">
-        <text class="anonymous-text">匿名</text>
-        <text class="named-text">实名</text>
-        <view class="isanonymous-btn-key"></view>
-      </view> -->
     </view>
   </view>
 </template>
@@ -71,9 +64,6 @@
 <script>
 import wepy from 'wepy'
 import api from './../api/api'
-// import { api } from '../config'
-// import http from '../utils/request'
-// import sensitiveWordChecker from '../utils/sensitiveWordChecker'
 
 export default class NewBlog extends wepy.page {
   config = {
@@ -86,8 +76,6 @@ export default class NewBlog extends wepy.page {
     screenHeight: wepy.getSystemInfoSync().windowHeight,
     content: '',
     images: [],
-    // isAnonymous: false,
-    device: '',
     location: '',
     latitude: '',
     longitude: '',
@@ -160,15 +148,6 @@ export default class NewBlog extends wepy.page {
       this.longitude = ''
       this.$apply()
     },
-
-    /**
-     * 切换实名、匿名
-     */
-    // anonymousChange () {
-    //   this.isAnonymous = !this.isAnonymous
-    //   this.$apply()
-    // },
-
     /**
      * 发送树洞
      */
@@ -180,46 +159,9 @@ export default class NewBlog extends wepy.page {
         mask: true
       })
 
-      if (sensitiveWordChecker(this.content)) {
-        wepy.hideToast()
-        wepy.showModal({
-          title: '提示',
-          content: '包含敏感词汇，发送失败：）',
-          showCancel: false
-        })
-        return
-      }
-
-      if (/自杀|不想活了/.test(this.content)) {
-        wepy.hideToast()
-        const status = await wepy.showModal({
-          title: '温馨提示',
-          content: '需要帮助？深圳 24 小时免费心理咨询热线：0755-28793123',
-          cancelText: '拨打热线',
-          cancelColor: '#3CC51F',
-          confirmText: '继续发送',
-          confirmColor: '#666666'
-        })
-
-        if (!status.confirm) {
-          await wepy.makePhoneCall({
-            phoneNumber: '0755-28793123'
-          })
-          return
-        } else {
-          wepy.showToast({
-            title: '发送中...',
-            icon: 'loading',
-            duration: 10000,
-            mask: true
-          })
-        }
-      }
-
       const pack = {
         content: this.content,
         images: [],
-        device: this.device,
         location: this.location,
         latitude: this.latitude,
         longitude: this.longitude
@@ -256,7 +198,7 @@ export default class NewBlog extends wepy.page {
           wepy.hideToast()
           wepy.showModal({
             title: '提示',
-            content: '服务器错误，上传图片失败。请重试或截图本提示联系深大汪峰。' + e.message,
+            content: '服务器错误，上传图片失败。请重试或截图本提示联系泽铭哥。' + e.message,
             showCancel: false
           })
           return
@@ -275,7 +217,7 @@ export default class NewBlog extends wepy.page {
         wepy.hideToast()
         wepy.showModal({
           title: '提示',
-          content: '发送树洞失败。请截图本提示，联系深大汪峰。' + e.message,
+          content: '发送树洞失败。请截图本提示，联系泽铭哥。' + e.message,
           showCancel: false
         })
         return
@@ -288,20 +230,10 @@ export default class NewBlog extends wepy.page {
         duration: 1500,
         mask: true
       })
-
-      // save status
-      wepy.setStorageSync('isNeedReloadList', 'true')
-
       await wepy.navigateBack({
         delta: 1
       })
     }
-  }
-
-  // load device info
-  async onShow () {
-    const { model } = await wepy.getSystemInfo()
-    this.device = model.replace(/<.*>/, '')
   }
 }
 </script>
@@ -401,75 +333,7 @@ export default class NewBlog extends wepy.page {
         color: #FA6570;
       }
     }
-
-    .isanonymous-btn {
-      position: relative;
-      float: right;
-      width: 55px;
-      height: 32px;
-      padding: 0 6px;
-      border-radius: 18px;
-      transition: all 300ms ease;
-
-      text {
-        color: #FFF;
-        font-size: 12px;
-        line-height: 32px;
-      }
-      .anonymous-text {
-        float: left;
-      }
-      .named-text {
-        float: right;
-      }
-
-      .isanonymous-btn-key {
-        position: absolute;
-        left: 1px;
-        top: 1px;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: #FFF;
-        box-shadow: 0 2px 3px rgba(0,0,0,0.4);
-        transition: all 300ms ease;
-      }
-    }
-    .anonymous {
-      background: #FA6570;
-
-      .isanonymous-btn-key {
-        transform: translateX(34px);
-      }
-    }
-    .named {
-      background: #2ECC71;
-
-      .isanonymous-btn-key {
-        transform: translateX(0);
-      }
-    }
   }
 
-  .submit-btn {
-    margin: 0 auto;
-    margin-top: 20px;
-    width: 90%;
-
-    .submit {
-      width: 100%;
-      color: #FFF;
-      background: #FA6570;
-      border: none;
-    }
-
-    button[disabled][type="primary"] {
-      opacity: 0.7
-    }
-
-    .button-hover {
-      background: #d75760;
-    }
-  }
 }
 </style>

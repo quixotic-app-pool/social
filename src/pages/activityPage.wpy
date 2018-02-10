@@ -78,7 +78,7 @@
     methods = {
       async jump (index) {
         this.piece = index
-        await loadData()
+        await this.loadData()
       },
       goDetail (url) {
         wepy.navigateTo({

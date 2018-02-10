@@ -33,11 +33,5 @@
         <image class="location-icon" src="../assets/img/location.svg"/>
         <text>{{ location === '' ? '点击添加位置' : location }}</text>
       </view>
-      <!-- <view
-        class="isanonymous-btn {{ isAnonymous ? 'anonymous' : 'named' }}" catchtap="anonymousChange">
-        <text class="anonymous-text">匿名</text>
-        <text class="named-text">实名</text>
-        <view class="isanonymous-btn-key"></view>
-      </view> -->
     </view>
   </view>

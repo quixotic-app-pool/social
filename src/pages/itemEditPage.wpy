@@ -645,7 +645,7 @@
       },
       // index == question
       answerPick (e) {
-        this.backPack.value = e.detail.value
+        this.backPack.value  = e.detail.value
         this.$parent.globalData.editedPiece.data = this.backPack
       }
     }
