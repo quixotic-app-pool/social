@@ -2,6 +2,14 @@
 </style>
 <template>
   <view>
+
+    <view wx:if="{{!myComments.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+      <text style="padding: 0 10px;">Please leave your comment as our very first on, Just Do It! ^_^</text>
+    </view>
+
+    <view @tap.stop="goComment" class="center" style="height:40px;position:fixed; bottom: 0; right:0; left:0;background-color:#20BEEC;">
+      <text style="color:white;">评论</text>
+    </view>
     <repeat
      for="{{myComments}}"
      item= "item"
@@ -71,36 +79,41 @@
       // if(res.data && res.data.flay = 'success') {
       //   this.postData = res.data.data
       // }
-      this.myComments = [
-        {
-            avatarUrl: '../assets/img/boy.jpeg',
-            nickName: '谭马儒',
-            gender: 'male',
-            age: 25,
-            createdAt: '昨日 23：27',
-            msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-            likesNum: 32
-          },
-          {
-              avatarUrl: '../assets/img/boy.jpeg',
-              nickName: '谭马儒',
-              gender: 'male',
-              age: 25,
-              createdAt: '昨日 23：27',
-              msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-              likesNum: 32
-            },{
-                avatarUrl: '../assets/img/boy.jpeg',
-                nickName: '谭马儒',
-                gender: 'male',
-                age: 25,
-                createdAt: '昨日 23：27',
-                msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-                likesNum: 32
-              }
+      this.myComments1 = [
+        // {
+        //     avatarUrl: '../assets/img/boy.jpeg',
+        //     nickName: '谭马儒',
+        //     gender: 'male',
+        //     age: 25,
+        //     createdAt: '昨日 23：27',
+        //     msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+        //     likesNum: 32
+        //   },
+        //   {
+        //       avatarUrl: '../assets/img/boy.jpeg',
+        //       nickName: '谭马儒',
+        //       gender: 'male',
+        //       age: 25,
+        //       createdAt: '昨日 23：27',
+        //       msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+        //       likesNum: 32
+        //     },{
+        //         avatarUrl: '../assets/img/boy.jpeg',
+        //         nickName: '谭马儒',
+        //         gender: 'male',
+        //         age: 25,
+        //         createdAt: '昨日 23：27',
+        //         msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+        //         likesNum: 32
+        //       }
       ]
     }
     methods = {
+      goComment () {
+        wepy.navigateTo({
+          url: 'editPage?type=comment'
+        })
+      }
     }
   }
 </script>

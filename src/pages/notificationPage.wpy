@@ -74,36 +74,36 @@ export default class TestPage extends wepy.page {
    //   this.dataList = res.data.data
    // }
    this.dataList = [
-     {
-      from_user: {
-        nickName: '扎西德勒',
-        avatarUrl: '../assets/img/boy.jpeg'
-      },
-      type: 'comment',
-      post: {value: '标题标题是啥？'},
-      unRead: true,
-      createdAt: '两分钟前'
-    },
-    {
-     from_user: {
-       nickName: '小叮当',
-       avatarUrl: '../assets/img/boy.jpeg'
-     },
-     type: 'like',
-     post: {value: '标题标题是啥？'},
-     unRead: true,
-     createdAt: '两分钟前'
-   },
-   {
-    from_user: {
-      nickName: '小叮当',
-      avatarUrl: '../assets/img/boy.jpeg'
-    },
-    type: 'comment',
-    post: {value: '标题标题是啥？'},
-    unRead: true,
-    createdAt: '两分钟前'
-  }
+  //    {
+  //     from_user: {
+  //       nickName: '扎西德勒',
+  //       avatarUrl: '../assets/img/boy.jpeg'
+  //     },
+  //     type: 'comment',
+  //     post: {value: '标题标题是啥？'},
+  //     unRead: true,
+  //     createdAt: '两分钟前'
+  //   },
+  //   {
+  //    from_user: {
+  //      nickName: '小叮当',
+  //      avatarUrl: '../assets/img/boy.jpeg'
+  //    },
+  //    type: 'like',
+  //    post: {value: '标题标题是啥？'},
+  //    unRead: true,
+  //    createdAt: '两分钟前'
+  //  },
+  //  {
+  //   from_user: {
+  //     nickName: '小叮当',
+  //     avatarUrl: '../assets/img/boy.jpeg'
+  //   },
+  //   type: 'comment',
+  //   post: {value: '标题标题是啥？'},
+  //   unRead: true,
+  //   createdAt: '两分钟前'
+  // }
    ]
  }
  async lower () {
@@ -113,6 +113,15 @@ export default class TestPage extends wepy.page {
  }
   methods = {
     go (page) {
+      // TODO: update
+      // var res = await api.updateNotification({
+      //   pack: {
+      //     _id: _id
+      //   }
+      // })
+      // if(res.data && res.data.flag == 'success') {
+      //   this.dataList = res.data.data
+      // }
       wepy.navigateTo({url: page})
     }
   }

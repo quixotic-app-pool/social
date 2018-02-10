@@ -2,6 +2,14 @@
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
     
   <view>
+
+    <view  wx:if="{{!$commentsComponent$myComments.length}}" class="center" style="width:{{$commentsComponent$screenWidth}}px; height:{{$commentsComponent$screenHeight}}px;">
+      <text style="padding: 0 10px;">Please leave your comment as our very first on, Just Do It! ^_^</text>
+    </view>
+
+    <view catchtap="$commentsComponent$goComment" class="center" style="height:40px;position:fixed; bottom: 0; right:0; left:0;background-color:#20BEEC;">
+      <text style="color:white;">评论</text>
+    </view>
     <block wx:for="{{$commentsComponent$myComments}}" wx:for-index="$commentsComponent$index" wx:for-item="$commentsComponent$item" wx:key="$commentsComponent$index">
      <view style="padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
        <view class="center" style="flex:1">

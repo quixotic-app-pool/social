@@ -9,16 +9,16 @@
 
     <textarea class="textarea" auto-focus bindinput="inputChange" maxlength="-1" placeholder="留下你的足迹..." placeholder-style="">
     </textarea>
-    <view class="image-list">
+    <view  wx:if="{{type != 'comment'}}" class="image-list">
       <!-- preview the image which already be choosed -->
-      <view class="choosed-image-list"  wx:for="{{ images }}" wx:for-item="image" wx:for-index="idx" wx:key="{{ idx }}">
+      <view class="choosed-image-list" wx:for="{{ images }}" wx:for-item="image" wx:for-index="idx" wx:key="{{ idx }}">
         <image src="{{ image }}" mode="aspectFill" catchtap="previewImage" class="choosed-image" data-wpypreviewimage-a="{{ image }}" data-wpypreviewimage-b="{{ images }}"/>
         <view class="choosed-image-delete-btn" catchtap="deleteImage" data-wpydeleteimage-a="{{ idx }}">
           <image class="choosed-image-delete-btn-icon" src="../assets/img/delete.svg"/>
         </view>
       </view>
       <!-- image choosing btn -->
-      <view  wx:if="{{ images.length < 9 }}" bindtap="chooseImage">
+      <view wx:if="{{ images.length < 9 }}" bindtap="chooseImage">
         <!-- <image
           class="choose-image-btn-icon"
           src="../assets/img/choose-image.svg">

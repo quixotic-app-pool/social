@@ -1,5 +1,10 @@
 
   <view class="container">
+
+    <view  wx:if="{{!myData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+      <text style="padding: 0 10px;">Well, fancy activites will come soon ^_^</text>
+    </view>
+
     <view style="z-index:10;position: fixed; display:flex; height: 50px; background-color:white;top: 0; width: {{screenWidth}}px;">
       <view catchtap="jump" class="center" style="flex:1;color:{{piece == 1 ? 'white' : 'black'}};background-color:{{piece == 1 ? '#FFD300' : ''}};" data-wpyjump-a="1">
         <text>进行当中</text>

@@ -21,6 +21,9 @@
 </style>
 <template>
   <view class="container" style="">
+    <view wx:if="{{!myData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+      <text style="padding: 0 10px;">Well, you have not subscribed any user yet, do it now ^_^</text>
+    </view>
     <scroll-view scroll-y="true" style="height:100%;" bindscrolltolower="loadData">
       <view style="display:flex;width:96%;border-bottom:1px solid rgb(232,232,232);margin:2%;" wx:for="{{myData}}" wx:key='index' wx:item='item'>
         <view style="flex:1;">
@@ -76,11 +79,11 @@
      //  }
       this.myData.push(
         ...[
-          {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '164', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          {pic: "../assets/img/5.jpg", height: 0, age:'25', gender: 'female', h: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
+          // {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+          // {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+          // {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+          // {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '164', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+          // {pic: "../assets/img/5.jpg", height: 0, age:'25', gender: 'female', h: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
         ]
       )
       this.$apply()

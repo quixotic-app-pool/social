@@ -14,10 +14,10 @@
           </view>
           <view class="center" style="opacity:0.6;align-self:flex-start;font-size:12px;">
             <view @tap.stop="go('listPage')">
-              <text style="padding-right:15px;">关注 {{myData.subscribedNum}}</text>
+              <text style="padding-right:15px;">关注 {{myData.subscribedNum || 0}}</text>
             </view>
             <view @tap.stop="go('listPage')">
-              <text style="padding-left:15px;">粉丝 {{myData.subscribeNum}}</text>
+              <text style="padding-left:15px;">粉丝 {{myData.subscribeNum || 0}}</text>
             </view>
           </view>
         </view>
@@ -117,14 +117,14 @@ export default class MinePage extends wepy.page {
     //   this.myData = res.data.data
     // }
 
-    this.myData = {
-      avatarUrl: '',
-      nickName: '扎西德勒',
-      subscribedNum: '233',
-      subscribeNum: '122',
-      postsNum: '12',
-      commentsNum: '32'
-    }
+    // this.myData = {
+    //   avatarUrl: '',
+    //   nickName: '扎西德勒',
+    //   subscribedNum: '233',
+    //   subscribeNum: '122',
+    //   postsNum: '12',
+    //   commentsNum: '32'
+    // }
   }
   onReady() {
   }

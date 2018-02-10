@@ -1,5 +1,8 @@
 
   <view class="container" style="">
+    <view  wx:if="{{!myData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+      <text style="padding: 0 10px;">Well, you have not subscribed any user yet, do it now ^_^</text>
+    </view>
     <scroll-view scroll-y="true" style="height:100%;" bindscrolltolower="loadData">
       <view style="display:flex;width:96%;border-bottom:1px solid rgb(232,232,232);margin:2%;"  wx:for="{{myData}}" wx:key="index" wx:item="item">
         <view style="flex:1;">
