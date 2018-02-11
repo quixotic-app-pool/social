@@ -18,7 +18,7 @@
        index= "index"
        key= "index">
         <swiper-item>
-          <image @tap.stop="previewImage({{ item }}, {{ myData.imgUrls }})" style="width: 100%; height: {{screenWidth}}px;" src="{{item}}" class="slide-image"/>
+          <image mode="aspectFill" @tap.stop="previewImage({{ item }}, {{ myData.imgUrls }})" style="width: 100%; height: {{screenWidth}}px;" src="{{item}}" class="slide-image"/>
         </swiper-item>
       </repeat>
     </swiper>
@@ -107,9 +107,9 @@
           <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
             <text style="font-size:12px; color:white;">{{myData.weight}}kg</text>
           </view>
-          <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
+          <!-- <view class="center" style="margin-left:5px; padding:0 2px; border-radius: 4px; background-color:rgb(245, 115, 0	)">
             <text style="font-size:12px; color:white;">{{myData.xingZuo}}</text>
-          </view>
+          </view> -->
         </view>
         <!-- <view style="padding: 6px 0; opacity:0.6; font-size:12px;">
           2km, 1分钟前活跃
@@ -118,7 +118,7 @@
     </view>
 
     <view wx:if="{{editMode}}"  @tap.stop="goEdit('person')" style="width: 100%;">
-      <view class="between" style="padding: 10px;">
+      <view class="between" style="padding: 10px;color:{{editMode ? 'green' : ''}};">
         <view class="center" style="justify-content:flex-start;">
           <text>{{myData.nickName}},</text>
           <text style="padding:0 5px;">{{myData.age}},</text>
@@ -161,9 +161,9 @@
          item= "item"
          index= "index"
          key= "index">
-         <view wx:if="{{item.title == '星座'&&!editMode || item.title != '星座'}}" @tap.stop="goEdit({{item.title}}, {{item.value}})" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}">
+         <view wx:if="{{item.value && (item.title == '星座'&&!editMode || item.title != '星座')}}" @tap.stop="goEdit({{item.title}}, {{item.value}})" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}">
            <view class="center" style="flex:7;opacity:0.6; height:60px;justify-content:flex-start;">
-             <text style="flex:3;">{{item.title}}</text>
+             <text style="flex:3;color:{{editMode&&(item.title == '行业' || item.title == '工作领域' || item.title == '来自') ? 'green' : ''}};">{{item.title}}</text>
              <text style="flex:7;">{{item.value}}</text>
            </view>
            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
@@ -174,7 +174,7 @@
       </view>
     </view>
 
-    <view style="width: 100%;">
+    <view wx:if="{{myData.myTags.length}}" style="width: 100%;">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的标签</text>
       </view>
@@ -199,11 +199,11 @@
       </view>
     </view>
 
-    <view style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
+    <view wx:if="{{myData.myTags.length || myData.sports.length || myData.music.length || myData.food.length || myData.tv.length || myData.book.length || myData.place.length}}" style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的兴趣</text>
       </view>
-      <view @tap.stop="goEdit('sports', {{myData.sports}})" style="display:flex;">
+      <view wx:if="{{myData.sports.length}}" @tap.stop="goEdit('sports', {{myData.sports}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/sports.png" style="width:30px; height:30px;" />
@@ -226,7 +226,7 @@
           </view>
         </view>
       </view>
-      <view @tap.stop="goEdit('music', {{myData.music}})" style="display:flex;">
+      <view wx:if="{{myData.music.length}}" @tap.stop="goEdit('music', {{myData.music}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/music.png" style="width:30px; height:30px;" />
@@ -250,7 +250,7 @@
         </view>
       </view>
 
-      <view @tap.stop="goEdit('food', {{myData.food}})" style="display:flex;">
+      <view wx:if="{{myData.food.length}}" @tap.stop="goEdit('food', {{myData.food}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/food.png" style="width:30px; height:30px;" />
@@ -274,7 +274,7 @@
         </view>
       </view>
 
-      <view @tap.stop="goEdit('tv', {{myData.tv}})" style="display:flex;">
+      <view wx:if="{{myData.tv.length}}" @tap.stop="goEdit('tv', {{myData.tv}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/tv.png" style="width:30px; height:30px;" />
@@ -298,7 +298,7 @@
         </view>
       </view>
 
-      <view @tap.stop="goEdit('book', {{myData.book}})" style="display:flex;">
+      <view wx:if="{{myData.book.length}}" @tap.stop="goEdit('book', {{myData.book}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/book.png" style="width:30px; height:30px;" />
@@ -322,7 +322,7 @@
         </view>
       </view>
 
-      <view @tap.stop="goEdit('place', {{myData.place}})" style="display:flex;">
+      <view wx:if="{{myData.place.length}}"  @tap.stop="goEdit('place', {{myData.place}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/flight.png" style="width:30px; height:30px;" />
@@ -366,7 +366,7 @@
                <text>{{item.value}}</text>
              </view>
            </view>
-           <view wx:if="{{editMode}}" wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
+           <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
            </view>
          </view>
@@ -393,6 +393,7 @@
 <script>
   import wepy from 'wepy'
   import api from './../api/api'
+  import util from '../utils/util'
 
   export default class Index extends wepy.page {
     config = {
@@ -402,16 +403,23 @@
        editMode: false,
        screenWidth: wepy.getSystemInfoSync().windowWidth,
        screenHeight: wepy.getSystemInfoSync().windowHeight,
-       myData: {
-         gender: '1',
-         age: '99',
-         birthDate: '1990-01-01',
-         xingZuo: '双鱼座',
-         nickName: '爱因斯坦',
-         h: '170',
-         weight: '70',
-         imgUrls: [],
-          myInfo: [{'title': '星座', value: '待填'}, {title: '行业', value: '待填'}, {title: '工作领域', value: '待填'}, {title: '公司', value: '待填'}, {title: '来自', value: '待填'}, {title: '经常出没', value: '待填'}, {title: '个人签名', value: '待填'}],
+       myData: {},
+       tempImgUrls: [],
+       profileUser_id: ''
+    }
+    async onLoad (option) {
+      // this.profileUser_id = wepy.getStorageSync('UserId')
+      this.profileUser_id = option._id
+      if(wepy.getStorageSync('requireInit')) {
+        this.myData = {
+          gender: '1',
+          age: '99',
+          birthDate: '1990-01-01',
+          nickName: '爱因斯坦',
+          h: '170',
+          weight: '70',
+          imgUrls: [],
+          myInfo: [{title: '行业', value: '待填'}, {title: '工作领域', value: '待填'}, {title: '公司', value: '待填'}, {title: '来自', value: '待填'}, {title: '经常出没', value: '待填'}, {title: '个人签名', value: '待填'}],
           myTags: ['待填'],
           sports: ['待填'],
           music: ['待填'],
@@ -419,15 +427,12 @@
           tv: ['待填'],
           book: ['待填'],
           place: ['待填'],
-          myAns: [{title: '您的问题？', value: '待填'}]
-       },
-       tempImgUrls: [],
-       profileUser_id: ''
-    }
-    async onLoad (option) {
-      // this.profileUser_id = wepy.getStorageSync('UserId')
-      this.profileUser_id = option._id
-      await this.loadData(this.profileUser_id)
+          myAns: [{title: '您的问题？', value: '哈哈'}]
+        }
+        this.editMode = true
+      } else {
+        await this.loadData(this.profileUser_id)
+      }
     }
     onShow() {
       var self = this
@@ -436,21 +441,24 @@
       // console.log(new Date().toISOString() - editedPiece.birthDate);
       // console.log(editedPiece.birthDate.getMonth());
       if(editedPiece.index == 'person' && editedPiece.data) {
-        console.log('edited back');
+        // console.log('edited back');
         this.myData.gender = editedPiece.data.gender || this.myData.gender
         this.myData.nickName =  editedPiece.data.nickName || this.myData.nickName
         this.myData.h = editedPiece.data.height || this.myData.h
         this.myData.weight = editedPiece.data.weight || this.myData.weight
         this.myData.birthDate = editedPiece.data.birthDate || this.myData.birthDate
         if(editedPiece.data.birthDate) {
-          var currentTime = new Date().toISOString()
-          var customRegExp = /(\d{4})\-(\d{2})\-(\d{2})/
-          var date1 = customRegExp.exec(currentTime)
-          var date2 = customRegExp.exec(editedPiece.data.birthDate)
-          var age = (date1[1] - date2[1]) - (date1[2] < date1[2] ? 1 : 0)
-          this.myData.age = age || this.myData.age
+          this.myData.age = util.age(editedPiece.data.birthDate) || this.myData.age
+          var constellation = util.constellation(editedPiece.data.birthDate)
+          this.myData.myInfo.find(function(item) {
+            if(item.title == '星座') {
+              item.value = constellation
+              return true
+            }
+          })
         }
       } else if(editedPiece.index == '行业' && editedPiece.data) {
+        // console.log('this.myData.myInfo: ' + JSON.stringify(this.myData.myInfo))
         this.myData.myInfo.find(function(el) {
           if(el.title == '行业') {
             el.value = editedPiece.data
@@ -472,6 +480,7 @@
           }
         })
       } else if(editedPiece.index == '来自' && editedPiece.data) {
+         console.log('this.myData.myInfo: ' + JSON.stringify(this.myData.myInfo))
         this.myData.myInfo.find(function(el) {
           if(el.title == '来自') {
             el.value = editedPiece.data
@@ -556,10 +565,13 @@
           _id: _id
         }
       })
-      // console.log('res: ' + JSON.stringify(res));
-       if(res.data && res.data.flag == 'success' && res.data.data.intro.nickName) {
+      // console.log('res: ' + JSON.stringify(res.data));
+       if(res.data && res.data.flag == 'success') {
          var data = res.data.data.intro
          // console.log('self.data: ' + JSON.stringify(self.myData.myInfo))
+         data.age = util.age(data.birthDate)
+         data.myInfo['星座'] = util.constellation(data.birthDate)
+
          var myInfo = data.myInfo
          var subObj = {}
          var arr = []
@@ -569,11 +581,11 @@
           //console.log('subObj: ' + JSON.stringify(subObj))
            arr.unshift(subObj)
            subObj = {}
-           console.log('arr: ' + JSON.stringify(arr))
+          //  console.log('arr: ' + JSON.stringify(arr))
          }
          data.myInfo = arr
          this.myData = data
-         console.log('myData: ' + JSON.stringify(this.myData));
+        //  console.log('myData: ' + JSON.stringify(this.myData));
        }
         // this.myData = {
         //   gender: '0',
@@ -671,78 +683,112 @@
               //    myAns: [{title: '如果能有一种超能力，要什么？', value: '时光能倒流'}, {title: '如果有钱有时间，最想去做什么？', value: '环游世界'}, {title: '什么样的异性最让你心动？', value: '帅 颜值高 绅士 人品好个子高'}, {title: '如果女朋友/男朋友生气了，怎么哄？', value: '一直说开心的事情，如果还在生气就一直哄'}, {title: '可以接受的约会有哪些？', value: '电影 吃饭 篮球'}]
               // }
 
-
               //here need to transform myInfo from array to object
               var temp = {}
               pack.intro.myInfo.forEach(function(item){
                 temp[item.title]  = item.value
               })
               pack.intro.myInfo = temp
-              // console.log('self.profileUser_id: ' + self.profileUser_id);
-              pack.user_id = self.profileUser_id
-              // upload images
-              if (self.tempImgUrls.length > 0) {
-                try {
-                  for (let v of self.tempImgUrls) {
-                    const r = await wepy.uploadFile({
-                      url: 'http://127.0.0.1:8000/api/upload/image',
-                      filePath: v,
-                      name: 'file',
-                      success: function(res) {
-                        console.log('image has been successfully saved in server. Congrats!')
-                      }
-                    })
 
-                    r.data = JSON.parse(r.data)
-                    // console.log('r.data:' + JSON.stringify(r.data));
-                    if (r.data.img) {
-                      // console.log('supposed to have url of OSS: ' + r.data.img)
-                      pack.imgUrls.push(r.data.img)
-                    } else {
-                      wepy.hideToast()
-                      wepy.showModal({
-                        title: '提示',
-                        content: '服务器错误，上传图片失败。请重试~：）' + r.data.errmsg,
-                        showCancel: false
+              //check required items
+              if(!(self.tempImgUrls.length && pack.intro.myInfo['行业'] != '待填' && pack.intro.myInfo['工作领域'] != '待填' && pack.intro.myInfo['来自'] != '待填' && pack.intro.nickName && pack.intro.age && pack.intro.h && pack.intro.weight && pack.intro.gender)) {
+                wepy.showModal({
+                  title: '提示',
+                  content: '请完成绿色字样内容并上传至少一张图片',
+                  showCancel: false
+                }).then(function(res) {
+                  return
+                })
+              } else {
+                // console.log('self.profileUser_id: ' + self.profileUser_id);
+                pack.user_id = self.profileUser_id
+
+                // upload images
+                pack.intro.imgUrls = []
+                if (self.tempImgUrls.length > 0) {
+                  try {
+                    for (let v of self.tempImgUrls) {
+                      const r = await wepy.uploadFile({
+                        url: 'http://127.0.0.1:8000/api/upload/image',
+                        filePath: v,
+                        name: 'file',
+                        success: function(res) {
+                          console.log('image has been successfully saved in server. Congrats!')
+                        }
                       })
+
+                      r.data = JSON.parse(r.data)
+                      // console.log('r.data:' + JSON.stringify(r.data));
+                      if (r.data.img) {
+                        // console.log('supposed to have url of OSS: ' + r.data.img)
+                        pack.intro.imgUrls.push(r.data.img)
+                      } else {
+                        wepy.hideToast()
+                        wepy.showModal({
+                          title: '提示',
+                          content: '服务器错误，上传图片失败。请重试~：）' + r.data.errmsg,
+                          showCancel: false
+                        })
+                      }
                     }
+                  } catch (e) {
+                    wepy.hideToast()
+                    wepy.showModal({
+                      title: '提示',
+                      content: '服务器错误，上传图片失败。' + e.message,
+                      showCancel: false
+                    })
+                    self.editMode = !self.editMode
                   }
-                } catch (e) {
-                  wepy.hideToast()
-                  wepy.showModal({
-                    title: '提示',
-                    content: '服务器错误，上传图片失败。' + e.message,
-                    showCancel: false
-                  })
+                }
+                var res = {}
+                //cleanse data by removing '待填'
+                // console.log('before cleansing...' + JSON.stringify(pack.intro))
+                for(var key in pack.intro) {
+                  // console.log('?: ' + JSON.stringify(pack.intro[key]))
+                  if(JSON.stringify(pack.intro[key]) == JSON.stringify(['待填'])) {
+                    // console.log('??: ' + pack.intro[key]);
+                    pack.intro[key] = []
+                    // console.log('???: ' + pack.intro[key]);
+                  }
+                }
+                for(var key in pack.intro.myInfo) {
+                  if(pack.intro.myInfo[key] == '待填') {
+                    pack.intro.myInfo[key] = ''
+                  }
+                }
+
+                // console.log('after cleansing...' + JSON.stringify(pack.intro))
+                // console.log('before uploading: ' + JSON.stringify(pack));
+                var res = await api.updateProfile({
+                  query: {
+                    pack: pack
+                  },
+                  method: 'POST'
+                })
+                // console.log("?: "+ JSON.stringify(res.data.data));
+                if(res.data && res.data.flag == 'success') {
+                  console.log('successs');
+
+                  self.myData = res.data.data
+                  // console.log('self.data: ' + JSON.stringify(self.myData.myInfo))
+                  var myInfo = self.myData.myInfo
+                  console.log('myInfo: '+ myInfo);
+                  var subObj = {}
+                  var arr = []
+                  for(var key in myInfo) {
+                    subObj.title = key
+                    subObj.value = myInfo[key]
+                    arr.push(subObj)
+                  }
+                  self.myData.myInfo = arr
+                  await self.loadData(self.profileUser_id)
                   self.editMode = !self.editMode
+                  wepy.removeStorageSync('requireInit')
+                  self.$apply()
                 }
               }
 
-              var res = await api.updateProfile({
-                query: {
-                  pack: pack
-                },
-                method: 'POST'
-              })
-              // console.log("?: "+ JSON.stringify(res.data.data));
-              if(res.data && res.data.flag == 'success') {
-                console.log('successs');
-
-                self.myData = res.data.data
-                // console.log('self.data: ' + JSON.stringify(self.myData.myInfo))
-                var myInfo = self.myData.myInfo
-                console.log('myInfo: '+ myInfo);
-                var subObj = {}
-                var arr = []
-                for(var key in myInfo) {
-                  subObj.title = key
-                  subObj.value = myInfo[key]
-                  arr.push(subObj)
-                }
-                self.myData.myInfo = arr
-                self.editMode = !self.editMode
-                self.$apply()
-              }
             } else {
               self.editMode = !self.editMode
               self.$apply()

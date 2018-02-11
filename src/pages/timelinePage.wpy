@@ -1,10 +1,10 @@
 <style lang="less">
-.bg1 {
-  background-image: linear-gradient(
-    90deg,
-    white, rgb(212,214,217)
-    );
-}
+// .bg1 {
+//   background-image: linear-gradient(
+//     90deg,
+//     white, rgb(212,214,217)
+//     );
+// }
 
 // .bg3 {
 //   background-image: linear-gradient(
@@ -27,7 +27,7 @@
 }
 </style>
 <template>
-  <view class="container bg1">
+  <view class="container bg-img" style="height: {{screenHeight}}px; width: {{screenWidth}}px;">
 
     <view @tap.stop="go('notificationPage')" wx:if="{{notifNum > 0}}" class="center" style="opacity:0.5;z-index:10;height:40px; width:40px; position: fixed; right: 10px; top: 10px;background-color:red; border-radius:100%;">
       <text style="color:white;">66</text>
@@ -135,13 +135,13 @@
     <view wx:if="{{!listData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
       <text style="padding: 0 10px;">Please leave your post as our very first on, Just Do It! ^_^</text>
     </view>
-
+    <!-- <view></view? -->
     <repeat
      for="{{listData}}"
      item= "item"
      index= "index"
      key= "index">
-     <view @tap.stop="go({{item._id}})" >
+     <view style="width:{{screenWidth - 10}}px;margin-bottom:20px;" @tap.stop="go({{item._id}})" >
         <postComponent :postData.sync = 'item'/>
      </view>
     </repeat>
@@ -157,7 +157,7 @@
     config = {
       navigationBarBackgroundColor: '#20BEEC',
       navigationBarTitleText: '相知于文字',
-      backgroundColor: 'rgb(232,232,232)'
+      backgroundColor: '#20BEEC'
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,

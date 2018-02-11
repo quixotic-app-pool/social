@@ -32,7 +32,9 @@
 </style>
 <template>
   <view class="container">
-     <postComponent :postData.sync = 'postData'/>
+     <view style="width:100%;border-bottom:1px solid rgb(232,232,232);margin-bottom:50px;">
+       <postComponent :postData.sync = 'postData'/>
+     </view>
 
      <!-- comments -->
      <view style="width:100%;padding:0 10px;box-sizing: border-box;">

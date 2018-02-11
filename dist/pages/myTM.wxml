@@ -7,8 +7,7 @@
 
     <block wx:for="{{listData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
      
-    <view style="margin-bottom:20px;width:{{$postComponent$screenWidth - 20}}px;padding:10px;background-color:white;padding-bottom:0;">
-
+    <view style="border-radius:2px;margin-top:5px;width:100%;padding:10px;box-sizing:border-box;background-color:white;padding-bottom:0;">
       <view style="display: flex;">
         <view style="flex:2;">
           <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
@@ -38,12 +37,12 @@
          <image catchtap="$postComponent$previewImage" mode="aspectFill" src="{{$postComponent$subItem}}" style="padding:{{$postComponent$index%3 == 1 ? '0 5px': ''}};width:{{($postComponent$screenWidth -30)/3}}px; height:{{$postComponent$screenWidth/3}}px;" data-com-index="{{index}}" data-wpypreviewimage-a="{{ $postComponent$subItem }}" data-wpypreviewimage-b="{{ item.imgUrls }}"/>
         </block>
       </view>
-      <view class="center" style="justify-content: space-around;border-top: 1px dashed rgb(232,232,232)">
+      <view class="center" style="justify-content: flex-end;border-top: 1px dashed rgb(232,232,232)">
         <!-- <view class="center" style="padding: 10px 0;">
           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
           <text style="font-size:15px; opacity:0.6;">转发</text>
         </view> -->
-        <view catchtap="$postComponent$go" class="center" style="padding: 10px 0;" data-com-index="{{index}}" data-wpygo-a="detailPage">
+        <view catchtap="$postComponent$go" class="center" style="padding: 10px 0;padding-right:20px;" data-com-index="{{index}}" data-wpygo-a="detailPage">
           <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
           <text style="font-size:15px; opacity:0.6;">{{item.commentsNum}}</text>
         </view>

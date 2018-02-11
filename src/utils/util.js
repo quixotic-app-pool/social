@@ -5,8 +5,48 @@
  * @Project: one_server
  * @Filename: util.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-02-09T14:05:15+08:00
+ * @Last modified time: 2018-02-11T20:40:42+08:00
  */
+  function age (birthDate) {
+    var currentTime = new Date().toISOString()
+    var customRegExp = /(\d{4})\-(\d{2})\-(\d{2})/
+    var date1 = customRegExp.exec(currentTime)
+    var date2 = customRegExp.exec(birthDate)
+    return (date1[1] - date2[1]) - (date1[2] < date1[2] ? 1 : 0)
+  }
+  function constellation(birthDate) {
+    var month, date, value
+    var customRegExp = /(\d{4})\-(\d{2})\-(\d{2})/
+    var res = customRegExp.exec(birthDate)
+    month = res[2]
+    date = res[3]
+    if (month == 1 && date >=20 || month == 2 && date <=18) {value = "水瓶座";}
+    if (month == 1 && date > 31) {value = "huh?";}
+    if (month == 2 && date >=19 || month == 3 && date <=20) {value = "双鱼座";}
+    if (month == 2 && date > 29) {value = "say what?";}
+    if (month == 3 && date >=21 || month == 4 && date <=19) {value = "白羊座";}
+    if (month == 3 && date > 31) {value = "ok. whatever.";}
+    if (month == 4 && date >=20 || month == 5 && date <=20) {value = "金牛座";}
+    if (month == 4 && date > 30) {value = "i'm soooo sorry!";}
+    if (month == 5 && date >=21 || month == 6 && date <=21) {value = "双子座";}
+    if (month == 5 && date > 31) {value = "umm ... no.";}
+    if (month == 6 && date >=22 || month == 7 && date <=22) {value = "巨蟹座";}
+    if (month == 6 && date > 30) {value = "sorry.";}
+    if (month == 7 && date >=23 || month == 8 && date <=22) {value = "狮子座";}
+    if (month == 7 && date > 31) {value = "excuse me?";}
+    if (month == 8 && date >=23 || month == 9 && date <=22) {value = "室女座";}
+    if (month == 8 && date > 31) {value = "yeah. right.";}
+    if (month == 9 && date >=23 || month == 10 && date <=22) {value = "天秤座";}
+    if (month == 9 && date > 30) {value = "try again.";}
+    if (month == 10 && date >=23 || month == 11 && date <=21) {value = "天蝎座";}
+    if (month == 10 && date > 31) {value = "forget it!";}
+    if (month == 11 && date >=22 || month == 12 && date <=21) {value = "人马座";}
+    if (month == 11 && date > 30) {value = "invalid date";}
+    if (month == 12 && date >=22 || month == 1 && date <=19) {value = "摩羯座";}
+    if (month == 12 && date > 31) {value = "no way!";}
+    // console.log('星座 value: ' + value);
+    return value
+  }
  function getCurrentTime() {
    var keep = '';
    var date = new Date();
@@ -114,5 +154,7 @@
  module.exports = {
    getCurrentTime: getCurrentTime,
    calLevel: calLevel,
-   calcTime: calcTime
+   calcTime: calcTime,
+   age: age,
+   constellation: constellation
  }

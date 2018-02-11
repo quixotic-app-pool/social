@@ -26,16 +26,16 @@
       <text style="color:white;font-size:12px;">过滤</text>
     </view> -->
 
-    <view wx:if="{{!col1.length && !col2.length}}" @tap.stop="navigate({{currrentUser_id}})" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+    <!-- <view wx:if="{{!col1.length && !col2.length}}" @tap.stop="navigate({{currrentUser_id}})" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
       <text style="padding: 0 10px;">Well, you are the very first one coming to our family, believe it or not. Click me and leave your beauty right here please ^_^</text>
-    </view>
+    </view> -->
 
     <view style="display:none">
       <image wx:for="{{images}}" wx:key="id" id="{{item.id}}" src="{{item.pic}}" bindload="onImageLoad"></image>
     </view>
-    <scroll-view wx:if="{{col1.length || col2.length}}" scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
+    <scroll-view scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
       <view style="width:100%;">
-        <view class="center" @tap.stop="navigate({{currrentUser_id}})" >
+        <view wx:if="{{requiredInit}}" class="center" @tap.stop="navigate({{currrentUser_id}})" >
           <view class="center" style="padding: 0 5px;margin:10px 0 5px 0;border:1px dashed rgb(232,232,232);height:30px;">
             <text style="font-size:12px;">点击我留下你最新的风采，缘分随时会来到~</text>
           </view>
@@ -117,10 +117,12 @@
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       veryFirst: true,
-      currrentUser_id: ''
+      currrentUser_id: '',
+      requiredInit: false
     }
     async onLoad () {
       // console.log("wepy.getStorageSync('UserId'): " + wepy.getStorageSync('UserId'));
+      this.requiredInit = wepy.getStorageSync('requireInit')
       this.currrentUser_id = wepy.getStorageSync('UserId')
       var imgWidth = this.screenWidth * 0.48;
       var scrollH = this.screenHeight;
@@ -188,10 +190,10 @@
       //  console.log('so....');
        var list = []
        var list = [
-         {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-         {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-         {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-         {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
+         {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45'},
+         {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45'},
+         {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45'},
+         {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '163', weight: '45'}
        ];
        if(this.veryFirst) {
          var baseId = "img-" + (+new Date());

@@ -128,7 +128,13 @@ export default class extends wepy.app {
         // console.log('info from wechat: ' + JSON.stringify(u));
         if(u && u.data && u.data.flag == 'success') {
           wepy.setStorageSync('UserId', u.data.user_id)
-          wepy.setStorageSync('UserAuthority', u.data.user_position)
+          //take nickName to test if user profile init or not
+          if(!u.data.nickName) {
+            wepy.setStorageSync('requireInit', true)
+          } else {
+            wepy.removeStorageSync('requireInit')
+          }
+          // wepy.setStorageSync('UserAuthority', u.data.user_position)
           wepy.setStorageSync('UserSession', u.data.session)
           // console.log('UserId: ' + JSON.stringify(u.data.user_id));
           // console.log('UserSession: ' + JSON.stringify(u.data.session));
