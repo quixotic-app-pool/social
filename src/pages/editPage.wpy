@@ -2,7 +2,7 @@
   <view class="new">
     <view class="center" style="color:white;font-size:30px;height: 60px;z-index:2; width: {{screenWidth}}px;position:fixed; bottom: 0;">
         <!-- <text style="color:white;font-size:30px;">{{lang == 'EN' ? 'Answer' : '回答'}}</text> -->
-        <view  hover-class="clickSend" class="center" style="margin-right:2px;box-shadow:1px 1px 10px 0px #20BEEC;flex:1;height:100%;background-color: #20BEEC;">
+        <view @tap.stop="send" hover-class="clickSend" class="center" style="margin-right:2px;box-shadow:1px 1px 10px 0px #20BEEC;flex:1;height:100%;background-color: #20BEEC;">
           <text>发送</text>
         </view>
     </view>
@@ -79,13 +79,18 @@ export default class NewBlog extends wepy.page {
     location: '',
     latitude: '',
     longitude: '',
-    type: ''
+    type: '',
+    currentUser_id: '',
+    post_id: ''
   }
   onLoad (option) {
     this.type = option.type
+    this.currentUser_id = option.user_id
+    this.post_id = option.post_id
+    // console.log(this.currentUser_id);
     if(this.type == 'comment') {
       wepy.setNavigationBarTitle({title: '编辑评论'})
-    } else {
+    } else if( this.type == 'post' ){
       wepy.setNavigationBarTitle({title: '编辑心情'})
     }
   }
@@ -164,32 +169,36 @@ export default class NewBlog extends wepy.page {
         duration: 10000,
         mask: true
       })
-
+      // console.log('this.currentUser_id: ' + this.currentUser_id);
       const pack = {
+        user_id: this.currentUser_id,
+        type: this.type,
         content: this.content,
         images: [],
         location: this.location,
         latitude: this.latitude,
         longitude: this.longitude
       }
-
+      if(this.type = 'comment') {
+        pack.to_post = this.post_id
+      }
+      // upload images
       // upload images
       if (this.images.length > 0) {
         try {
           for (let v of this.images) {
             const r = await wepy.uploadFile({
-              url: api.blog.imageUpload.url,
+              url: 'http://127.0.0.1:8000/api/upload/image',
               filePath: v,
               name: 'file',
-              formData: {
-                _session: wepy.getStorageSync('_session')
+              success: function(res) {
+                console.log('image has been successfully saved in server. Congrats!')
               }
             })
 
             r.data = JSON.parse(r.data)
-
-            if (r.data.errcode === 0 && r.data.data.url) {
-              pack.images.push(r.data.data.url)
+            if (r.data.img) {
+              pack.images.push(r.data.img)
             } else {
               wepy.hideToast()
               wepy.showModal({
@@ -197,14 +206,13 @@ export default class NewBlog extends wepy.page {
                 content: '服务器错误，上传图片失败。请重试~：）' + r.data.errmsg,
                 showCancel: false
               })
-              return
             }
           }
         } catch (e) {
           wepy.hideToast()
           wepy.showModal({
             title: '提示',
-            content: '服务器错误，上传图片失败。请重试或截图本提示联系泽铭哥。' + e.message,
+            content: '服务器错误，上传图片失败。' + e.message,
             showCancel: false
           })
           return
@@ -213,32 +221,35 @@ export default class NewBlog extends wepy.page {
 
       // upload blog
       try {
-        // var res = await api.newPost({
-        //   pack: pack
-        // })
-        // if(res.data && res.data.flay = 'success') {
-        //
-        // }
+        console.log('pack; ' + JSON.stringify(pack))
+        var res = await api.newPost({
+          query: {
+            pack: pack
+          },
+          method: "POST"
+        })
+        if(res.data && res.data.flag == 'success') {
+          // console.log('data from post: res.data:  ' + JSON.stringify(res.data));
+          wepy.hideToast()
+          await wepy.showToast({
+            title: '发送成功！',
+            icon: 'success',
+            duration: 1500,
+            mask: true
+          })
+          wepy.navigateBack({
+            delta: 1
+          })
+        }
       } catch (e) {
         wepy.hideToast()
         wepy.showModal({
           title: '提示',
-          content: '发送树洞失败。请截图本提示，联系泽铭哥。' + e.message,
+          content: '请截图本提示，联系泽铭。' + e.message,
           showCancel: false
         })
         return
       }
-
-      wepy.hideToast()
-      await wepy.showToast({
-        title: '发送成功！',
-        icon: 'success',
-        duration: 1500,
-        mask: true
-      })
-      await wepy.navigateBack({
-        delta: 1
-      })
     }
   }
 }

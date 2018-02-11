@@ -109,7 +109,7 @@
     </view>
 
     <block wx:for="{{listData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-     <view catchtap="go" data-wpygo-a="detailPage">
+     <view catchtap="go" data-wpygo-a="{{item._id}}">
         
     <view style="margin-bottom:20px;width:{{$postComponent$screenWidth - 20}}px;padding:10px;background-color:white;padding-bottom:0;">
 

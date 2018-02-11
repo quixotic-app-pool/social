@@ -1,20 +1,20 @@
 
-  <view class="container" style="background-color:rgb(246,246,246)">
+  <view class="container" style="background-color:rgb(246,246,246);">
 
     <!-- <view class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:40px;width:40px;border-radius:100%;position:fixed;right:10px;top:10px;" catchlongpress="longpress">
       <text style="color:white;font-size:12px;">过滤</text>
     </view> -->
 
-    <view  wx:if="{{!col1.length && !col2.length}}" catchtap="navigate" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+    <view  wx:if="{{!col1.length && !col2.length}}" catchtap="navigate" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;" data-wpynavigate-a="{{currrentUser_id}}">
       <text style="padding: 0 10px;">Well, you are the very first one coming to our family, believe it or not. Click me and leave your beauty right here please ^_^</text>
     </view>
 
     <view style="display:none">
       <image  wx:for="{{images}}" wx:key="id" id="{{item.id}}" src="{{item.pic}}" bindload="onImageLoad"/>
     </view>
-    <scroll-view scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
+    <scroll-view wx:if="{{col1.length || col2.length}}" scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
       <view style="width:100%;">
-        <view class="center" catchtap="navigate">
+        <view class="center" catchtap="navigate" data-wpynavigate-a="{{currrentUser_id}}">
           <view class="center" style="padding: 0 5px;margin:10px 0 5px 0;border:1px dashed rgb(232,232,232);height:30px;">
             <text style="font-size:12px;">点击我留下你最新的风采，缘分随时会来到~</text>
           </view>
@@ -46,7 +46,7 @@
           </view>
         </view>
         <view class="img_item">
-          <view bindtap="navigate" wx:for="{{col2}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;" data-wpynavigate-a="">
+          <view bindtap="navigate" wx:for="{{col2}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;" data-wpynavigate-a="{{item._id}}">
             <image src="{{item.pic}}" style="border-radius: 5px 5px 0 0;width:100%;height:{{item.height}}px"/>
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex; align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">

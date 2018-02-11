@@ -6,6 +6,9 @@
       </view>
     </view>
     <swiper  wx:if="{{!editMode}}" style="width: 100%; height: {{screenWidth}}px;" indicator-dots="true" autoplay="false" interval="5000" duration="1000">
+      <view wx:if="{{!myData.imgUrls.length}}" class="center" style="width:100%;height:100%;background-color:gray;">
+        <text>呃额，还没有照片呢</text>
+      </view>
       <block wx:for="{{myData.imgUrls}}" wx:for-index="index" wx:for-item="item" wx:key="index">
         <swiper-item>
           <image catchtap="previewImage" style="width: 100%; height: {{screenWidth}}px;" src="{{item}}" class="slide-image" data-wpypreviewimage-a="{{ item }}" data-wpypreviewimage-b="{{ myData.imgUrls }}"/>
@@ -84,7 +87,7 @@
           <text style="padding:0 5px;">{{myData.age}},</text>
           <text style="padding:0 5px;">{{myData.h}}cm,</text>
           <text style="padding:0 5px;">{{myData.weight}}kg,</text>
-          <image src="../assets/img/female.png" style="width:20px; height:20px;"/>
+          <image src="{{myData.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png' }}" style="width:20px; height:20px;"/>
         </view>
         <image src="../assets/img/right-arrow.png" style="opacity:0.5; width:20px; height:20px;"/>
       </view>

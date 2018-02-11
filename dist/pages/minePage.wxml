@@ -75,11 +75,5 @@
         <text style="font-size:20px;">关于我们</text>
       </view>
 
-      <view class="center" style="position:absolute; bottom:20px;width:100%;">
-        <text style="font-size:10px;opacity:0.5;">v1.01</text>
-      </view>
-      <view class="center" style="position:absolute; bottom:0;width:100%;">
-        <text style="font-size:10px;opacity:0.5;">@泽铭哥</text>
-      </view>
     </view>
   </view>

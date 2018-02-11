@@ -39,7 +39,7 @@
        <view style="padding: 10px 0;border-bottom:1px solid rgb(232,232,232)">
          <text style="font-weight: bold;">评论区</text>
        </view>
-       <commentsComponent :post_id="{post_id: ''}"/>
+       <commentsComponent :currentUser_id.sync="currentUser_id" :post_id.sync="post_id" />
      </view>
      <view style="width:100%; height:50px;"></view>
   </view>
@@ -61,6 +61,7 @@
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       post_id: '',
+      currentUser_id: '',
       postData: {}
     }
     components = {
@@ -68,25 +69,28 @@
       postComponent : postComponent
     }
     async onLoad (option) {
-      this.post_id = option._id
+      this.post_id = option.post_id
+      this.currentUser_id = wepy.getStorageSync('UserId')
       // TODO: load post
       //here is a reason that I need to fecth post from here instead from post component which is different from comments
-      // var res = await api.fetchPost({
-      //   query: {
-      //     post_id: this.post_id
-      //   }
-      // })
-      // if(res.data && res.data.flay = 'success') {
-      //   this.postData = res.data.data
-      // }
-      this.postData = {
-        nickName: '谭马儒',
-        createdAt: '昨日 23：27',
-        msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-        imgUrls: ['../assets/img/5.jpg', '../assets/img/4.jpg', '../assets/img/3.jpeg', '../assets/img/2.jpeg', '../assets/img/1.jpeg', '../assets/img/5.jpg', '../assets/img/5.jpg', '../assets/img/4.jpg'],
-        commentsNum: 12,
-        likesNum: 32
+      var res = await api.fetchPost({
+        query: {
+          post_id: this.post_id
+        }
+      })
+      if(res.data && res.data.flag == 'success') {
+        // console.log('res.data.data: ' + JSON.stringify(res.data.data))
+        this.postData = res.data.data
+        this.$apply()
       }
+      // this.postData = {
+      //   nickName: '谭马儒',
+      //   createdAt: '昨日 23：27',
+      //   msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+      //   imgUrls: ['../assets/img/5.jpg', '../assets/img/4.jpg', '../assets/img/3.jpeg', '../assets/img/2.jpeg', '../assets/img/1.jpeg', '../assets/img/5.jpg', '../assets/img/5.jpg', '../assets/img/4.jpg'],
+      //   commentsNum: 12,
+      //   likesNum: 32
+      // }
     }
     methods = {
     }

@@ -9,6 +9,9 @@
     </view>
     <swiper wx:if="{{!editMode}}" style="width: 100%; height: {{screenWidth}}px;" indicator-dots="true"
       autoplay="false" interval="5000" duration="1000">
+      <view wx:if="{{!myData.imgUrls.length}}" class="center" style="width:100%;height:100%;background-color:gray;">
+        <text>呃额，还没有照片呢</text>
+      </view>
       <repeat
        for="{{myData.imgUrls}}"
        item= "item"
@@ -121,7 +124,7 @@
           <text style="padding:0 5px;">{{myData.age}},</text>
           <text style="padding:0 5px;">{{myData.h}}cm,</text>
           <text style="padding:0 5px;">{{myData.weight}}kg,</text>
-          <image src="../assets/img/female.png" style="width:20px; height:20px;"/>
+          <image src="{{myData.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png' }}" style="width:20px; height:20px;"/>
         </view>
         <image src="../assets/img/right-arrow.png" style="opacity:0.5; width:20px; height:20px;"/>
       </view>
@@ -401,19 +404,13 @@
        screenHeight: wepy.getSystemInfoSync().windowHeight,
        myData: {
          gender: '1',
-         age: '29',
+         age: '99',
+         birthDate: '1990-01-01',
          xingZuo: '双鱼座',
-         nickName: '陈泽铭',
-         h: '171',
+         nickName: '爱因斯坦',
+         h: '170',
          weight: '70',
-         imgUrls: [
-            'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg'
-          ],
-          timeline_imgUrls: [
-             'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
-             'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
-             'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
-          ],
+         imgUrls: [],
           myInfo: [{'title': '星座', value: '待填'}, {title: '行业', value: '待填'}, {title: '工作领域', value: '待填'}, {title: '公司', value: '待填'}, {title: '来自', value: '待填'}, {title: '经常出没', value: '待填'}, {title: '个人签名', value: '待填'}],
           myTags: ['待填'],
           sports: ['待填'],
@@ -425,11 +422,12 @@
           myAns: [{title: '您的问题？', value: '待填'}]
        },
        tempImgUrls: [],
-       profile_id: ''
+       profileUser_id: ''
     }
     async onLoad (option) {
-      this.profile_id = option._id
-      await this.loadData(this.profile_id)
+      // this.profileUser_id = wepy.getStorageSync('UserId')
+      this.profileUser_id = option._id
+      await this.loadData(this.profileUser_id)
     }
     onShow() {
       var self = this
@@ -438,6 +436,7 @@
       // console.log(new Date().toISOString() - editedPiece.birthDate);
       // console.log(editedPiece.birthDate.getMonth());
       if(editedPiece.index == 'person' && editedPiece.data) {
+        console.log('edited back');
         this.myData.gender = editedPiece.data.gender || this.myData.gender
         this.myData.nickName =  editedPiece.data.nickName || this.myData.nickName
         this.myData.h = editedPiece.data.height || this.myData.h
@@ -451,10 +450,6 @@
           var age = (date1[1] - date2[1]) - (date1[2] < date1[2] ? 1 : 0)
           this.myData.age = age || this.myData.age
         }
-        // console.log('age: ' + age);
-        // console.log('date1: ' + date1);
-        // console.log('date2: ' + date2);
-        // console.log(currentTime);
       } else if(editedPiece.index == '行业' && editedPiece.data) {
         this.myData.myInfo.find(function(el) {
           if(el.title == '行业') {
@@ -556,18 +551,33 @@
     }
     async loadData(_id) {
       // TODO: load data
-      // var res = await api.profile({
-      //   query: {
-      //     _id: _id
-      //   }
-      // })
-      //  if(res.data && res.data.flag == 'success') {
-      //    this.myData = res.data.data
-      //  }
-        // this.myData1 = {
+      var res = await api.profile({
+        query: {
+          _id: _id
+        }
+      })
+      // console.log('res: ' + JSON.stringify(res));
+       if(res.data && res.data.flag == 'success' && res.data.data.intro.nickName) {
+         var data = res.data.data.intro
+         // console.log('self.data: ' + JSON.stringify(self.myData.myInfo))
+         var myInfo = data.myInfo
+         var subObj = {}
+         var arr = []
+         for(var key in myInfo) {
+           subObj.title = key
+           subObj.value = myInfo[key]
+          //console.log('subObj: ' + JSON.stringify(subObj))
+           arr.unshift(subObj)
+           subObj = {}
+           console.log('arr: ' + JSON.stringify(arr))
+         }
+         data.myInfo = arr
+         this.myData = data
+         console.log('myData: ' + JSON.stringify(this.myData));
+       }
+        // this.myData = {
         //   gender: '0',
-        //   age: '25',
-        //   xingZuo: '双鱼座',
+        //   birthDate: '1990-01-01',
         //   nickName: '王小虎',
         //   h: '165',
         //   weight: '45',
@@ -629,27 +639,120 @@
       },
       async toggle () {
         // TODO: save edited profile
+        var self = this
         if(this.editMode) {
           wepy.showModal({
             title: '提示',
             content: '确定保存吗？'
           }).then(async function(res) {
-            console.log(JSON.stringify(res));
             if(res.confirm) {
-              // var res = await api.updateProfile({
-              //   pack: {
-              //     _id: this.profile_id,
-              //     data: this.myData
-              //   }
-              // })
-              // if(res.data && res.data.flag == 'success') {
-              //   this.myData = res.data.data
+              var pack = {}
+              pack.intro = self.myData
+
+              // pack.intro = {
+              //   gender: '0',
+              //   birthDate: '1990-01-01',
+              //   nickName: '王小虎',
+              //   h: '165',
+              //   weight: '45',
+              //   imgUrls: [
+              //      'https://ae01.alicdn.com/kf/HTB14a.ZlzuhSKJjSspjq6Ai8VXaS/Needlework-diy-diamond-painting-cross-stitch-kits-full-resin-square-diamond-embroidery-Mosaic-Home-Decor-scenic.jpg_640x640.jpg',
+              //      'https://ae01.alicdn.com/kf/HTB1H.VPJVXXXXblXFXXq6xXFXXXj/Diy-Diamond-Painting-Kits-30x30cm-Full-Diamond-Square-Rhinestone-Pasted-Painting-Home-Decoration-Nature-Scenery-Waterfall.jpg_640x640.jpg',
+              //      'https://www.dhresource.com/0x0s/f2-albu-g4-M00-12-49-rBVaEFmVotuAXou9AAL3rP5jSuc531.jpg/beautiful-scenery-seaside-diy-full-square.jpg'
+              //    ],
+              //    myInfo: [{title: '行业', value: '金融'}, {title: '工作领域', value: '策划'}, {title: '公司', value: '爱辉科技有限公司'}, {title: '来自', value: '江苏,南京,鼓楼'}, {title: '经常出没', value: '春熙路'}, {title: '个人签名', value: '聪明是一种天赋，而善良是一种选择。'}],
+              //    myTags: ['Patient', 'Creative', '女汉子', '喜欢简单', '靠谱', '安静', '选择恐惧症', '文艺', '厚道', '讲义气', '随性'],
+              //    sports: ['Running', '篮球', '健身房', '舞蹈', '台球', '射箭', '睡觉'],
+              //    music: ['刘德华', '五百', '80年代经典'],
+              //    food: ['牛排', '火锅', '美食'],
+              //    tv: ['我的少女时代', '喜剧之王', '倩女幽魂', '背景遇上西雅图', '机械师', '剪刀手爱德华', '傲慢与偏见'],
+              //    book: ['殷桃小丸子', '琼瑶', '灌篮高手'],
+              //    place: ['北海', '泰国', '大理', '九寨沟', '成都', '丽江', '香格里拉', '普吉岛', '越南'],
+              //    myAns: [{title: '如果能有一种超能力，要什么？', value: '时光能倒流'}, {title: '如果有钱有时间，最想去做什么？', value: '环游世界'}, {title: '什么样的异性最让你心动？', value: '帅 颜值高 绅士 人品好个子高'}, {title: '如果女朋友/男朋友生气了，怎么哄？', value: '一直说开心的事情，如果还在生气就一直哄'}, {title: '可以接受的约会有哪些？', value: '电影 吃饭 篮球'}]
               // }
+
+
+              //here need to transform myInfo from array to object
+              var temp = {}
+              pack.intro.myInfo.forEach(function(item){
+                temp[item.title]  = item.value
+              })
+              pack.intro.myInfo = temp
+              // console.log('self.profileUser_id: ' + self.profileUser_id);
+              pack.user_id = self.profileUser_id
+              // upload images
+              if (self.tempImgUrls.length > 0) {
+                try {
+                  for (let v of self.tempImgUrls) {
+                    const r = await wepy.uploadFile({
+                      url: 'http://127.0.0.1:8000/api/upload/image',
+                      filePath: v,
+                      name: 'file',
+                      success: function(res) {
+                        console.log('image has been successfully saved in server. Congrats!')
+                      }
+                    })
+
+                    r.data = JSON.parse(r.data)
+                    // console.log('r.data:' + JSON.stringify(r.data));
+                    if (r.data.img) {
+                      // console.log('supposed to have url of OSS: ' + r.data.img)
+                      pack.imgUrls.push(r.data.img)
+                    } else {
+                      wepy.hideToast()
+                      wepy.showModal({
+                        title: '提示',
+                        content: '服务器错误，上传图片失败。请重试~：）' + r.data.errmsg,
+                        showCancel: false
+                      })
+                    }
+                  }
+                } catch (e) {
+                  wepy.hideToast()
+                  wepy.showModal({
+                    title: '提示',
+                    content: '服务器错误，上传图片失败。' + e.message,
+                    showCancel: false
+                  })
+                  self.editMode = !self.editMode
+                }
+              }
+
+              var res = await api.updateProfile({
+                query: {
+                  pack: pack
+                },
+                method: 'POST'
+              })
+              // console.log("?: "+ JSON.stringify(res.data.data));
+              if(res.data && res.data.flag == 'success') {
+                console.log('successs');
+
+                self.myData = res.data.data
+                // console.log('self.data: ' + JSON.stringify(self.myData.myInfo))
+                var myInfo = self.myData.myInfo
+                console.log('myInfo: '+ myInfo);
+                var subObj = {}
+                var arr = []
+                for(var key in myInfo) {
+                  subObj.title = key
+                  subObj.value = myInfo[key]
+                  arr.push(subObj)
+                }
+                self.myData.myInfo = arr
+                self.editMode = !self.editMode
+                self.$apply()
+              }
+            } else {
+              self.editMode = !self.editMode
+              self.$apply()
             }
             }
           )
+        } else {
+          this.editMode = !this.editMode
+          this.$apply()
         }
-        this.editMode = !this.editMode
         this.$apply()
       },
       go (page) {

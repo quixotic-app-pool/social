@@ -9,6 +9,13 @@
       <view style="padding: 20px;text-align:justify;">
         <text style="opacity:0.8;">致力于打造南京同城最现代化最活跃的线下线上本硕博海归同城单身相亲平台，欢迎您的参与。</text>
       </view>
+      <view class="center" style="position:absolute; bottom:50px;width:100%;">
+        <text style="font-size:10px;opacity:0.5;">v1.01</text>
+      </view>
+      <view class="center" style="flex-direction:column; position:absolute; bottom:20px;width:100%;">
+        <text style="font-size:10px;opacity:0.5;">@南京同城本硕博&&海归单身交友会</text>
+        <text style="font-size:10px;opacity:0.5;">泽铭提供技术支持</text>
+      </view>
     </view>
   </view>
 </template>

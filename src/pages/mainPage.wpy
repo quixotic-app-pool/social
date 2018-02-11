@@ -20,22 +20,22 @@
 }
 </style>
 <template>
-  <view class="container" style="background-color:rgb(246,246,246)">
+  <view class="container" style="background-color:rgb(246,246,246);">
 
     <!-- <view class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:40px;width:40px;border-radius:100%;position:fixed;right:10px;top:10px;" catchlongpress="longpress">
       <text style="color:white;font-size:12px;">过滤</text>
     </view> -->
 
-    <view wx:if="{{!col1.length && !col2.length}}" @tap.stop="navigate" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+    <view wx:if="{{!col1.length && !col2.length}}" @tap.stop="navigate({{currrentUser_id}})" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
       <text style="padding: 0 10px;">Well, you are the very first one coming to our family, believe it or not. Click me and leave your beauty right here please ^_^</text>
     </view>
 
     <view style="display:none">
       <image wx:for="{{images}}" wx:key="id" id="{{item.id}}" src="{{item.pic}}" bindload="onImageLoad"></image>
     </view>
-    <scroll-view scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
+    <scroll-view wx:if="{{col1.length || col2.length}}" scroll-y="true" style="height:{{scrollH}}px" bindscrolltolower="loadImages">
       <view style="width:100%;">
-        <view class="center" @tap.stop="navigate" >
+        <view class="center" @tap.stop="navigate({{currrentUser_id}})" >
           <view class="center" style="padding: 0 5px;margin:10px 0 5px 0;border:1px dashed rgb(232,232,232);height:30px;">
             <text style="font-size:12px;">点击我留下你最新的风采，缘分随时会来到~</text>
           </view>
@@ -67,7 +67,7 @@
           </view>
         </view>
         <view class="img_item">
-          <view @tap="navigate()" wx:for="{{col2}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;">
+          <view @tap="navigate({{item._id}})" wx:for="{{col2}}" wx:key="id" style="margin-bottom:20px;border-radius:5px;box-shadow:1px 1px 10px gray;">
             <image src="{{item.pic}}" style="border-radius: 5px 5px 0 0;width:100%;height:{{item.height}}px"></image>
             <view style="opacity:0.8;font-size:13px;padding:0 10px 0 10px;display:flex; align-items:center;flex-wrap:wrap;">
               <view class="between" style="justify-content:flex-start;width:100%;">
@@ -101,8 +101,8 @@
   import wepy from 'wepy'
   import api from './../api/api'
 
-  let col1H = 0;
-  let col2H = 0;
+  var col1H = 0;
+  var col2H = 0;
   export default class MainPage extends wepy.page {
     config = {
       navigationBarTitleText: '相识于眼缘'
@@ -115,9 +115,13 @@
       col1: [],
       col2: [],
       screenWidth: wepy.getSystemInfoSync().windowWidth,
-      screenHeight: wepy.getSystemInfoSync().windowHeight
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      veryFirst: true,
+      currrentUser_id: ''
     }
     async onLoad () {
+      // console.log("wepy.getStorageSync('UserId'): " + wepy.getStorageSync('UserId'));
+      this.currrentUser_id = wepy.getStorageSync('UserId')
       var imgWidth = this.screenWidth * 0.48;
       var scrollH = this.screenHeight;
 
@@ -127,19 +131,19 @@
       await this.loadImages()
      }
      onImageLoad (e) {
-       let imageId = e.currentTarget.id;
-       let oImgW = e.detail.width;         //图片原始宽度
-       let oImgH = e.detail.height;        //图片原始高度
-       let imgWidth = this.data.imgWidth;  //图片设置的宽度
+       var imageId = e.currentTarget.id;
+       var oImgW = e.detail.width;         //图片原始宽度
+       var oImgH = e.detail.height;        //图片原始高度
+       var imgWidth = this.data.imgWidth;  //图片设置的宽度
       //  console.log('this.data : ' + JSON.stringify(this.data))
-       let scale = imgWidth / oImgW;        //比例计算
-       let imgHeight = oImgH * scale;      //自适应高度
+       var scale = imgWidth / oImgW;        //比例计算
+       var imgHeight = oImgH * scale;      //自适应高度
 
-       let images = this.data.images;
-       let imageObj = null;
+       var images = this.data.images;
+       var imageObj = null;
 
-       for (let i = 0; i < images.length; i++) {
-           let img = images[i];
+       for (var i = 0; i < images.length; i++) {
+           var img = images[i];
            if (img.id === imageId) {
                imageObj = img;
                break;
@@ -148,9 +152,9 @@
 
        imageObj.height = imgHeight;
 
-       let loadingCount = this.data.loadingCount - 1;
-       let col1 = this.data.col1;
-       let col2 = this.data.col2;
+       var loadingCount = this.data.loadingCount - 1;
+       var col1 = this.data.col1;
+       var col2 = this.data.col2;
 
        if (col1H <= col2H) {
            col1H += imgHeight;
@@ -160,7 +164,7 @@
            col2.push(imageObj);
        }
 
-       let data = {
+       var data = {
            loadingCount: loadingCount,
            col1: col1,
            col2: col2
@@ -170,40 +174,80 @@
            data.images = [];
        }
 
-       this.setData(data);
+       this.data.loadingCount = loadingCount
+       this.data.col1 = col1
+       this.data.col2 = col2
+       if(!loadingCount) {
+         this.data.images = []
+       }
+
+      //  this.setData(data);
      }
      async loadImages () {
        // TODO: here we gonna load data
-       var list
-      //  var res = await api.profileList({
-      //    query: {
-      //      page: 0
-      //    }
-      //  })
-       //
-      //  if(res.data && res.data.flag == 'success') {
-      //    list = res.data.data
-      //  }
-       list = [
-        //  {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-        //  {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-        //  {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-        //  {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '164', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-        //  {pic: "../assets/img/5.jpg", height: 0, age:'25', gender: 'female', h: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
+      //  console.log('so....');
+       var list = []
+       var list = [
+         {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+         {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
        ];
+       if(this.veryFirst) {
+         var baseId = "img-" + (+new Date());
 
-       let baseId = "img-" + (+new Date());
-
-       for (let i = 0; i < list.length; i++) {
-           list[i].id = baseId + "-" + i;
+         for (var i = 0; i < list.length; i++) {
+             list[i].id = baseId + "-" + i;
+         }
+        //  console.log('list: ' + JSON.stringify(list))
+         this.loadingCount= list.length
+         this.images= list
+        //  console.log('images: ' + JSON.stringify(this.images))
+         this.veryFirst = !this.veryFirst
+         return
        }
 
-       this.loadingCount= list.length
-       this.images= list
+       var res = await api.profileList({
+         query: {
+           currentPage: 0,
+           gender: '1'
+         }
+       })
+      //  return
+       if(res.data && res.data.flag == 'success') {
+         list = res.data.data
+         var o1 = {}
+         var o2 = {}
+         var o3 = {}
+         var arr = []
+         list.forEach(function(obj) {
+           o1 = { _id : obj._id }
+           o2 = obj.intro
+           o2.pic = o2.imgUrls[0]
+           o2.imgUrls = []
+           o2.height = 0
+           o3 = Object.assign(o1, o2)
+           arr.push(o3)
+         })
+        //  console.log('o3: ' + JSON.stringify(arr));
+         list = arr
+         var baseId = "img-" + (+new Date());
+
+         for (var i = 0; i < list.length; i++) {
+             list[i].id = baseId + "-" + i;
+         }
+        //  console.log('list: ' + JSON.stringify(list))
+
+         this.loadingCount= list.length
+         this.images= list
+        //  this.$apply()
+        //  console.log('images: ' + JSON.stringify(this.images))
+       }
     }
     methods = {
       navigate (_id) {
-        wepy.navigateTo({url: 'individualPage?id=' + _id})
+        // console.log('_id: ' + _id);
+        wepy.navigateTo({url: 'individualPage?_id=' + _id})
       },
       subscribe () {
         //  var res = await api.subscribe({

@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: api.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-02-08T20:51:50+08:00
+ * @Last modified time: 2018-02-11T11:04:53+08:00
  */
  import {
    wxRequest
@@ -15,7 +15,7 @@
  // production
  // const host = ?
  // development
- const host = 'http://127.0.0.1:9000'
+ const host = 'http://127.0.0.1:8000'
  // const host = 'https://www.takeiteasydude.com'
 
 
@@ -29,7 +29,7 @@
 
  const profileList = (params) => wxRequest(params, host + "/api/profilelist");
  const profile = (params) => wxRequest(params, host + "/api/profile");
- const updateprofile = (params) => wxRequest(params, host + "/api/updateprofile");
+ const updateProfile = (params) => wxRequest(params, host + "/api/updateprofile");
 
  const fetchPostList = (params) => wxRequest(params, host + "/api/fetchpostlist");
  const fetchPost = (params) => wxRequest(params, host + "/api/fetchpost");
@@ -57,6 +57,7 @@
    updateNotification,
    //memberlist
    profileList,
+   updateProfile,
    profile,
    //post
    fetchPostList,
