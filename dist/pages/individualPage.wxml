@@ -1,6 +1,6 @@
 
   <view class="container">
-    <view class="center" catchtap="toggle" style="z-index:10;position:fixed; bottom:0; width:100%;height:50px;background-color:#CE452F;" data-wpytoggle-a="">
+    <view  wx:if="{{profileUser_id == currentUser_id}}" class="center" catchtap="toggle" style="z-index:10;position:fixed; bottom:0; width:100%;height:50px;background-color:#CE452F;" data-wpytoggle-a="">
       <view style="color:white;">
         {{editMode ? '保存': '编辑'}}
       </view>
@@ -15,7 +15,7 @@
         </swiper-item>
       </block>
     </swiper>
-    <view  wx:if="{{editMode}}" style="width: 100%; height: {{screenWidth}}px;">
+    <view wx:if="{{editMode}}" style="width: 100%; height: {{screenWidth}}px;">
       <view style="display:flex;flex-wrap:wrap;">
         <view catchtap="chooseImage" class="center" style="border-right:1px solid white;border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*2/3 - 1}}px; height: {{screenWidth*2/3 - 1}}px">
           <image wx:if="{{!tempImgUrls[0]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
@@ -116,10 +116,10 @@
       </view>
       <view style="border-bottom:1px solid rgb(232,232,232);">
         <block wx:for="{{myData.myInfo}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-         <view wx:if="{{item.value && (item.title == '星座'&&!editMode || item.title != '星座')}}" catchtap="goEdit" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}" data-wpygoedit-a="{{item.title}}" data-wpygoedit-b="{{item.value}}">
+         <view wx:if="{{(editMode || item.value) && (item.title == '星座'&&!editMode || item.title != '星座')}}" catchtap="goEdit" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}" data-wpygoedit-a="{{item.title}}" data-wpygoedit-b="{{item.value}}">
            <view class="center" style="flex:7;opacity:0.6; height:60px;justify-content:flex-start;">
              <text style="flex:3;color:{{editMode&&(item.title == '行业' || item.title == '工作领域' || item.title == '来自') ? 'green' : ''}};">{{item.title}}</text>
-             <text style="flex:7;">{{item.value}}</text>
+             <text style="flex:7;">{{item.value || '待填'}}</text>
            </view>
            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
@@ -129,7 +129,7 @@
       </view>
     </view>
 
-    <view wx:if="{{myData.myTags.length}}" style="width: 100%;">
+    <view wx:if="{{editMode || myData.myTags.length}}" style="width: 100%;">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的标签</text>
       </view>
@@ -138,7 +138,7 @@
           <image src="../assets/img/hash.png" style="width:30px; height:30px;"/>
         </view>
         <view style="flex: 7; display: flex;flex-wrap:wrap;padding-right:10px;">
-          <block wx:for="{{myData.myTags}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          <block wx:for="{{myData.myTags.length && myData.myTags || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
            <view style="margin:3px;; padding:0 4px; background-color: rgb(177, 175, 179); border-radius: 4px;">
              <text style="color:rgb(64, 74, 98)">{{item}}</text>
            </view>
@@ -150,18 +150,18 @@
       </view>
     </view>
 
-    <view wx:if="{{myData.myTags.length || myData.sports.length || myData.music.length || myData.food.length || myData.tv.length || myData.book.length || myData.place.length}}" style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
+    <view wx:if="{{editMode || myData.myTags.length || myData.sports.length || myData.music.length || myData.food.length || myData.tv.length || myData.book.length || myData.place.length}}" style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的兴趣</text>
       </view>
-      <view wx:if="{{myData.sports.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="sports" data-wpygoedit-b="{{myData.sports}}">
+      <view wx:if="{{editMode || myData.sports.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="sports" data-wpygoedit-b="{{myData.sports}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/sports.png" style="width:30px; height:30px;"/>
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
-              <block wx:for="{{myData.sports}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <block wx:for="{{myData.sports.length && myData.sports || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
                <view style="margin:3px;; padding:0 4px; background-color: rgb(205, 233, 214); border-radius: 4px;">
                  <text style="color:rgb(43, 91, 61)">{{item}}</text>
                </view>
@@ -173,14 +173,14 @@
           </view>
         </view>
       </view>
-      <view wx:if="{{myData.music.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="music" data-wpygoedit-b="{{myData.music}}">
+      <view wx:if="{{editMode || myData.music.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="music" data-wpygoedit-b="{{myData.music}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/music.png" style="width:30px; height:30px;"/>
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
-              <block wx:for="{{myData.music}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <block wx:for="{{myData.music.length && myData.music || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
                <view style="margin:3px;; padding:0 4px; background-color: rgb(178,186,219); border-radius: 4px;">
                  <text style="color:rgb(63,77,161)">{{item}}</text>
                </view>
@@ -193,14 +193,14 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.food.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="food" data-wpygoedit-b="{{myData.food}}">
+      <view wx:if="{{editMode || myData.food.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="food" data-wpygoedit-b="{{myData.food}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/food.png" style="width:30px; height:30px;"/>
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
-              <block wx:for="{{myData.food}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <block wx:for="{{myData.food.length && myData.food || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
                <view style="margin:3px;; padding:0 4px; background-color: rgb(241,170,160); border-radius: 4px;">
                  <text style="color:rgb(173,72,56)">{{item}}</text>
                </view>
@@ -213,14 +213,14 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.tv.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="tv" data-wpygoedit-b="{{myData.tv}}">
+      <view wx:if="{{editMode || myData.tv.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="tv" data-wpygoedit-b="{{myData.tv}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/tv.png" style="width:30px; height:30px;"/>
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
-              <block wx:for="{{myData.tv}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <block wx:for="{{myData.tv.length && myData.tv || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
                <view style="margin:3px;; padding:0 4px; background-color: rgb(200,197,224); border-radius: 4px;">
                  <text style="color:rgb(80,75,114)">{{item}}</text>
                </view>
@@ -233,14 +233,14 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.book.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="book" data-wpygoedit-b="{{myData.book}}">
+      <view wx:if="{{editMode || myData.book.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="book" data-wpygoedit-b="{{myData.book}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/book.png" style="width:30px; height:30px;"/>
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
-              <block wx:for="{{myData.book}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <block wx:for="{{myData.book.length && myData.book || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
                <view style="margin:3px;; padding:0 4px; background-color: rgb(253,238,186); border-radius: 4px;">
                  <text style="color:rgb(184,157,71)">{{item}}</text>
                </view>
@@ -253,14 +253,14 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.place.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="place" data-wpygoedit-b="{{myData.place}}">
+      <view wx:if="{{editMode || myData.place.length}}" catchtap="goEdit" style="display:flex;" data-wpygoedit-a="place" data-wpygoedit-b="{{myData.place}}">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/flight.png" style="width:30px; height:30px;"/>
           </view>
           <view class="between" style="flex: 7;">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
-              <block wx:for="{{myData.place}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+              <block wx:for="{{myData.place.length && myData.place || temp}}" wx:for-index="index" wx:for-item="item" wx:key="index">
                <view style="margin:3px;; padding:0 4px; background-color: rgb(209,220,224); border-radius: 4px;">
                  <text style="color:rgb(75,111,138)">{{item}}</text>
                </view>

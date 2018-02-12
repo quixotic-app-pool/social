@@ -9,14 +9,14 @@
         </view>
         <view class="between" style="flex-direction:column;flex:4;padding-left:10px;">
           <view class="center" style="align-self:flex-start;">
-            <text style="font-size:25px;">{{myData.nickName}}</text>
-            <image src="../assets/img/male.png" style="width:20px; height:20px;"/>
+            <text style="font-size:25px;">{{myData.intro.nickName}}</text>
+            <image src="{{myData.intro.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png'}}" style="width:20px; height:20px;"/>
           </view>
           <view class="center" style="opacity:0.6;align-self:flex-start;font-size:12px;">
-            <view @tap.stop="go('listPage')">
+            <view @tap.stop="go('listPage', 'subscriptions')">
               <text style="padding-right:15px;">关注 {{myData.subscribedNum || 0}}</text>
             </view>
-            <view @tap.stop="go('listPage')">
+            <view @tap.stop="go('listPage', 'subscribed')">
               <text style="padding-left:15px;">粉丝 {{myData.subscribeNum || 0}}</text>
             </view>
           </view>
@@ -31,7 +31,7 @@
 
     <view style="width: {{screenWidth}}px;">
 
-      <view  @tap.stop="go('myTM')" class="center" style="border-bottom:1px solid rgb(232,232,232);justify-content:space-between;background-color:white; justify-content:flex-start;padding: 10px;">
+      <view  @tap.stop="go('myTM', 'posts')" class="center" style="border-bottom:1px solid rgb(232,232,232);justify-content:space-between;background-color:white; justify-content:flex-start;padding: 10px;">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/question.png"style="width: 50px; height: 50px;margin-right: 20px;" />
           <text style="font-size:20px;">我的状态</text>
@@ -41,7 +41,7 @@
         </view>
       </view>
 
-      <view  @tap.stop="go('commentsPage')" class="center" style="justify-content:space-between;border-bottom:1px solid rgb(232,232,232);background-color:white; justify-content:flex-start;padding: 10px;">
+      <view  @tap.stop="go('commentsPage', 'comments')" class="center" style="justify-content:space-between;border-bottom:1px solid rgb(232,232,232);background-color:white; justify-content:flex-start;padding: 10px;">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/answer.png"style="width: 50px; height: 50px;margin-right: 20px;" />
           <text style="font-size:20px;">我的评论</text>
@@ -51,7 +51,7 @@
         </view>
       </view>
 
-      <view  @tap.stop="go('myTM')" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;">
+      <view  @tap.stop="go('myTM', 'likePosts')" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/like-fill.png"style="width: 50px; height: 50px;margin-right: 20px;" />
           <text style="font-size:20px;">点赞心情</text>
@@ -61,7 +61,7 @@
         </view>
       </view>
 
-      <view  @tap.stop="go('commentsPage')" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;">
+      <view  @tap.stop="go('commentsPage', 'likeComments')" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/like-fill.png"style="width: 50px; height: 50px;margin-right: 20px;" />
           <text style="font-size:20px;">点赞评论</text>
@@ -95,21 +95,25 @@ export default class MinePage extends wepy.page {
     screenWidth: wepy.getSystemInfoSync().windowWidth,
     screenHeight: wepy.getSystemInfoSync().windowHeight,
     user_id: '',
-    myData: {}
+    myData: {},
+    currentUser_id: ''
   }
   async onLoad (option) {
+    this.currentUser_id = wepy.getStorageSync('UserId')
     await this.loadData()
   }
   async loadData() {
     // TODO: load data
-    // var res = await api.userInfo({
-    //   pack: {
-    //     _id: _id
-    //   }
-    // })
-    // if(res.data && res.data.flag == 'success') {
-    //   this.myData = res.data.data
-    // }
+    var res = await api.userInfo({
+      query: {
+        user_id: this.currentUser_id
+      }
+    })
+    console.log('res.data.data: ' + JSON.stringify(res.data.data));
+    if(res.data && res.data.flag == 'success') {
+      this.myData = res.data.data
+      this.$apply()
+    }
 
     // this.myData = {
     //   avatarUrl: '',
@@ -123,10 +127,28 @@ export default class MinePage extends wepy.page {
   onReady() {
   }
   methods = {
-    go (page) {
-      wepy.navigateTo({
-        url: page
-      })
+    go (page, type) {
+      if(page == 'individualPage') {
+        wepy.navigateTo({
+          url: 'individualPage?_id=' + this.currentUser_id + '&self=true'
+        })
+      } else if(page == 'listPage') {
+        wepy.navigateTo({
+          url: 'listPage?type=' + type
+        })
+      } else if(page == 'myTM') {
+        wepy.navigateTo({
+          url: 'myTM?type=' + type
+        })
+      } else if(page == 'commentsPage') {
+        wepy.navigateTo({
+          url: 'commentsPage?type=' + type
+        })
+      } else {
+        wepy.navigateTo({
+          url: page
+        })
+      }
     }
   }
 }

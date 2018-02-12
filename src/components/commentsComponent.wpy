@@ -4,10 +4,10 @@
   <view>
 
     <view wx:if="{{!myComments.length}}" class="center" style="width:{{screenWidth}}px;">
-      <text style="padding: 0 10px;">Please leave your comment as our very first on, Just Do It! ^_^</text>
+      <text style="padding: 0 10px;">楼主非你其谁 ^_^</text>
     </view>
 
-    <view @tap.stop="goComment" class="center" style="height:40px;position:fixed; bottom: 0; right:0; left:0;background-color:#20BEEC;">
+    <view wx:if="{{!clickable}}" @tap.stop="goComment" class="center" style="height:40px;position:fixed; bottom: 0; right:0; left:0;background-color:#20BEEC;">
       <text style="color:white;">评论</text>
     </view>
     <repeat
@@ -15,26 +15,29 @@
      item= "item"
      index= "index"
      key= "index">
-     <view style="padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
-       <view class="center" style="flex:1">
-         <image src="{{item.from_user.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%" />
-       </view>
-       <view class="center" style="flex-direction:column;align-items:flex-start; flex:4">
-         <view style="font-size:12px;opacity:0.8;padding-bottom:5px;">
-           <text>{{item.from_user.nickName}}</text>
-           <image src="{{item.gender == 'male' ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="padding:0 10px;width:10px; height:10px;" />
-           <text>{{item.from_user.age}}</text>
-           <view>
-             <text>{{item.createdAt}}</text>
+     <view @tap.stop="goPost({{item.to_post}})" style="justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
+       <view class="center" style="width:100%;">
+         <view style="flex:1;display:flex;align-items:center;">
+           <image src="{{item.from_user.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%" />
+         </view>
+         <view class="center" style="flex-direction:column;align-items:flex-start; flex:4">
+           <view style="font-size:12px;opacity:0.8;padding-bottom:5px;width:100%;">
+             <text>{{item.from_user.intro.nickName}}</text>
+             <image src="{{item.from_user.intro.gender == 1 ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="padding:0 10px;width:10px; height:10px;" />
+             <text>{{item.from_user.intro.age}}</text>
+             <view>
+               <text>{{item.timeDiff}}</text>
+             </view>
+           </view>
+           <view style="font-size:15px;opacity:0.6;">
+             <text>{{item.msg}}</text>
            </view>
          </view>
-         <view style="font-size:15px;opacity:0.6;">
-           <text>{{item.msg}}</text>
-         </view>
        </view>
-       <view style="flex:1;display:flex;">
-         <image src="../assets/img/like.png" style="width:20px; height:20px;"/>
-         <text style="align-self:center;font-size:12px; opacity:0.5; padding-left:5px;">{{item.likeNum}}</text>
+
+       <view @tap.stop="like({{item}})" hover-class="click"  style="display:flex;justify-content:center;">
+         <image src="{{item.likedBy.indexOf(currentUser_id) != -1 ? '../assets/img/like-fill.png' : '../assets/img/like-empty.png'}}" style="padding-right:5px;width:20px; height:20px;"/>
+         <text style="align-self:center;font-size:15px; opacity:0.5;">{{item.likedBy.length || ''}}</text>
        </view>
      </view>
     </repeat>
@@ -50,77 +53,59 @@
       navigationBarBackgroundColor: '#FFD300'
     }
     props = {
+      myComments: {
+        type: Array,
+        default: []
+      },
+      clickable: {
+        type: Boolean,
+        default: false
+      },
       post_id: {
         type: String,
-        default: {}
+        default: ''
       },
       currentUser_id: {
         type: String,
-        default: {}
+        default: ''
       }
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
-      screenHeight: wepy.getSystemInfoSync().windowHeight,
-      myComments: []
-    }
-    async onLoad () {
-    }
-    watch = {
-      async post_id (newVal, oldVal) {
-        console.log('change');
-        await this.loadComment()
-      }
-    }
-    async loadComment () {
-      // TODO: load data
-      console.log('??');
-      var res = await api.commentList({
-        query: {
-          type: 'comment',
-          post_id: this.post_id
-        }
-      })
-      console.log('comments: ' + JSON.stringify(res.data.data));
-      if(res.data && res.data.flag == 'success') {
-        this.myComments = res.data.data
-        this.$apply()
-      }
-      // this.myComments1 = [
-      //   {
-      //       avatarUrl: '../assets/img/boy.jpeg',
-      //       nickName: '谭马儒',
-      //       gender: 'male',
-      //       age: 25,
-      //       createdAt: '昨日 23：27',
-      //       msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-      //       likesNum: 32
-      //     },
-      //     {
-      //         avatarUrl: '../assets/img/boy.jpeg',
-      //         nickName: '谭马儒',
-      //         gender: 'male',
-      //         age: 25,
-      //         createdAt: '昨日 23：27',
-      //         msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-      //         likesNum: 32
-      //       },{
-      //           avatarUrl: '../assets/img/boy.jpeg',
-      //           nickName: '谭马儒',
-      //           gender: 'male',
-      //           age: 25,
-      //           createdAt: '昨日 23：27',
-      //           msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
-      //           likesNum: 32
-      //         }
-      // ]
+      screenHeight: wepy.getSystemInfoSync().windowHeight
     }
     methods = {
+      async like (item) {
+        // TODO: update like
+         var self = this
+         var res = await api.like({
+           query: {
+             pack: {
+               user_id: self.currentUser_id,
+               post_id: item._id
+             }
+           },
+           method: 'POST'
+         })
+        //  console.log('like: ' + JSON.stringify(res.data))
+         if(res.data && res.data.flag == 'success') {
+           item.likedBy.push(this.currentUser_id)
+           this.$apply()
+          //  list = res.data.data
+         }
+      },
       goComment () {
-        console.log('from comment com: ' + this.currentUser_id);
+        // console.log('from comment com: ' + this.currentUser_id);
         wepy.navigateTo({
           url: 'editPage?type=comment&user_id=' + this.currentUser_id + '&post_id=' + this.post_id
         })
+      },
+      goPost (post_id) {
+        if(this.clickable) {
+          wepy.navigateTo({
+            url: 'detailPage?post_id=' + post_id
+          })
+        }
       }
     }
   }

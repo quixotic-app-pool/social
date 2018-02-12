@@ -27,13 +27,15 @@
 }
 </style>
 <template>
-  <view class="container bg-img" style="height: {{screenHeight}}px; width: {{screenWidth}}px;">
+  <view class="container" style="height: {{screenHeight}}px; width: {{screenWidth}}px;">
+    <view class="bg-img" style="position:fixed;height: {{screenHeight}}px; width: {{screenWidth}}px;">
 
-    <view @tap.stop="go('notificationPage')" wx:if="{{notifNum > 0}}" class="center" style="opacity:0.5;z-index:10;height:40px; width:40px; position: fixed; right: 10px; top: 10px;background-color:red; border-radius:100%;">
-      <text style="color:white;">66</text>
+    </view>
+    <view @tap.stop="notifications()" wx:if="{{numOfNotif > 0}}" class="center" style="opacity:0.5;z-index:11;height:30px; width:30px; position: fixed; right: 25px; bottom: 90px;background-color:red; border-radius:100%;">
+      <text style="color:white;">{{numOfNotif}}</text>
     </view>
 
-    <view @tap.stop="editStatus" class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:60px;width:60px;border-radius:100%;position:fixed;right:10px;bottom:20px;" catchlongpress="longpress">
+    <view @tap.stop="editStatus" class="bg-img center" style="z-index:11;box-shadow:0 0 2px rgb(32, 190, 236);height:60px;width:60px;border-radius:100%;position:fixed;right:10px;bottom:20px;" catchlongpress="longpress">
       <image src="../assets/img/plus2.png" style="width:30px;height:30px;"></image>
     </view>
 
@@ -132,7 +134,7 @@
 
     <!-- 个人发文 -->
 
-    <view wx:if="{{!listData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+    <view wx:if="{{!listData.length}}" class="center" style="z-index:10;width:{{screenWidth}}px; height:{{screenHeight}}px;">
       <text style="padding: 0 10px;">Please leave your post as our very first on, Just Do It! ^_^</text>
     </view>
     <!-- <view></view? -->
@@ -141,7 +143,7 @@
      item= "item"
      index= "index"
      key= "index">
-     <view style="width:{{screenWidth - 10}}px;margin-bottom:20px;" @tap.stop="go({{item._id}})" >
+     <view style="z-index:10;width:{{screenWidth - 10}}px;margin-bottom:20px;" @tap.stop="go({{item._id}})" >
         <postComponent :postData.sync = 'item'/>
      </view>
     </repeat>
@@ -151,6 +153,7 @@
 <script>
   import wepy from 'wepy'
   import api from './../api/api'
+  import util from '../utils/util'
   import postComponent from '../components/postComponent'
 
   export default class Index extends wepy.page {
@@ -163,8 +166,9 @@
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       listData: [],
-      notifNum: 0,
-      currentUser_id: ''
+      numOfNotif: 0,
+      currentUser_id: '',
+      currentPage: -1
       // imgUrls2: [{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}],
       // data1: [{imgUrl: '../assets/img/school.png', title: '#校园浪漫#'}, {imgUrl: '../assets/img/food.png', title: '#成都美食#'}, {imgUrl: '../assets/img/fire.png', title: '#燃烧青春#'}],
       // data2: [{imgUrl: '../assets/img/school.png', title: '#单身狗的日常#'}, {imgUrl: '../assets/img/food.png', title: '#我这么美为什么单身#'}, {imgUrl: '../assets/img/school.png', title: '#一起来运动#'}, {imgUrl: '../assets/img/school.png', title: '#我是学霸我怕谁#'}, {imgUrl: '../assets/img/fire.png', title: '#条骚市场#'}]
@@ -178,12 +182,28 @@
     }
     async onShow () {
       // console.log('showing');
-      await this.loadData()
+      // this.listData = []
+      // this.currentPage = -1
+      // await this.loadData()
+      var result = await api.fetchNotificationNum({
+        query: {
+          user_id: this.currentUser_id
+        }
+      })
+      // console.log('num: ' + JSON.stringify(result.data));
+      if(result.data && result.data.flag == 'success') {
+        this.numOfNotif = result.data.numOfNotif
+        // console.log('insde' + JSON.stringify(this.numOfNotif));
+        wepy.stopPullDownRefresh()
+        this.$apply()
+      }
     }
     async loadData () {
       // TODO: load data
+       this.currentPage++
        var res = await api.fetchPostList({
          query: {
+           currentPage: this.currentPage,
            user_id: this.currentUser_id,
            page: 0,
            type: 'post'
@@ -192,9 +212,19 @@
 
       //  console.log('timeline res.data.data: ' +  JSON.stringify(res.data.data))
        if(res.data && res.data.flag == 'success') {
-         this.listData = res.data.data
+         res.data.data.forEach(function(item) {
+           item.timeDiff = util.calcTime(item.createdAt)
+         })
+         if(this.listData.length) {
+           this.listData.push(...res.data.data)
+         } else {
+           this.listData = res.data.data
+         }
+       } else {
+         this.currentPage--
        }
       //  console.log('this.listData: ' + JSON.stringify(this.listData))
+       wepy.stopPullDownRefresh()
        this.$apply()
       // this.listData = [
       //   {
@@ -215,11 +245,20 @@
       //   }
       // ]
 
-      this.notifNum = 66
+    }
+    async onReachBottom () {
+    // console.log('at bottom')
+     await this.loadData()
+    }
+    async onPullDownRefresh () {
+      this.listData = []
+      this.currentPage = -1
+      // console.log('pull down')
+      await this.loadData()
     }
     methods = {
       editStatus () {
-        // console.log('this.currrentUser_id: ' + this.currentUser_id);
+        // console.log('this.currentUser_id: ' + this.currentUser_id);
         wepy.navigateTo({
           url: 'editPage?type=post&user_id=' + this.currentUser_id
         })
@@ -227,6 +266,11 @@
       go(_id) {
         wepy.navigateTo({
           url: 'detailPage?post_id=' + _id
+        })
+      },
+      notifications () {
+        wepy.navigateTo({
+          url: 'notificationPage?user_id=' + this.currentUser_id
         })
       }
     }

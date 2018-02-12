@@ -4,18 +4,18 @@
     <view style="border-radius:2px;margin-top:5px;width:100%;padding:10px;box-sizing:border-box;background-color:white;padding-bottom:0;">
       <view style="display: flex;">
         <view style="flex:2;">
-          <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
+          <image src="{{postData.from_user.avatarUrl ? postData.from_user.avatarUrl : '../assets/img/boy.jpeg'}}" style=" border-radius:100%;width:50px; height:50px;"/>
         </view>
         <view style="flex:8;">
           <view class="center" style="justify-content:flex-start;">
-            <text>{{postData.nickName}}</text>
-            <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
+            <text>{{postData.from_user.intro.nickName}}</text>
+            <image src="{{postData.from_user.intro.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png'}}" style="padding:0 5px;width:20px; height:20px;"/>
             <!-- <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
               <text style="color:white;font-size:12px;">Lv5</text>
             </view> -->
           </view>
           <view style="font-size:12px;opacity:0.6;">
-            {{postData.createdAt}}
+            {{postData.timeDiff}}
           </view>
         </view>
         <view @tap.stop="moreOption">
@@ -41,12 +41,12 @@
           <text style="font-size:15px; opacity:0.6;">转发</text>
         </view> -->
         <view @tap.stop="go('detailPage')" class="center" style="padding: 10px 0;padding-right:20px;">
-          <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
-          <text style="font-size:15px; opacity:0.6;">{{postData.commentsNum}}</text>
+          <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:5px;"/>
+          <text style="font-size:15px; opacity:0.6;">{{postData.comments.length || ''}}</text>
         </view>
-        <view @tap.stop="like()" class="center" style="padding: 10px 0;">
-          <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
-          <text style="font-size:15px; opacity:0.6;">{{postData.likesNum}}</text>
+        <view @tap.stop="like()" hover-class="click" class="center" style="padding: 10px 0;">
+          <image src="{{postData.likedBy.length ? '../assets/img/like-fill.png' : '../assets/img/like-empty.png'}}" style="width:20px; height:20px;padding-right:5px;"/>
+          <text style="font-size:15px; opacity:0.6;">{{postData.likedBy.length || ''}}</text>
         </view>
       </view>
   </view>
@@ -55,6 +55,7 @@
 <script>
   import wepy from 'wepy'
   import api from './../api/api'
+  import util from '../utils/util'
 
   export default class Index extends wepy.component {
     config = {
@@ -69,12 +70,11 @@
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      post_id: ''
+      currentUser_id: ''
     }
-    onLoad (option) {
-
+    onLoad () {
+      this.currentUser_id = wepy.getStorageSync('UserId')
     }
-
     methods = {
       previewImage (cur, imageList) {
         wepy.previewImage({
@@ -84,21 +84,26 @@
       },
       async like () {
         // TODO: update like
-        //  var res = await api.like({
-        //    pack: {
-        //      page: 0,
-        //      type: 'post',
-        //      value: true
-        //    }
-        //  })
-         //
-        //  if(res.data && res.data.flag == 'success') {
-        //    list = res.data.data
-        //  }
+         var self = this
+         var res = await api.like({
+           query: {
+             pack: {
+               user_id: self.currentUser_id,
+               post_id: self.postData._id
+             }
+           },
+           method: 'POST'
+         })
+        //  console.log('like: ' + JSON.stringify(res.data))
+         if(res.data && res.data.flag == 'success') {
+           this.postData.likedBy.push(this.currentUser_id)
+           this.$apply()
+          //  list = res.data.data
+         }
       },
       go () {
         wepy.navigateTo({
-          url: page
+          url: 'detailPage?post_id=' + this.postData._id
         })
       },
       moreOption () {

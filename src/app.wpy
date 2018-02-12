@@ -21,6 +21,20 @@
   justify-content: space-between;
   align-items: center;
 }
+.click {
+  animation: clickLike 300ms ease;
+}
+@keyframes clickLike {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 </style>
 
 <script>
@@ -102,9 +116,9 @@ export default class extends wepy.app {
     wepy.removeStorageSync('UserSession')
     // if(false){
     if((UserSession.createdAt || Date.now()) < (Date.now() + 86400000)) {
-      // console.log('expire');
+      console.log('expire');
       var res = await wepy.login()
-      // console.log('res: ' + JSON.stringify(res))
+      console.log('res: ' + JSON.stringify(res))
       if (res.code) {
         // console.log('res.code: ' + res.code)
 
@@ -129,6 +143,7 @@ export default class extends wepy.app {
         if(u && u.data && u.data.flag == 'success') {
           wepy.setStorageSync('UserId', u.data.user_id)
           //take nickName to test if user profile init or not
+          wepy.setStorageSync('UserGender', u.data.gender)
           if(!u.data.nickName) {
             wepy.setStorageSync('requireInit', true)
           } else {

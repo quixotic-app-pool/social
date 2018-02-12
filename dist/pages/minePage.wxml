@@ -9,14 +9,14 @@
         </view>
         <view class="between" style="flex-direction:column;flex:4;padding-left:10px;">
           <view class="center" style="align-self:flex-start;">
-            <text style="font-size:25px;">{{myData.nickName}}</text>
-            <image src="../assets/img/male.png" style="width:20px; height:20px;"/>
+            <text style="font-size:25px;">{{myData.intro.nickName}}</text>
+            <image src="{{myData.intro.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png'}}" style="width:20px; height:20px;"/>
           </view>
           <view class="center" style="opacity:0.6;align-self:flex-start;font-size:12px;">
-            <view catchtap="go" data-wpygo-a="listPage">
+            <view catchtap="go" data-wpygo-a="listPage" data-wpygo-b="subscriptions">
               <text style="padding-right:15px;">关注 {{myData.subscribedNum || 0}}</text>
             </view>
-            <view catchtap="go" data-wpygo-a="listPage">
+            <view catchtap="go" data-wpygo-a="listPage" data-wpygo-b="subscribed">
               <text style="padding-left:15px;">粉丝 {{myData.subscribeNum || 0}}</text>
             </view>
           </view>
@@ -31,7 +31,7 @@
 
     <view style="width: {{screenWidth}}px;">
 
-      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);justify-content:space-between;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="myTM">
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);justify-content:space-between;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="myTM" data-wpygo-b="posts">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/question.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
           <text style="font-size:20px;">我的状态</text>
@@ -41,7 +41,7 @@
         </view>
       </view>
 
-      <view catchtap="go" class="center" style="justify-content:space-between;border-bottom:1px solid rgb(232,232,232);background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="commentsPage">
+      <view catchtap="go" class="center" style="justify-content:space-between;border-bottom:1px solid rgb(232,232,232);background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="commentsPage" data-wpygo-b="comments">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/answer.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
           <text style="font-size:20px;">我的评论</text>
@@ -51,7 +51,7 @@
         </view>
       </view>
 
-      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="myTM">
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="myTM" data-wpygo-b="likePosts">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/like-fill.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
           <text style="font-size:20px;">点赞心情</text>
@@ -61,7 +61,7 @@
         </view>
       </view>
 
-      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="commentsPage">
+      <view catchtap="go" class="center" style="border-bottom:1px solid rgb(232,232,232);margin-bottom:5px;background-color:white; justify-content:flex-start;padding: 10px;" data-wpygo-a="commentsPage" data-wpygo-b="likeComments">
         <view class="center" style="flex:3;justify-content:flex-start;">
           <image src="../assets/img/like-fill.png" style="width: 50px; height: 50px;margin-right: 20px;"/>
           <text style="font-size:20px;">点赞评论</text>

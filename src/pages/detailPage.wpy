@@ -41,7 +41,7 @@
        <view style="padding: 10px 0;border-bottom:1px solid rgb(232,232,232)">
          <text style="font-weight: bold;">评论区</text>
        </view>
-       <commentsComponent :currentUser_id.sync="currentUser_id" :post_id.sync="post_id" />
+       <commentsComponent :post_id.sync="post_id" :currentUser_id.sync="currentUser_id" :myComments.sync = "myComments" />
      </view>
      <view style="width:100%; height:50px;"></view>
   </view>
@@ -50,6 +50,7 @@
 <script>
   import wepy from 'wepy'
   import api from './../api/api'
+  import util from '../utils/util'
   import commentsComponent from '../components/commentsComponent'
   import postComponent from '../components/postComponent'
 
@@ -64,7 +65,8 @@
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       post_id: '',
       currentUser_id: '',
-      postData: {}
+      postData: {},
+      myComments: []
     }
     components = {
       commentsComponent : commentsComponent,
@@ -82,6 +84,7 @@
       })
       if(res.data && res.data.flag == 'success') {
         // console.log('res.data.data: ' + JSON.stringify(res.data.data))
+        res.data.data.timeDiff = util.calcTime(res.data.data.createdAt)
         this.postData = res.data.data
         this.$apply()
       }
@@ -93,6 +96,55 @@
       //   commentsNum: 12,
       //   likesNum: 32
       // }
+      await this.loadComments()
+    }
+    async onShow () {
+      await this.loadComments()
+    }
+    async loadComments () {
+      // TODO: load comment
+      var res = await api.commentList({
+        query: {
+          type: 'comment',
+          post_id: this.post_id
+        }
+      })
+      // console.log('comments: ' + JSON.stringify(res.data.data));
+      if(res.data && res.data.flag == 'success') {
+        res.data.data.forEach(function(item) {
+          item.timeDiff = util.calcTime(item.createdAt)
+        })
+        this.myComments = res.data.data
+        this.$apply()
+      }
+      // this.myComments1 = [
+      //   {
+      //       avatarUrl: '../assets/img/boy.jpeg',
+      //       nickName: '谭马儒',
+      //       gender: 'male',
+      //       age: 25,
+      //       createdAt: '昨日 23：27',
+      //       msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+      //       likesNum: 32
+      //     },
+      //     {
+      //         avatarUrl: '../assets/img/boy.jpeg',
+      //         nickName: '谭马儒',
+      //         gender: 'male',
+      //         age: 25,
+      //         createdAt: '昨日 23：27',
+      //         msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+      //         likesNum: 32
+      //       },{
+      //           avatarUrl: '../assets/img/boy.jpeg',
+      //           nickName: '谭马儒',
+      //           gender: 'male',
+      //           age: 25,
+      //           createdAt: '昨日 23：27',
+      //           msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+      //           likesNum: 32
+      //         }
+      // ]
     }
     methods = {
     }

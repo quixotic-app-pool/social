@@ -180,6 +180,7 @@ export default class NewBlog extends wepy.page {
         longitude: this.longitude
       }
       if(this.type = 'comment') {
+        console.log('???: ' + this.post_id);
         pack.to_post = this.post_id
       }
       // upload images
@@ -221,7 +222,7 @@ export default class NewBlog extends wepy.page {
 
       // upload blog
       try {
-        console.log('pack; ' + JSON.stringify(pack))
+        // console.log('pack; ' + JSON.stringify(pack))
         var res = await api.newPost({
           query: {
             pack: pack

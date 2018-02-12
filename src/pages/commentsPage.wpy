@@ -1,6 +1,6 @@
 <template>
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <commentsComponent :type="{user_id: ''}"/>
+    <commentsComponent :myComments.sync="myComments" :clickable.sync= "clickable"/>
  </scroll-view>
 </template>
 <script>
@@ -22,14 +22,64 @@ export default class TestPage extends wepy.page {
     screenHeight: wepy.getSystemInfoSync().windowHeight,
     myComments: [],
     currentPage: -1,
-    user_id: ''
+    user_id: '',
+    subType: '',
+    clickable: true
   }
   components = {
     commentsComponent : commentsComponent
   }
   async onLoad (option) {
     // wepy.setNavigationBarTitle({title: option.topic})
-    this.user_id = wepy.getStorageSync('UserId')
+    this.currentUser_id = wepy.getStorageSync('UserId')
+    this.subType = option.type
+    await this.loadComments()
+  }
+  async loadComments () {
+    // TODO: load comment
+    var res = await api.commentList({
+      query: {
+        type: 'user',
+        subType: this.subType,
+        user_id: this.currentUser_id
+      }
+    })
+    // console.log('comments: ' + JSON.stringify(res.data.data));
+    if(res.data && res.data.flag == 'success') {
+      res.data.data.forEach(function(item) {
+        item.timeDiff = util.calcTime(item.createdAt)
+      })
+      this.myComments = res.data.data
+      this.$apply()
+    }
+    // this.myComments1 = [
+    //   {
+    //       avatarUrl: '../assets/img/boy.jpeg',
+    //       nickName: '谭马儒',
+    //       gender: 'male',
+    //       age: 25,
+    //       createdAt: '昨日 23：27',
+    //       msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+    //       likesNum: 32
+    //     },
+    //     {
+    //         avatarUrl: '../assets/img/boy.jpeg',
+    //         nickName: '谭马儒',
+    //         gender: 'male',
+    //         age: 25,
+    //         createdAt: '昨日 23：27',
+    //         msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+    //         likesNum: 32
+    //       },{
+    //           avatarUrl: '../assets/img/boy.jpeg',
+    //           nickName: '谭马儒',
+    //           gender: 'male',
+    //           age: 25,
+    //           createdAt: '昨日 23：27',
+    //           msg: '想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额，都在这里留下足迹想说什么额',
+    //           likesNum: 32
+    //         }
+    // ]
   }
  async lower () {
 

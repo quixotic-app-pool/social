@@ -1,11 +1,13 @@
 
-  <view class="container bg-img" style="height: {{screenHeight}}px; width: {{screenWidth}}px;">
+  <view class="container" style="height: {{screenHeight}}px; width: {{screenWidth}}px;">
+    <view class="bg-img" style="position:fixed;height: {{screenHeight}}px; width: {{screenWidth}}px;">
 
-    <view catchtap="go"  wx:if="{{notifNum > 0}}" class="center" style="opacity:0.5;z-index:10;height:40px; width:40px; position: fixed; right: 10px; top: 10px;background-color:red; border-radius:100%;" data-wpygo-a="notificationPage">
-      <text style="color:white;">66</text>
+    </view>
+    <view catchtap="notifications"  wx:if="{{numOfNotif > 0}}" class="center" style="opacity:0.5;z-index:11;height:30px; width:30px; position: fixed; right: 25px; bottom: 90px;background-color:red; border-radius:100%;" data-wpynotifications-a="">
+      <text style="color:white;">{{numOfNotif}}</text>
     </view>
 
-    <view catchtap="editStatus" class="bg-img center" style="z-index:10;box-shadow:0 0 2px rgb(32, 190, 236);height:60px;width:60px;border-radius:100%;position:fixed;right:10px;bottom:20px;" catchlongpress="longpress">
+    <view catchtap="editStatus" class="bg-img center" style="z-index:11;box-shadow:0 0 2px rgb(32, 190, 236);height:60px;width:60px;border-radius:100%;position:fixed;right:10px;bottom:20px;" catchlongpress="longpress">
       <image src="../assets/img/plus2.png" style="width:30px;height:30px;"/>
     </view>
 
@@ -104,28 +106,28 @@
 
     <!-- 个人发文 -->
 
-    <view  wx:if="{{!listData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
+    <view  wx:if="{{!listData.length}}" class="center" style="z-index:10;width:{{screenWidth}}px; height:{{screenHeight}}px;">
       <text style="padding: 0 10px;">Please leave your post as our very first on, Just Do It! ^_^</text>
     </view>
     <!-- <view></view? -->
     <block wx:for="{{listData}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-     <view style="width:{{screenWidth - 10}}px;margin-bottom:20px;" catchtap="go" data-wpygo-a="{{item._id}}">
+     <view style="z-index:10;width:{{screenWidth - 10}}px;margin-bottom:20px;" catchtap="go" data-wpygo-a="{{item._id}}">
         
     <view style="border-radius:2px;margin-top:5px;width:100%;padding:10px;box-sizing:border-box;background-color:white;padding-bottom:0;">
       <view style="display: flex;">
         <view style="flex:2;">
-          <image src="../assets/img/boy.jpeg" style=" border-radius:100%;width:50px; height:50px;"/>
+          <image src="{{item.from_user.avatarUrl ? item.from_user.avatarUrl : '../assets/img/boy.jpeg'}}" style=" border-radius:100%;width:50px; height:50px;"/>
         </view>
         <view style="flex:8;">
           <view class="center" style="justify-content:flex-start;">
-            <text>{{item.nickName}}</text>
-            <image src="../assets/img/male.png" style="padding:0 5px;width:20px; height:20px;"/>
+            <text>{{item.from_user.intro.nickName}}</text>
+            <image src="{{item.from_user.intro.gender == 0 ? '../assets/img/female.png': '../assets/img/male.png'}}" style="padding:0 5px;width:20px; height:20px;"/>
             <!-- <view class="center" style="padding:0 6px;border-radius:10px;background-color:rgb(249,198,45)">
               <text style="color:white;font-size:12px;">Lv5</text>
             </view> -->
           </view>
           <view style="font-size:12px;opacity:0.6;">
-            {{item.createdAt}}
+            {{item.timeDiff}}
           </view>
         </view>
         <view catchtap="$postComponent$moreOption" data-com-index="{{index}}">
@@ -147,12 +149,12 @@
           <text style="font-size:15px; opacity:0.6;">转发</text>
         </view> -->
         <view catchtap="$postComponent$go" class="center" style="padding: 10px 0;padding-right:20px;" data-com-index="{{index}}" data-wpygo-a="detailPage">
-          <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:10px;"/>
-          <text style="font-size:15px; opacity:0.6;">{{item.commentsNum}}</text>
+          <image src="../assets/img/comment.png" style="width:20px; height:20px;padding-right:5px;"/>
+          <text style="font-size:15px; opacity:0.6;">{{item.comments.length || ''}}</text>
         </view>
-        <view catchtap="$postComponent$like" class="center" style="padding: 10px 0;" data-com-index="{{index}}" data-wpylike-a="">
-          <image src="../assets/img/like.png" style="width:20px; height:20px;padding-right:10px;"/>
-          <text style="font-size:15px; opacity:0.6;">{{item.likesNum}}</text>
+        <view catchtap="$postComponent$like" hover-class="click" class="center" style="padding: 10px 0;" data-com-index="{{index}}" data-wpylike-a="">
+          <image src="{{item.likedBy.length ? '../assets/img/like-fill.png' : '../assets/img/like-empty.png'}}" style="width:20px; height:20px;padding-right:5px;"/>
+          <text style="font-size:15px; opacity:0.6;">{{item.likedBy.length || ''}}</text>
         </view>
       </view>
   </view>

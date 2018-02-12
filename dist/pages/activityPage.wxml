@@ -2,7 +2,7 @@
   <view class="container">
 
     <view  wx:if="{{!myData.length}}" class="center" style="width:{{screenWidth}}px; height:{{screenHeight}}px;">
-      <text style="padding: 0 10px;">Well, fancy activites will come soon ^_^</text>
+      <text style="padding: 0 10px;">活动去哪了 ^_^</text>
     </view>
 
     <view style="z-index:10;position: fixed; display:flex; height: 50px; background-color:white;top: 0; width: {{screenWidth}}px;">

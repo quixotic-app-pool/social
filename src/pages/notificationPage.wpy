@@ -7,7 +7,7 @@
      key= "index"
      style="width:100%;"
     >
-    <view @tap.stop="go('detailPage')" class="center {{item.unRead ? 'unread' : ''}}" style="box-sizing:border-box;border-bottom:1px solid rgb(236,236,236); min-height:70px;width: {{screenWidth}}px;padding: 5px 10px;">
+    <view @tap.stop="go({{item}})" class="center {{item.unRead ? 'unread' : ''}}" style="box-sizing:border-box;border-bottom:1px solid rgb(236,236,236); min-height:70px;width: {{screenWidth}}px;padding: 5px 10px;">
       <view style="flex:1;">
         <image src="{{item.from_user.avatarUrl}}" style="width:30px; height:30px; border-radius:100%;"/>
       </view>
@@ -19,18 +19,19 @@
 
         <view wx:if="{{item.type == 'like'}}" style="font-size:15px;">
           <text style="font-weight:bold;">{{item.from_user.nickName}}</text>
-          <text> 对你的状态点赞 </text>
+          <text wx:if="{{item.post.type == 'post'}}"> 对你的状态点赞 </text>
+          <text wx:else> 对你的评论点赞 </text>
         </view>
 
         <view>
           <view style="font-size: 15px;">
-            <text style="font-weight:bold;">{{item.post.value}}</text>
+            <text style="font-weight:bold;">{{item.post.msg}}</text>
           </view>
         </view>
         <view class="center" style="justify-content:space-between;">
           <image wx:if="{{item.type == 'comment'}}" src="../assets/img/answer.png" style="width:20px; height:20px; border-radius:5px;"/>
           <image wx:if="{{item.type == 'like'}}" src="../assets/img/like-fill.png" style="width:20px; height:20px; border-radius:5px;"/>
-          <text style="font-size:12px; opacity:0.7;">{{item.createdAt}}</text>
+          <text style="font-size:12px; opacity:0.7;">{{item.timeDiff}}</text>
         </view>
       </view>
     </view>
@@ -55,74 +56,109 @@ export default class TestPage extends wepy.page {
     screenHeight: wepy.getSystemInfoSync().windowHeight,
     dataList: [],
     currentPage: -1,
-    user_id: ''
+    currentUser_id: ''
   }
   async onLoad (option) {
     // wepy.setNavigationBarTitle({title: option.topic})
-    this.user_id = wepy.getStorageSync('UserId')
+    this.currentUser_id = option.user_id
     //load notification list
     await this.loadData()
   }
  async loadData () {
    // TODO: load data
-   // var res = await api.fetchNotificationList({
-   //   pack: {
-   //     _id: _id
-   //   }
-   // })
-   // if(res.data && res.data.flag == 'success') {
-   //   this.dataList = res.data.data
-   // }
-   this.dataList = [
+   var self = this
+   self.currentPage++
+   var res = await api.fetchNotificationList({
+     query: {
+       currentPage: self.currentPage,
+       user_id: self.currentUser_id
+     }
+   })
+   var data = res.data
+   if (data.length) {
+     data.forEach(function(item, index) {
+       item.timeDiff = util.calcTime(item.createdAt)
+     })
+     if (self.dataList.length === 0) {
+       self.dataList = data
+     } else {
+       self.dataList.push(...data)
+     }
+   } else {
+     self.currentPage--
+   }
+   wepy.stopPullDownRefresh()
+   this.$apply()
+  //  this.dataList = [
+  //      {
+  //       from_user: {
+  //         nickName: '扎西德勒',
+  //         avatarUrl: '../assets/img/boy.jpeg'
+  //       },
+  //       type: 'comment',
+  //       post: {value: '标题标题是啥？'},
+  //       unRead: true,
+  //       createdAt: '两分钟前'
+  //     },
+  //     {
+  //      from_user: {
+  //        nickName: '小叮当',
+  //        avatarUrl: '../assets/img/boy.jpeg'
+  //      },
+  //      type: 'like',
+  //      post: {value: '标题标题是啥？'},
+  //      unRead: true,
+  //      createdAt: '两分钟前'
+  //    },
   //    {
   //     from_user: {
-  //       nickName: '扎西德勒',
+  //       nickName: '小叮当',
   //       avatarUrl: '../assets/img/boy.jpeg'
   //     },
   //     type: 'comment',
   //     post: {value: '标题标题是啥？'},
   //     unRead: true,
   //     createdAt: '两分钟前'
-  //   },
-  //   {
-  //    from_user: {
-  //      nickName: '小叮当',
-  //      avatarUrl: '../assets/img/boy.jpeg'
-  //    },
-  //    type: 'like',
-  //    post: {value: '标题标题是啥？'},
-  //    unRead: true,
-  //    createdAt: '两分钟前'
-  //  },
-  //  {
-  //   from_user: {
-  //     nickName: '小叮当',
-  //     avatarUrl: '../assets/img/boy.jpeg'
-  //   },
-  //   type: 'comment',
-  //   post: {value: '标题标题是啥？'},
-  //   unRead: true,
-  //   createdAt: '两分钟前'
-  // }
-   ]
+  //   }
+  //  ]
  }
  async lower () {
    await this.loadData()
  }
  async upper () {
+   this.dataList = []
+   this.currentPage = -1
+   await this.loadData()
  }
   methods = {
-    go (page) {
+    async go (item) {
       // TODO: update
-      // var res = await api.updateNotification({
-      //   pack: {
-      //     _id: _id
-      //   }
-      // })
-      // if(res.data && res.data.flag == 'success') {
-      //   this.dataList = res.data.data
-      // }
-      wepy.navigateTo({url: page})
+      var result = await api.updateNotification({
+        query: {
+          _id: item._id
+        },
+        method: 'POST'
+      })
+
+      if(result.data && result.data.flag == 'success') {
+        var ob = this.dataList.find(function(o){
+          return o._id == item._id
+        })
+        if(ob.unRead == true) {
+          ob.unRead = false
+        }
+        var post_id = item.post.to_post ? item.post.to_post : item.post._id
+        wepy.navigateTo({
+          url: 'detailPage?post_id=' + post_id
+        })
+        // this.$emit('event-notif')
+      } else {
+        wepy.showModal({
+          title: '提示',
+          content: '抱歉，服务器发生异常，请联系泽铭: takeiteasydude',
+          showCancel: false
+        })
+      }
     }
   }
 }

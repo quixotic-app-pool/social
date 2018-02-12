@@ -2,7 +2,7 @@
 </style>
 <template>
   <view class="container">
-    <view class="center"  @tap.stop="toggle()" style="z-index:10;position:fixed; bottom:0; width:100%;height:50px;background-color:#CE452F;">
+    <view wx:if="{{profileUser_id == currentUser_id}}" class="center"  @tap.stop="toggle()" style="z-index:10;position:fixed; bottom:0; width:100%;height:50px;background-color:#CE452F;">
       <view style="color:white;">
         {{editMode ? '保存': '编辑'}}
       </view>
@@ -161,10 +161,10 @@
          item= "item"
          index= "index"
          key= "index">
-         <view wx:if="{{item.value && (item.title == '星座'&&!editMode || item.title != '星座')}}" @tap.stop="goEdit({{item.title}}, {{item.value}})" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}">
+         <view wx:if="{{(editMode || item.value) && (item.title == '星座'&&!editMode || item.title != '星座')}}" @tap.stop="goEdit({{item.title}}, {{item.value}})" class="between" style="margin:0 10px;border-bottom:{{myInfo.length == index + 1 ? '' : '1px solid rgb(232,232,232)'}}">
            <view class="center" style="flex:7;opacity:0.6; height:60px;justify-content:flex-start;">
              <text style="flex:3;color:{{editMode&&(item.title == '行业' || item.title == '工作领域' || item.title == '来自') ? 'green' : ''}};">{{item.title}}</text>
-             <text style="flex:7;">{{item.value}}</text>
+             <text style="flex:7;">{{item.value || '待填'}}</text>
            </view>
            <view wx:if="{{editMode}}" class="center" style="justify-content:flex-end;flex:1;">
              <image src="../assets/img/right-arrow.png" style="opacity:0.5;width:20px; height:20px;"/>
@@ -174,7 +174,7 @@
       </view>
     </view>
 
-    <view wx:if="{{myData.myTags.length}}" style="width: 100%;">
+    <view wx:if="{{editMode || myData.myTags.length}}" style="width: 100%;">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的标签</text>
       </view>
@@ -184,7 +184,7 @@
         </view>
         <view style="flex: 7; display: flex;flex-wrap:wrap;padding-right:10px;">
           <repeat
-           for="{{myData.myTags}}"
+           for="{{myData.myTags.length && myData.myTags || temp}}"
            item= "item"
            index= "index"
            key= "index">
@@ -199,19 +199,19 @@
       </view>
     </view>
 
-    <view wx:if="{{myData.myTags.length || myData.sports.length || myData.music.length || myData.food.length || myData.tv.length || myData.book.length || myData.place.length}}" style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
+    <view wx:if="{{editMode || myData.myTags.length || myData.sports.length || myData.music.length || myData.food.length || myData.tv.length || myData.book.length || myData.place.length}}" style="width: 100%;border-bottom:1px solid rgb(232,232,232);border-top:1px solid rgb(232,232,232);">
       <view style="background-color:rgb(245, 244,	240);display:flex; align-items:flex-end;padding: 0 10px; height:70px; opacity:0.6;border-bottom:1px solid rgb(232,232,232);">
         <text style="padding-bottom:10px;">我的兴趣</text>
       </view>
-      <view wx:if="{{myData.sports.length}}" @tap.stop="goEdit('sports', {{myData.sports}})" style="display:flex;">
+      <view wx:if="{{editMode || myData.sports.length}}" @tap.stop="goEdit('sports', {{myData.sports}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/sports.png" style="width:30px; height:30px;" />
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.sports}}"
+               for="{{myData.sports.length && myData.sports || temp}}"
                item= "item"
                index= "index"
                key= "index">
@@ -226,15 +226,15 @@
           </view>
         </view>
       </view>
-      <view wx:if="{{myData.music.length}}" @tap.stop="goEdit('music', {{myData.music}})" style="display:flex;">
+      <view wx:if="{{editMode || myData.music.length}}" @tap.stop="goEdit('music', {{myData.music}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/music.png" style="width:30px; height:30px;" />
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.music}}"
+               for="{{myData.music.length && myData.music || temp}}"
                item= "item"
                index= "index"
                key= "index">
@@ -250,15 +250,15 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.food.length}}" @tap.stop="goEdit('food', {{myData.food}})" style="display:flex;">
+      <view wx:if="{{editMode || myData.food.length}}" @tap.stop="goEdit('food', {{myData.food}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/food.png" style="width:30px; height:30px;" />
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.food}}"
+               for="{{myData.food.length && myData.food || temp}}"
                item= "item"
                index= "index"
                key= "index">
@@ -274,15 +274,15 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.tv.length}}" @tap.stop="goEdit('tv', {{myData.tv}})" style="display:flex;">
+      <view wx:if="{{editMode || myData.tv.length}}" @tap.stop="goEdit('tv', {{myData.tv}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/tv.png" style="width:30px; height:30px;" />
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.tv}}"
+               for="{{myData.tv.length && myData.tv || temp}}"
                item= "item"
                index= "index"
                key= "index">
@@ -298,15 +298,15 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.book.length}}" @tap.stop="goEdit('book', {{myData.book}})" style="display:flex;">
+      <view wx:if="{{editMode || myData.book.length}}" @tap.stop="goEdit('book', {{myData.book}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/book.png" style="width:30px; height:30px;" />
           </view>
           <view class="between" style="flex: 7; border-bottom:1px solid rgb(232,232,232);">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.book}}"
+               for="{{myData.book.length && myData.book || temp}}"
                item= "item"
                index= "index"
                key= "index">
@@ -322,15 +322,15 @@
         </view>
       </view>
 
-      <view wx:if="{{myData.place.length}}"  @tap.stop="goEdit('place', {{myData.place}})" style="display:flex;">
+      <view wx:if="{{editMode || myData.place.length}}"  @tap.stop="goEdit('place', {{myData.place}})" style="display:flex;">
         <view style="display:flex; padding:0 10px;width:100%;">
           <view style="flex:1;" class="center">
             <image src="../assets/img/flight.png" style="width:30px; height:30px;" />
           </view>
           <view class="between" style="flex: 7;">
-            <view style="padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
+            <view style="min-height:30px;padding:10px 0;flex: 7; display: flex;flex-wrap:wrap;">
               <repeat
-               for="{{myData.place}}"
+               for="{{myData.place.length && myData.place || temp}}"
                item= "item"
                index= "index"
                key= "index">
@@ -405,11 +405,16 @@
        screenHeight: wepy.getSystemInfoSync().windowHeight,
        myData: {},
        tempImgUrls: [],
-       profileUser_id: ''
+       profileUser_id: '',
+       self: false,
+       currentUser_id: '',
+       temp: ['待填']
     }
     async onLoad (option) {
       // this.profileUser_id = wepy.getStorageSync('UserId')
+      this.self = option.self
       this.profileUser_id = option._id
+      this.currentUser_id = wepy.getStorageSync('UserId')
       if(wepy.getStorageSync('requireInit')) {
         this.myData = {
           gender: '1',
@@ -684,6 +689,7 @@
               // }
 
               //here need to transform myInfo from array to object
+              console.log('check: ' + JSON.stringify(pack));
               var temp = {}
               pack.intro.myInfo.forEach(function(item){
                 temp[item.title]  = item.value
@@ -707,28 +713,34 @@
                 pack.intro.imgUrls = []
                 if (self.tempImgUrls.length > 0) {
                   try {
+                    var regExp = /aliyuncs\.com/
                     for (let v of self.tempImgUrls) {
-                      const r = await wepy.uploadFile({
-                        url: 'http://127.0.0.1:8000/api/upload/image',
-                        filePath: v,
-                        name: 'file',
-                        success: function(res) {
-                          console.log('image has been successfully saved in server. Congrats!')
-                        }
-                      })
-
-                      r.data = JSON.parse(r.data)
-                      // console.log('r.data:' + JSON.stringify(r.data));
-                      if (r.data.img) {
-                        // console.log('supposed to have url of OSS: ' + r.data.img)
-                        pack.intro.imgUrls.push(r.data.img)
+                      if(regExp.test(v)) {
+                        //save existing img files
+                        pack.intro.imgUrls.push(v)
                       } else {
-                        wepy.hideToast()
-                        wepy.showModal({
-                          title: '提示',
-                          content: '服务器错误，上传图片失败。请重试~：）' + r.data.errmsg,
-                          showCancel: false
+                        const r = await wepy.uploadFile({
+                          url: 'http://127.0.0.1:8000/api/upload/image',
+                          filePath: v,
+                          name: 'file',
+                          success: function(res) {
+                            console.log('image has been successfully saved in server. Congrats!')
+                          }
                         })
+
+                        r.data = JSON.parse(r.data)
+                        // console.log('r.data:' + JSON.stringify(r.data));
+                        if (r.data.img) {
+                          // console.log('supposed to have url of OSS: ' + r.data.img)
+                          pack.intro.imgUrls.push(r.data.img)
+                        } else {
+                          wepy.hideToast()
+                          wepy.showModal({
+                            title: '提示',
+                            content: '服务器错误，上传图片失败。请重试~：）' + r.data.errmsg,
+                            showCancel: false
+                          })
+                        }
                       }
                     }
                   } catch (e) {
@@ -796,15 +808,22 @@
             }
           )
         } else {
+          this.tempImgUrls = this.myData.imgUrls
           this.editMode = !this.editMode
           this.$apply()
         }
         this.$apply()
       },
       go (page) {
-        wepy.navigateTo({
-          url: page
-        })
+        if(page = 'myTM') {
+          wepy.navigateTo({
+            url: 'myTM?type=posts'
+          })
+        } else {
+          wepy.navigateTo({
+            url: page
+          })
+        }
       }
     }
   }

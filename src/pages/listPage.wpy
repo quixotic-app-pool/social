@@ -61,22 +61,25 @@
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      myData: []
+      myData: [],
+      type: ''
     }
-    async onLoad () {
+    async onLoad (option) {
+      this.type = option.type
       await this.loadData()
     }
     async loadData () {
       // TODO: here we gonna load data
-     //  var res = await api.profileList({
-     //    query: {
-     //      page: 0
-     //    }
-     //  })
+      // var res = await api.profileList({
+      //   query: {
+      //     type: this.type,
+      //     page: 0
+      //   }
+      // })
       //
-     //  if(res.data && res.data.flag == 'success') {
-     //    this.myData = res.data.data
-     //  }
+      // if(res.data && res.data.flag == 'success') {
+      //   this.myData = res.data.data
+      // }
       this.myData.push(
         ...[
           // {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},

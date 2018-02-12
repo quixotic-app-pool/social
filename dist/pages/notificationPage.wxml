@@ -1,7 +1,7 @@
 
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
     <block style="width:100%;" wx:for="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-    <view catchtap="go" class="center {{item.unRead ? 'unread' : ''}}" style="box-sizing:border-box;border-bottom:1px solid rgb(236,236,236); min-height:70px;width: {{screenWidth}}px;padding: 5px 10px;" data-wpygo-a="detailPage">
+    <view catchtap="go" class="center {{item.unRead ? 'unread' : ''}}" style="box-sizing:border-box;border-bottom:1px solid rgb(236,236,236); min-height:70px;width: {{screenWidth}}px;padding: 5px 10px;" data-wpygo-a="{{item}}">
       <view style="flex:1;">
         <image src="{{item.from_user.avatarUrl}}" style="width:30px; height:30px; border-radius:100%;"/>
       </view>
@@ -13,18 +13,19 @@
 
         <view  wx:if="{{item.type == 'like'}}" style="font-size:15px;">
           <text style="font-weight:bold;">{{item.from_user.nickName}}</text>
-          <text> 对你的状态点赞 </text>
+          <text wx:if="{{item.post.type == 'post'}}"> 对你的状态点赞 </text>
+          <text wx:else> 对你的评论点赞 </text>
         </view>
 
         <view>
           <view style="font-size: 15px;">
-            <text style="font-weight:bold;">{{item.post.value}}</text>
+            <text style="font-weight:bold;">{{item.post.msg}}</text>
           </view>
         </view>
         <view class="center" style="justify-content:space-between;">
           <image wx:if="{{item.type == 'comment'}}" src="../assets/img/answer.png" style="width:20px; height:20px; border-radius:5px;"/>
           <image wx:if="{{item.type == 'like'}}" src="../assets/img/like-fill.png" style="width:20px; height:20px; border-radius:5px;"/>
-          <text style="font-size:12px; opacity:0.7;">{{item.createdAt}}</text>
+          <text style="font-size:12px; opacity:0.7;">{{item.timeDiff}}</text>
         </view>
       </view>
     </view>
