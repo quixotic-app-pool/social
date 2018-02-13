@@ -1,6 +1,6 @@
 
   <view class="container">
-     <view style="width:100%;border-bottom:1px solid rgb(232,232,232);margin-bottom:50px;">
+     <view style="width:100%;border-bottom:1px dashed rgb(232,232,232);margin-bottom:50px;">
        
     <view style="border-radius:2px;margin-top:5px;width:100%;padding:10px;box-sizing:border-box;background-color:white;padding-bottom:0;">
       <view style="display: flex;">
@@ -18,9 +18,9 @@
           <view style="font-size:12px;opacity:0.6;">
             {{$postComponent$postData.timeDiff}}
           </view>
-        </view>
-        <view catchtap="$postComponent$moreOption">
-          <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+          <view catchtap="$postComponent$moreOption" style="opacity:0.3;position:absolute;right:15px;top:5px;">
+            <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
+          </view>
         </view>
       </view>
       <view>
@@ -32,7 +32,7 @@
          <image catchtap="$postComponent$previewImage" mode="aspectFill" src="{{$postComponent$subItem}}" style="padding:{{$postComponent$index%3 == 1 ? '0 5px': ''}};width:{{($postComponent$screenWidth -30)/3}}px; height:{{$postComponent$screenWidth/3}}px;" data-wpypreviewimage-a="{{ $postComponent$subItem }}" data-wpypreviewimage-b="{{ $postComponent$postData.imgUrls }}"/>
         </block>
       </view>
-      <view class="center" style="justify-content: flex-end;border-top: 1px dashed rgb(232,232,232)">
+      <view class="center" style="justify-content: flex-end;border-top: {{$postComponent$hideLine ? '' : '1px dashed rgb(232,232,232)'}}">
         <!-- <view class="center" style="padding: 10px 0;">
           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
           <text style="font-size:15px; opacity:0.6;">转发</text>
@@ -66,7 +66,7 @@
       <text style="color:white;">评论</text>
     </view>
     <block wx:for="{{$commentsComponent$myComments}}" wx:for-index="$commentsComponent$index" wx:for-item="$commentsComponent$item" wx:key="$commentsComponent$index">
-     <view catchtap="$commentsComponent$goPost" style="justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)" data-wpygopost-a="{{$commentsComponent$item.to_post}}">
+     <view catchtap="$commentsComponent$goPost" style="position:relative;justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)" data-wpygopost-a="{{$commentsComponent$item.to_post}}">
        <view class="center" style="width:100%;">
          <view style="flex:1;display:flex;align-items:center;">
            <image src="{{$commentsComponent$item.from_user.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%"/>
@@ -83,9 +83,13 @@
            <view style="font-size:15px;opacity:0.6;">
              <text>{{$commentsComponent$item.msg}}</text>
            </view>
+
+
+           <view catchtap="$commentsComponent$moreOption" style="opacity:0.3;position:absolute;right:5px;top:-5px;" data-wpymoreoption-a="{{$commentsComponent$item._id}}" data-wpymoreoption-b="{{$commentsComponent$index}}">
+             <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
+           </view>
          </view>
        </view>
-
        <view catchtap="$commentsComponent$like" hover-class="click" style="display:flex;justify-content:center;" data-wpylike-a="{{$commentsComponent$item}}">
          <image src="{{$commentsComponent$item.likedBy.indexOf($commentsComponent$currentUser_id) != -1 ? '../assets/img/like-fill.png' : '../assets/img/like-empty.png'}}" style="padding-right:5px;width:20px; height:20px;"/>
          <text style="align-self:center;font-size:15px; opacity:0.5;">{{$commentsComponent$item.likedBy.length || ''}}</text>

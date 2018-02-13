@@ -15,7 +15,7 @@
      item= "item"
      index= "index"
      key= "index">
-     <view @tap.stop="goPost({{item.to_post}})" style="justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
+     <view @tap.stop="goPost({{item.to_post}})" style="position:relative;justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)">
        <view class="center" style="width:100%;">
          <view style="flex:1;display:flex;align-items:center;">
            <image src="{{item.from_user.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%" />
@@ -32,9 +32,13 @@
            <view style="font-size:15px;opacity:0.6;">
              <text>{{item.msg}}</text>
            </view>
+
+
+           <view @tap.stop="moreOption({{item._id}}, {{index}})" style="opacity:0.3;position:absolute;right:5px;top:-5px;">
+             <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
+           </view>
          </view>
        </view>
-
        <view @tap.stop="like({{item}})" hover-class="click"  style="display:flex;justify-content:center;">
          <image src="{{item.likedBy.indexOf(currentUser_id) != -1 ? '../assets/img/like-fill.png' : '../assets/img/like-empty.png'}}" style="padding-right:5px;width:20px; height:20px;"/>
          <text style="align-self:center;font-size:15px; opacity:0.5;">{{item.likedBy.length || ''}}</text>
@@ -72,11 +76,11 @@
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
-      screenHeight: wepy.getSystemInfoSync().windowHeight
+      screenHeight: wepy.getSystemInfoSync().windowHeight,
+      likeDone: false
     }
     methods = {
       async like (item) {
-        // TODO: update like
          var self = this
          var res = await api.like({
            query: {
@@ -106,6 +110,63 @@
             url: 'detailPage?post_id=' + post_id
           })
         }
+      },
+      moreOption (_id, commentIndex) {
+        var self = this
+        wepy.showActionSheet({
+          itemList: ['删除', '举报']
+        }).then(async function(res){
+          console.log(JSON.stringify(res));
+          if(res.tapIndex == 0) {
+            wepy.showModal({
+              title: 'Really？',
+              content: '你确定要删除这条评论吗？'
+            }).then(async function(res) {
+              if(res.confirm) {
+                var r = await api.delPost({
+                  query: {
+                    pack: {
+                      parent_id: self.post_id,
+                      post_id: _id,
+                      type: 'comment'
+                    }
+                  },
+                  method: 'POST'
+                })
+                if(r.data && r.data.flag == 'success') {
+                  self.myComments.splice(commentIndex, 1)
+                  self.$apply()
+                  console.log('comment deleted');
+                }
+            }})
+          } else if(res.tapIndex = 1) {
+            wepy.showModal({
+              title: 'Really？',
+              content: '你确定要举报这个小坏蛋吗？'
+            }).then(async function(res) {
+              if(res.confirm) {
+
+                var result = await api.report({
+                    query: {
+                      pack: {
+                        to_id: _id,
+                        from_user_id: self.currentUser_id
+                      }
+                    },
+                    method: 'POST'
+                  })
+                if(result.data && result.data.flag == 'success') {
+                  await wepy.showToast({
+                    title: '举报成功！',
+                    icon: 'success',
+                    duration: 1500,
+                    mask: true
+                  })
+                }
+              }
+            })
+          }
+        })
       }
     }
   }

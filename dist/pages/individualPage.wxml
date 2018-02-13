@@ -19,19 +19,19 @@
       <view style="display:flex;flex-wrap:wrap;">
         <view catchtap="chooseImage" class="center" style="border-right:1px solid white;border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*2/3 - 1}}px; height: {{screenWidth*2/3 - 1}}px">
           <image wx:if="{{!tempImgUrls[0]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
-          <image wx:else catchtap="previewImage" src="{{tempImgUrls[0]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpypreviewimage-a="{{ tempImgUrls[0] }}" data-wpypreviewimage-b="{{ tempImgUrls }}">
+          <image wx:else catchtap="delImg" src="{{tempImgUrls[0]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpydelimg-a="0">
           </image>
         </view>
 
         <view style="display:flex; flex-direction:column;">
           <view catchtap="chooseImage" class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 - 1}}px">
             <image wx:if="{{!tempImgUrls[1]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
-            <image wx:else catchtap="previewImage" src="{{tempImgUrls[1]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpypreviewimage-a="{{ tempImgUrls[1] }}" data-wpypreviewimage-b="{{ tempImgUrls }}">
+            <image wx:else catchtap="delImg" src="{{tempImgUrls[1]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpydelimg-a="1" data-wpydelimg-b="">
             </image>
           </view>
           <view catchtap="chooseImage" class="center" style="border-bottom:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3 -1}}px; height: {{screenWidth*1/3 -1 }}px">
             <image wx:if="{{!tempImgUrls[2]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
-            <image wx:else catchtap="previewImage" src="{{tempImgUrls[2]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpypreviewimage-a="{{ tempImgUrls[2] }}" data-wpypreviewimage-b="{{ tempImgUrls }}">
+            <image wx:else catchtap="delImg" src="{{tempImgUrls[2]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpydelimg-a="2">
             </image>
           </view>
         </view>
@@ -39,17 +39,17 @@
         <view class="center">
           <view catchtap="chooseImage" class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 - 1}}px">
             <image wx:if="{{!tempImgUrls[3]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
-            <image wx:else catchtap="previewImage" src="{{tempImgUrls[3]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpypreviewimage-a="{{ tempImgUrls[3] }}" data-wpypreviewimage-b="{{ tempImgUrls }}">
+            <image wx:else catchtap="delImg" src="{{tempImgUrls[3]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpydelimg-a="3">
             </image>
           </view>
           <view catchtap="chooseImage" class="center" style="border-right:1px solid white;background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
             <image wx:if="{{!tempImgUrls[4]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
-            <image wx:else catchtap="previewImage" src="{{tempImgUrls[4]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpypreviewimage-a="{{ tempImgUrls[4] }}" data-wpypreviewimage-b="{{ tempImgUrls }}">
+            <image wx:else catchtap="delImg" src="{{tempImgUrls[4]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpydelimg-a="4">
             </image>
           </view>
           <view catchtap="chooseImage" class="center" style="background-color:rgb(229, 229, 229);width:{{screenWidth*1/3-1}}px; height: {{screenWidth*1/3 -1 }}px">
             <image wx:if="{{!tempImgUrls[5]}}" src="../assets/img/choose-image2.png" style="width:40px; height:40px;"/>
-            <image wx:else catchtap="previewImage" src="{{tempImgUrls[5]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpypreviewimage-a="{{ tempImgUrls[5] }}" data-wpypreviewimage-b="{{ tempImgUrls }}">
+            <image wx:else catchtap="delImg" src="{{tempImgUrls[5]}}" mode="aspectFill" style="width:100%;height:100%;" data-wpydelimg-a="6">
             </image>
           </view>
         </view>

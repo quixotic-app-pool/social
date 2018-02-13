@@ -11,7 +11,7 @@
       <text style="color:white;">评论</text>
     </view>
     <block wx:for="{{$commentsComponent$myComments}}" wx:for-index="$commentsComponent$index" wx:for-item="$commentsComponent$item" wx:key="$commentsComponent$index">
-     <view catchtap="$commentsComponent$goPost" style="justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)" data-wpygopost-a="{{$commentsComponent$item.to_post}}">
+     <view catchtap="$commentsComponent$goPost" style="position:relative;justify-content:space-between;padding:5px 0;display:flex;align-items:center;border-bottom:1px solid rgb(232,232,232)" data-wpygopost-a="{{$commentsComponent$item.to_post}}">
        <view class="center" style="width:100%;">
          <view style="flex:1;display:flex;align-items:center;">
            <image src="{{$commentsComponent$item.from_user.avatarUrl}}" style="width:50px; height:50px; border-radius: 100%"/>
@@ -28,9 +28,13 @@
            <view style="font-size:15px;opacity:0.6;">
              <text>{{$commentsComponent$item.msg}}</text>
            </view>
+
+
+           <view catchtap="$commentsComponent$moreOption" style="opacity:0.3;position:absolute;right:5px;top:-5px;" data-wpymoreoption-a="{{$commentsComponent$item._id}}" data-wpymoreoption-b="{{$commentsComponent$index}}">
+             <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
+           </view>
          </view>
        </view>
-
        <view catchtap="$commentsComponent$like" hover-class="click" style="display:flex;justify-content:center;" data-wpylike-a="{{$commentsComponent$item}}">
          <image src="{{$commentsComponent$item.likedBy.indexOf($commentsComponent$currentUser_id) != -1 ? '../assets/img/like-fill.png' : '../assets/img/like-empty.png'}}" style="padding-right:5px;width:20px; height:20px;"/>
          <text style="align-self:center;font-size:15px; opacity:0.5;">{{$commentsComponent$item.likedBy.length || ''}}</text>

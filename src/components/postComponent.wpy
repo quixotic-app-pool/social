@@ -17,9 +17,9 @@
           <view style="font-size:12px;opacity:0.6;">
             {{postData.timeDiff}}
           </view>
-        </view>
-        <view @tap.stop="moreOption">
-          <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+          <view @tap.stop="moreOption" style="opacity:0.3;position:absolute;right:15px;top:5px;">
+            <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
+          </view>
         </view>
       </view>
       <view>
@@ -35,7 +35,7 @@
          <image @tap.stop="previewImage({{ subItem }}, {{ postData.imgUrls }})" mode="aspectFill" src="{{subItem}}" style="padding:{{index%3 == 1 ? '0 5px': ''}};width:{{(screenWidth -30)/3}}px; height:{{screenWidth/3}}px;" />
         </repeat>
       </view>
-      <view class="center" style="justify-content: flex-end;border-top: 1px dashed rgb(232,232,232)">
+      <view class="center" style="justify-content: flex-end;border-top: {{hideLine ? '' : '1px dashed rgb(232,232,232)'}}">
         <!-- <view class="center" style="padding: 10px 0;">
           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
           <text style="font-size:15px; opacity:0.6;">转发</text>
@@ -65,12 +65,17 @@
       postData: {
         type: Object,
         default: {}
+      },
+      hideLine: {
+        type: Boolean,
+        default: false
       }
     }
     data = {
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
-      currentUser_id: ''
+      currentUser_id: '',
+      likeDone: false
     }
     onLoad () {
       this.currentUser_id = wepy.getStorageSync('UserId')
@@ -83,7 +88,6 @@
         })
       },
       async like () {
-        // TODO: update like
          var self = this
          var res = await api.like({
            query: {
@@ -107,40 +111,86 @@
         })
       },
       moreOption () {
+        var self = this
         wepy.showActionSheet({
-          itemList: ['删除','取消关注', '举报']
+          itemList: ['删除', '举报', '取消关注']
         }).then(async function(res){
-          // if(res.tapIndex == 0) {
-          //   var r = await api.delPost({
-          //     pack: {
-          //       user_id: this.user_id
-          //     }
-          //   })
-          //   if(res.data && res.data.flag == 'success') {
-          //
-          //   }
-          // }
-          // if(res.tapIndex = 1) {
-          //   var r = await api.subscribe({
-          //     pack: {
-          //       user_id: this.user_id
-          //     }
-          //   })
-          //   if(res.data && res.data.flag == 'success') {
-          //
-          //   }
-          // } else {
-          //   var r = await api.report({
-          //     pack: {
-          //       user_id: this.user_id
-          //     }
-          //   })
-          //   if(res.data && res.data.flag == 'success') {
-          //
-          //   }
-          // }
+          // console.log(JSON.stringify(res));
+          if(res.tapIndex == 0) {
+            wepy.showModal({
+              title: 'Really？',
+              content: '你确定要删除这条状态吗？'
+            }).then( async function(res) {
+              if(res.confirm) {
+                  var r = await api.delPost({
+                    query: {
+                      pack: {
+                        post_id: self.postData._id,
+                        type: 'post'
+                      }
+                    },
+                    method: 'POST'
+                  })
+                  // console.log('res.data: ' + JSON.stringify(r.data));
+                  if(r.data && r.data.flag == 'success') {
+                     wepy.reLaunch({
+                       url: 'timelinePage'
+                     })
+                  }
+            }})
+          } else if(res.tapIndex == 1) {
+            wepy.showModal({
+              title: 'Really？',
+              content: '你确定要举报这个小坏蛋吗？'
+            }).then(async function(res) {
+              if(res.confirm) {
+                var result = await api.report({
+                    query: {
+                      pack: {
+                        to_id: self.postData._id,
+                        from_user_id: self.currentUser_id
+                      }
+                    },
+                    method: 'POST'
+                  })
+                if(result.data && result.data.flag == 'success') {
+                  await wepy.showToast({
+                    title: '举报成功！',
+                    icon: 'success',
+                    duration: 1500,
+                    mask: true
+                  })
+                }
+              }
+            })
+          } else if(res.tapIndex == 2) {
+            wepy.showModal({
+              title: 'Really？',
+              content: '你真的不想再关注TA了吗？'
+            }).then( async function(res) {
+              if(res.confirm) {
+                var r = await api.unsubscribe({
+                  pack: {
+                    from_id: self.currentUser_id,
+                    to_id: self.postData.from_user._id
+                  }
+                })
+                if(true) {
+                  await wepy.showToast({
+                    title: '取消关注成功！',
+                    icon: 'success',
+                    duration: 1500,
+                    mask: true
+                  })
+                  wepy.reLaunch({
+                    url: 'timelinePage'
+                  })
+                }
+              }
+            })
+          }
         })
-      },
+      }
     }
   }
 </script>

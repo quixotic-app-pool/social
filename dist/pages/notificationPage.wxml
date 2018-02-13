@@ -1,5 +1,8 @@
 
   <scroll-view scroll-y style="background-color:white; width: {{screenWidth}}px; height: 100%;" bindscrolltoupper="upper" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <view catchtap="allRead" class="center" style="padding:0 10px;height:20px;position:fixed; top: 20px; right:20px;border-radius:4px;background-color:#6fe0e7;">
+      <text style="color:white;font-size:12px;">全部已读</text>
+    </view>
     <block style="width:100%;" wx:for="{{dataList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
     <view catchtap="go" class="center {{item.unRead ? 'unread' : ''}}" style="box-sizing:border-box;border-bottom:1px solid rgb(236,236,236); min-height:70px;width: {{screenWidth}}px;padding: 5px 10px;" data-wpygo-a="{{item}}">
       <view style="flex:1;">

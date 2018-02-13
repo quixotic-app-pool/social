@@ -26,23 +26,26 @@
     </view>
     <scroll-view scroll-y="true" style="height:100%;" bindscrolltolower="loadData">
       <view style="display:flex;width:96%;border-bottom:1px solid rgb(232,232,232);margin:2%;" wx:for="{{myData}}" wx:key='index' wx:item='item'>
-        <view style="flex:1;">
-          <image mode="aspectFill" src='{{item.pic}}' style="border-radius:100%; width:60px; height:60px;" />
-        </view>
-        <view class="center" style="flex-direction:column;flex:4;opacity:0.8;font-size:13px;padding:0 10px 0 10px;">
-          <view class="between" style="justify-content:flex-start;width:100%;padding-bottom:10px;">
-            <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
-            <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
-            <text style="padding-left:4px;">{{item.h}}cm</text>
-            <text style="padding-left:4px;">{{item.weight}}kg</text>
+        <view @tap.stop="go({{item._id}})" style="display:flex;flex:5;">
+          <view style="">
+            <image mode="aspectFill" src='{{item.avatarUrl}}' style="border-radius:100%; width:60px; height:60px;" />
           </view>
-          <view style="width:100%;">
-            <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
-            <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
-            <text>{{item.company}}</text>
+          <view class="center" style="flex-direction:column;flex:4;opacity:0.8;font-size:13px;padding:0 10px 0 10px;">
+            <view class="between" style="justify-content:flex-start;width:100%;padding-bottom:10px;">
+              <text style="padding-left:2px;">{{item.intro.nickName}}</text>
+              <image src="{{item.intro.gender == 1 ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="width:10px; height:10px;"/>
+              <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
+              <text style="padding-left:4px;">{{item.intro.h}}cm</text>
+              <text style="padding-left:4px;">{{item.intro.weight}}kg</text>
+            </view>
+            <!-- <view style="width:100%;">
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
+              <text>{{item.company}}</text>
+            </view> -->
           </view>
         </view>
-        <view @tap.stop="unsubscribe()" class="center">
+        <view @tap.stop="unsubscribe({{item._id}})" class="center" style="flex:1;">
           <text style="font-size:12px; opacity: 0.8;">取消关注</text>
         </view>
       </view>
@@ -62,41 +65,91 @@
       screenWidth: wepy.getSystemInfoSync().windowWidth,
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       myData: [],
-      type: ''
+      type: '',
+      currentPage: -1,
+      currentUser_id: ''
     }
     async onLoad (option) {
       this.type = option.type
+      this.currentUser_id = wepy.getStorageSync('UserId')
       await this.loadData()
     }
     async loadData () {
       // TODO: here we gonna load data
-      // var res = await api.profileList({
-      //   query: {
-      //     type: this.type,
-      //     page: 0
-      //   }
-      // })
-      //
-      // if(res.data && res.data.flag == 'success') {
-      //   this.myData = res.data.data
-      // }
-      this.myData.push(
-        ...[
-          // {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          // {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          // {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          // {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '164', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
-          // {pic: "../assets/img/5.jpg", height: 0, age:'25', gender: 'female', h: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
-        ]
-      )
+      this.currentPage++
+      var res = await api.profileList({
+        query: {
+          type: this.type,
+          currentPage: this.currentPage,
+          user_id: this.currentUser_id
+        }
+      })
+
+      if(res.data && res.data.flag == 'success') {
+        console.log('no change needede: ' + JSON.stringify(res.data.data));
+        if(res.data.data.length > 1) {
+          this.myData.push(...res.data.data)
+        } else {
+          this.myData.push(res.data.data)
+        }
+        this.$apply()
+      } else {
+        this.currentPage--
+      }
+      // this.myData.push(
+      //   ...[
+      //     {pic: "../assets/img/1.jpeg", height: 0, age:'25', gender: 'female', h: '161', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+      //     {pic: "../assets/img/2.jpeg", height: 0, age:'25', gender: 'female', h: '162', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+      //     {pic: "../assets/img/3.jpeg", height: 0, age:'25', gender: 'female', h: '163', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+      //     {pic: "../assets/img/4.jpg", height: 0, age:'25', gender: 'female', h: '164', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'},
+      //     {pic: "../assets/img/5.jpg", height: 0, age:'25', gender: 'female', h: '165', weight: '45', degree: '硕士', type: '事业单位', company: '南京市***医院'}
+      //   ]
+      // )
+      wepy.stopPullDownRefresh()
       this.$apply()
+    }
+    async onReachBottom () {
+    // console.log('at bottom')
+     await this.loadData()
+    }
+    async onPullDownRefresh () {
+      this.myData = []
+      this.currentPage = -1
+      // console.log('pull down')
+      await this.loadData()
     }
     methods = {
       navigate () {
         wepy.navigateTo({url: 'individualPage'})
       },
-      unsubscribe () {
-
+      unsubscribe (user_id) {
+        var self = this
+        wepy.showModal({
+          title: 'Really？',
+          content: '你真的不想再关注TA了吗？'
+        }).then( async function(res) {
+          if(res.confirm) {
+            var r = await api.unsubscribe({
+              pack: {
+                from_id: self.currentUser_id,
+                to_id: user_id
+              }
+            })
+            if(true) {
+              await wepy.showToast({
+                title: '取消关注成功！',
+                icon: 'success',
+                duration: 1500,
+                mask: true
+              }).then( async function(res){
+                self.myData = []
+                self.currentPage = -1
+                // console.log('pull down')
+                await self.loadData()
+              })
+            }
+          }
+        })
       }
     }
   }

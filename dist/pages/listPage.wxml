@@ -5,23 +5,26 @@
     </view>
     <scroll-view scroll-y="true" style="height:100%;" bindscrolltolower="loadData">
       <view style="display:flex;width:96%;border-bottom:1px solid rgb(232,232,232);margin:2%;"  wx:for="{{myData}}" wx:key="index" wx:item="item">
-        <view style="flex:1;">
-          <image mode="aspectFill" src="{{item.pic}}" style="border-radius:100%; width:60px; height:60px;"/>
-        </view>
-        <view class="center" style="flex-direction:column;flex:4;opacity:0.8;font-size:13px;padding:0 10px 0 10px;">
-          <view class="between" style="justify-content:flex-start;width:100%;padding-bottom:10px;">
-            <image src="../assets/img/female.png" style="width:10px; height:10px;"/>
-            <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
-            <text style="padding-left:4px;">{{item.h}}cm</text>
-            <text style="padding-left:4px;">{{item.weight}}kg</text>
+        <view catchtap="go" style="display:flex;flex:5;" data-wpygo-a="{{item._id}}">
+          <view style="">
+            <image mode="aspectFill" src="{{item.avatarUrl}}" style="border-radius:100%; width:60px; height:60px;"/>
           </view>
-          <view style="width:100%;">
-            <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
-            <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
-            <text>{{item.company}}</text>
+          <view class="center" style="flex-direction:column;flex:4;opacity:0.8;font-size:13px;padding:0 10px 0 10px;">
+            <view class="between" style="justify-content:flex-start;width:100%;padding-bottom:10px;">
+              <text style="padding-left:2px;">{{item.intro.nickName}}</text>
+              <image src="{{item.intro.gender == 1 ? '../assets/img/male.png' : '../assets/img/female.png'}}" style="width:10px; height:10px;"/>
+              <text style="padding-left:2px;color:rgb(252, 121, 153);">{{item.age}}</text>
+              <text style="padding-left:4px;">{{item.intro.h}}cm</text>
+              <text style="padding-left:4px;">{{item.intro.weight}}kg</text>
+            </view>
+            <!-- <view style="width:100%;">
+              <text style="color:rgb(250, 159, 78);padding-right:10px;">{{item.degree}}</text>
+              <text style="color:rgb(130, 95, 227);padding-right:10px;">{{item.type}}</text>
+              <text>{{item.company}}</text>
+            </view> -->
           </view>
         </view>
-        <view catchtap="unsubscribe" class="center" data-wpyunsubscribe-a="">
+        <view catchtap="unsubscribe" class="center" style="flex:1;" data-wpyunsubscribe-a="{{item._id}}">
           <text style="font-size:12px; opacity: 0.8;">取消关注</text>
         </view>
       </view>

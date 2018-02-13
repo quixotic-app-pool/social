@@ -116,9 +116,9 @@ export default class extends wepy.app {
     wepy.removeStorageSync('UserSession')
     // if(false){
     if((UserSession.createdAt || Date.now()) < (Date.now() + 86400000)) {
-      console.log('expire');
+      // console.log('expire');
       var res = await wepy.login()
-      console.log('res: ' + JSON.stringify(res))
+      // console.log('res: ' + JSON.stringify(res))
       if (res.code) {
         // console.log('res.code: ' + res.code)
 

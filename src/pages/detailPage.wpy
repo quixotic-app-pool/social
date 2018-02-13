@@ -32,8 +32,8 @@
 </style>
 <template>
   <view class="container">
-     <view style="width:100%;border-bottom:1px solid rgb(232,232,232);margin-bottom:50px;">
-       <postComponent :postData.sync = 'postData'/>
+     <view style="width:100%;border-bottom:1px dashed rgb(232,232,232);margin-bottom:50px;">
+       <postComponent :hideLine.sync='hideLine' :postData.sync = 'postData'/>
      </view>
 
      <!-- comments -->
@@ -66,7 +66,8 @@
       post_id: '',
       currentUser_id: '',
       postData: {},
-      myComments: []
+      myComments: [],
+      hideLine: true
     }
     components = {
       commentsComponent : commentsComponent,

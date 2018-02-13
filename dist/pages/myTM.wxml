@@ -24,9 +24,9 @@
           <view style="font-size:12px;opacity:0.6;">
             {{item.timeDiff}}
           </view>
-        </view>
-        <view catchtap="$postComponent$moreOption" data-com-index="{{index}}">
-          <image src="../assets/img/more.png" style="opacity:0.3;position:absolite;right:10px;width:30px; height:30px;"/>
+          <view catchtap="$postComponent$moreOption" style="opacity:0.3;position:absolute;right:15px;top:5px;" data-com-index="{{index}}">
+            <image src="../assets/img/more.png" style="width:30px; height:30px;"/>
+          </view>
         </view>
       </view>
       <view>
@@ -38,7 +38,7 @@
          <image catchtap="$postComponent$previewImage" mode="aspectFill" src="{{$postComponent$subItem}}" style="padding:{{$postComponent$index%3 == 1 ? '0 5px': ''}};width:{{($postComponent$screenWidth -30)/3}}px; height:{{$postComponent$screenWidth/3}}px;" data-com-index="{{index}}" data-wpypreviewimage-a="{{ $postComponent$subItem }}" data-wpypreviewimage-b="{{ item.imgUrls }}"/>
         </block>
       </view>
-      <view class="center" style="justify-content: flex-end;border-top: 1px dashed rgb(232,232,232)">
+      <view class="center" style="justify-content: flex-end;border-top: {{$postComponent$hideLine ? '' : '1px dashed rgb(232,232,232)'}}">
         <!-- <view class="center" style="padding: 10px 0;">
           <image src="../assets/img/share.png" style="width:20px; height:20px;padding-right:10px;"/>
           <text style="font-size:15px; opacity:0.6;">转发</text>

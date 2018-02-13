@@ -27,7 +27,7 @@
 }
 </style>
 <template>
-  <view class="container" style="height: {{screenHeight}}px; width: {{screenWidth}}px;">
+  <view class="container" style="justify-content:flex-start;height: {{screenHeight}}px; width: {{screenWidth}}px;">
     <view class="bg-img" style="position:fixed;height: {{screenHeight}}px; width: {{screenWidth}}px;">
 
     </view>
@@ -178,13 +178,15 @@
     }
     async onLoad () {
       this.currentUser_id = wepy.getStorageSync('UserId')
-      await this.loadData()
     }
     async onShow () {
       // console.log('showing');
       // this.listData = []
       // this.currentPage = -1
       // await this.loadData()
+      this.currentPage = -1
+      this.listData = []
+      await this.loadData()
       var result = await api.fetchNotificationNum({
         query: {
           user_id: this.currentUser_id
@@ -200,17 +202,17 @@
     }
     async loadData () {
       // TODO: load data
+      // console.log('???');
        this.currentPage++
        var res = await api.fetchPostList({
          query: {
            currentPage: this.currentPage,
            user_id: this.currentUser_id,
-           page: 0,
            type: 'post'
          }
        })
 
-      //  console.log('timeline res.data.data: ' +  JSON.stringify(res.data.data))
+       console.log('timeline res.data.data: ' +  JSON.stringify(res.data.data))
        if(res.data && res.data.flag == 'success') {
          res.data.data.forEach(function(item) {
            item.timeDiff = util.calcTime(item.createdAt)

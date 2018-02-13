@@ -42,7 +42,8 @@
       screenHeight: wepy.getSystemInfoSync().windowHeight,
       listData: [],
       currentUser_id: '',
-      subType: ''
+      subType: '',
+      currentPage: -1
       // imgUrls2: [{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}, {imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'},{imgUrl: '../assets/img/boy.jpeg', name: '小李子', from: '哈佛大学'}],
       // data1: [{imgUrl: '../assets/img/school.png', title: '#校园浪漫#'}, {imgUrl: '../assets/img/food.png', title: '#成都美食#'}, {imgUrl: '../assets/img/fire.png', title: '#燃烧青春#'}],
       // data2: [{imgUrl: '../assets/img/school.png', title: '#单身狗的日常#'}, {imgUrl: '../assets/img/food.png', title: '#我这么美为什么单身#'}, {imgUrl: '../assets/img/school.png', title: '#一起来运动#'}, {imgUrl: '../assets/img/school.png', title: '#我是学霸我怕谁#'}, {imgUrl: '../assets/img/fire.png', title: '#条骚市场#'}]
@@ -57,22 +58,26 @@
     }
     async loadData () {
       // TODO: load data
+       this.currentPage++
        var res = await api.fetchPostList({
          query: {
+           currentPage: this.currentPage,
            user_id: this.currentUser_id,
-           page: 0,
            type: 'user',
-           subType: this.subType
+           subType: this.subType,
+           matchType: 'post'
          }
        })
 
-       console.log('res.data.data: ' + JSON.stringify(res.data.data))
+      //  console.log('res.data.data: ' + JSON.stringify(res.data.data))
        if(res.data && res.data.flag == 'success') {
          res.data.data.forEach(function(item) {
            item.timeDiff = util.calcTime(item.createdAt)
          })
          this.listData = res.data.data
          this.$apply()
+       } else {
+         this.currentPage--
        }
       // this.listData = [
       //   {
@@ -92,6 +97,18 @@
       //     likesNum: 32
       //   }
       // ]
+      wepy.stopPullDownRefresh()
+      this.$apply()
+    }
+    async onReachBottom () {
+    // console.log('at bottom')
+     await this.loadImages()
+    }
+    async loadData () {
+      this.listData = []
+      this.currentPage = -1
+      // console.log('pull down')
+      await this.loadData()
     }
     methods = {
       goDetailPage (_id) {

@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: api.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-02-11T11:04:53+08:00
+ * @Last modified time: 2018-02-13T14:39:09+08:00
  */
  import {
    wxRequest
@@ -20,32 +20,32 @@
 
 
  //wechat
- const wechatActivity = (params) => wxRequest(params, host + "/api/wechatactivity");
+ const wechatActivity = (params) => wxRequest(params, host + "/api2/wechatactivity");
 
  // NOTIFICATION
- const fetchNotificationNum = (params) => wxRequest(params, host + "/api/fetchnotificationnum");
- const fetchNotificationList = (params) => wxRequest(params, host + "/api/fetchnotificationlist");
- const updateNotification = (params) => wxRequest(params, host + "/api/updatenotification");
+ const fetchNotificationNum = (params) => wxRequest(params, host + "/api2/fetchnotificationnum");
+ const fetchNotificationList = (params) => wxRequest(params, host + "/api2/fetchnotificationlist");
+ const updateNotification = (params) => wxRequest(params, host + "/api2/updatenotification");
 
- const profileList = (params) => wxRequest(params, host + "/api/profilelist");
- const profile = (params) => wxRequest(params, host + "/api/profile");
- const updateProfile = (params) => wxRequest(params, host + "/api/updateprofile");
+ const profileList = (params) => wxRequest(params, host + "/api2/profilelist");
+ const profile = (params) => wxRequest(params, host + "/api2/profile");
+ const updateProfile = (params) => wxRequest(params, host + "/api2/updateprofile");
 
- const fetchPostList = (params) => wxRequest(params, host + "/api/fetchpostlist");
- const fetchPost = (params) => wxRequest(params, host + "/api/fetchpost");
- const newPost = (params) => wxRequest(params, host + "/api/newpost");
- const delPost = (params) => wxRequest(params, host + "/api/delpost");
+ const fetchPostList = (params) => wxRequest(params, host + "/api2/fetchpostlist");
+ const fetchPost = (params) => wxRequest(params, host + "/api2/fetchpost");
+ const newPost = (params) => wxRequest(params, host + "/api2/newpost");
+ const delPost = (params) => wxRequest(params, host + "/api2/delpost");
 
- const activityList = (params) => wxRequest(params, host + "/api/activitylist");
+ const activityList = (params) => wxRequest(params, host + "/api2/activitylist");
 
- const commentList = (params) => wxRequest(params, host + "/api/commentlist");
- const comment = (params) => wxRequest(params, host + "/api/comment");
- const like = (params) => wxRequest(params, host + "/api/like");
- const report = (params) => wxRequest(params, host + "/api/report");
+ const commentList = (params) => wxRequest(params, host + "/api2/commentlist");
+ const comment = (params) => wxRequest(params, host + "/api2/comment");
+ const like = (params) => wxRequest(params, host + "/api2/like");
+ const report = (params) => wxRequest(params, host + "/api2/report");
 
  //user
- const subscribe = (params) => wxRequest(params, host + "/api/subscribe");
- const userInfo = (params) => wxRequest(params, host + "/api/user");
+ const unsubscribe = (params) => wxRequest(params, host + "/api2/unsubscribe");
+ const userInfo = (params) => wxRequest(params, host + "/api2/user");
 
 
  module.exports = {
@@ -73,5 +73,5 @@
    report,
    //user
    userInfo,
-   subscribe
+   unsubscribe
  }

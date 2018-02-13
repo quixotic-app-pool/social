@@ -57,7 +57,7 @@
               </view>
             </view>
             <view class="center" style="justify-content:flex-end;height:20px;padding:5px 10px;">
-              <view @tap.stop="subscribe" hover-class='click' class="center">
+              <view @tap.stop="subscribe({{item}})" hover-class='click' class="center">
                 <image src='../assets/img/heart.png' style="width:20px; height:20px;" />
                 <text style="padding-left:5px;opacity:0.8;font-size:13px;">关注</text>
               </view>
@@ -247,7 +247,7 @@
            o3 = Object.assign(o1, o2)
            arr.push(o3)
          })
-        //  console.log('o3: ' + JSON.stringify(arr));
+         console.log('o3: ' + JSON.stringify(arr));
          list = arr
          var baseId = "img-" + (+new Date());
 
@@ -291,16 +291,20 @@
           })
         }
       },
-      subscribe () {
-        //  var res = await api.subscribe({
-        //    query: {
-        //      page: 0
-        //    }
-        //  })
-         //
-        //  if(res.data && res.data.flag == 'success') {
-        //    list = res.data.data
-        //  }
+      subscribe (user) {
+        var self = this
+         var res = await api.subscribe({
+           query: {
+             from_id: self.currentUser_id,
+             to_id: user._id
+           }
+         })
+
+         if(res.data && res.data.flag == 'success') {
+          //  list = res.data.data
+            user.subscribed = true
+            self.$apply()
+         }
       }
     }
   }
